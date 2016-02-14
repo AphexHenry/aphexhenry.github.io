@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>idea#1</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<script src="../../common/libs/ejs.min.js"></script>
+
+		<!-- JQUERY-->
+		<script src="../../common/libs/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="../../common/libs/bootstrap.min.css">
+		<script src="../../common/libs/bootstrap.min.js"></script>
+
+		<!-- ANGULAR-->
+		<script src="../../common/libs/angular.min.js"></script>
+
+		<!-- LESS-->
+		<link rel="stylesheet/less" type="text/css" href="./style/main.less" />
+		<script src="../../common/libs/less.min.js"></script>
+
+		<!-- DEBUG-->
+		<script src="./js/tentacles.js"></script>
+		<script src="./js/tentaclesFree.js"></script>
+		<script src="../../common/libs/stats.min.js"></script>
+
+		<script src="./js/angular/controllers/mainCtrl.js"></script>
+		<script src="./js/angular/directives/tentacleFrameDirective.js"></script>
+		<script src="./js/angular/directives/frontLayerDirective.js"></script>
+		<script src="./js/angular/directives/flickerDirective.js"></script>
+		<script src="./js/angular/services/noiseService.js"></script>
+
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="mainCtrl" id="mainDiv">
+			<img class="backImg" id="headerImg" style="" src="./resources/img2Bright.jpg"/>
+			<img flicker class="backImg" id="headerImg" style="" src="./resources	/cloudsNoPart.jpg"/>
+			<div text-layer id="title">
+				<h1>I am</h1>
+				<h2>in the dark</h2>
+			</div>
+			<!--<can
+			<!--<div front-layer="5" class="backImg" id="front2" style="background-image: url('./resources/layer3.png');" ></div>-->
+			<div  front-layer="5" class="backImg" id="front2" style="background-image: url('./resources/layer2.png');" ></div>
+			<!--<div  front-layer="1" class="backImg" id="front1" style="background-image: url('./resources/layer3.png');" ></div>-->
+			<div  front-layer="1" class="backImg" id="front1" style="background-image: url('./resources/layer10.png');" ></div>
+			<div  front-layer="21" class="backImg" id="front3" style="background-image: url('./resources/layer11.png');" ></div>
+		</div>
+	</body>
+</html>
+
+<script>
+	var gData = {};
+	var gRoot = '.';
+	var gAnimated = true;
+	window.stopAnimation = function() {
+		gAnimated = false
+	};
+
+	window.startAnimation = function() {
+		gAnimated = true
+	};
+</script>
