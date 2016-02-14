@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>idea#1</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<script src="libs/ejs.min.js"></script>
+
+		<!-- JQUERY-->
+		<script src="libs/jquery.min.js"></script>
+
+		<!-- BOOTSTRAP-->
+		<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">-->
+		<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>-->
+
+		<link rel="stylesheet" href="libs/bootstrap.min.css">
+		<script src="libs/bootstrap.min.js"></script>
+
+		<!-- ANGULAR-->
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>-->
+		<script src="libs/angular.min.js"></script>
+
+		<!-- LESS-->
+		<link rel="stylesheet/less" type="text/css" href="<%- root %>/style/main.less" />
+		<script src="libs/less.min.js"></script>
+
+		<!-- DEBUG-->
+		<script src="<%- root %>/js/tentacles.js"></script>
+		<script src="<%- root %>/js/tentaclesBorder.js"></script>
+		<script src="<%- root %>/js/tentaclesFree.js"></script>
+		<script src="libs/stats.min.js"></script>
+
+		<script src="<%- root %>/js/angular/controllers/mainCtrl.js"></script>
+		<script src="angular/directives/iconBrowserDirective.js"></script>
+		<script src="<%- root %>/js/angular/directives/tentacleFrameDirective.js"></script>
+
+		<!-- RELEASE-->
+		<!--<script src="dest/backTentacles.min.js"></script>-->
+
+	</head>
+	<body ng-app="myApp">
+		<div ng-controller="mainCtrl">
+			<div id="header"></div>
+			<div class="content">
+				<div>
+					<h2 id="title">{{title}}</h2>
+				</div>
+				<div ng-if="animation == 0" >
+					<h3 id="subTitle"><br>an elegant and dynamic background.</h3>
+					<br><br><br><br><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In dignissim, quam lacinia commodo vestibulum, turpis velit vehicula dolor, placerat blandit urna sem sit amet nibh. Quisque et rhoncus risus. Nunc eleifend nunc sit amet maximus laoreet. Vivamus volutpat malesuada placerat. Quisque quis nibh sollicitudin ligula condimentum laoreet et at nisi. Morbi et sollicitudin arcu. Suspendisse at augue ac lacus suscipit convallis. Vestibulum semper fermentum augue, vel porttitor ipsum auctor at. Vivamus iaculis eu justo quis euismod. Sed finibus, erat vel vehicula iaculis, turpis lorem imperdiet nibh, ac hendrerit quam massa ac neque. Quisque ipsum sapien, gravida sit amet quam non, lobortis posuere est. Aenean pulvinar pellentesque mi sit amet mattis. Etiam pretium libero erat, in pellentesque sapien convallis a. Cras dapibus, ex in auctor facilisis, ex quam laoreet est, in facilisis tellus ex eget massa..</p>
+					<!--<canvas tentacles-back tentacle-count="20" class="drawCanvasSmall"> </canvas>-->
+					<p>Curabitur a dapibus erat. Morbi ut est in tellus cursus varius. Nunc lacus nunc, iaculis eget justo eget, commodo efficitur dolor. Vivamus vel commodo lectus. Mauris placerat luctus odio, dapibus fringilla est cursus eu. Nam quis metus ut tortor dictum laoreet eget placerat nibh. Duis id sodales lectus. Morbi ornare, urna nec congue iaculis, lacus mi rhoncus tellus, sit amet pellentesque nulla orci et nibh. Nunc porttitor sit amet nisl in elementum. Maecenas quis neque ac risus lobortis efficitur ornare id nunc. Donec blandit quis libero sed scelerisque. Integer egestas semper ipsum vitae bibendum. Duis condimentum maximus tortor, nec egestas velit facilisis nec. Mauris metus lorem, mollis in libero quis, dignissim ornare ex.</p>
+					<div class="hideWhenSmall">
+						<p>Proin lectus dui, sodales ut risus vel, consectetur volutpat nisl. Suspendisse eu turpis ac tellus mollis placerat. Vivamus est arcu, vestibulum quis commodo sed, posuere sit amet dui. Proin faucibus mollis neque, quis accumsan sem faucibus ac. In risus orci, efficitur eu quam vel, dignissim fringilla elit. Praesent consequat nibh in pellentesque iaculis. Aenean tempor, quam nec sagittis efficitur, nulla mi mattis ipsum, sit amet venenatis turpis magna et urna. Maecenas et turpis a orci pretium faucibus vitae non mauris. Praesent cursus ullamcorper laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin imperdiet ac orci non consequat. In non massa eu sapien tempus aliquam a vitae quam. Morbi convallis mattis tortor et condimentum. Vivamus in accumsan sem.</p>
+
+						<!--<canvas tentacles-back tentacle-type="2" tentacle-count="40" class="drawCanvasSmallHeight"> </canvas>-->
+						<p>Proin lectus dui, sodales ut risus vel, consectetur volutpat nisl. Suspendisse eu turpis ac tellus mollis placerat. Vivamus est arcu, vestibulum quis commodo sed, posuere sit amet dui. Proin faucibus mollis neque, quis accumsan sem faucibus ac. In risus orci, efficitur eu quam vel, dignissim fringilla elit. Praesent consequat nibh in pellentesque iaculis. Aenean tempor, quam nec sagittis efficitur, nulla mi mattis ipsum, sit amet venenatis turpis magna et urna. Maecenas et turpis a orci pretium faucibus vitae non mauris. Praesent cursus ullamcorper laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin imperdiet ac orci non consequat. In non massa eu sapien tempus aliquam a vitae quam. Morbi convallis mattis tortor et condimentum. Vivamus in accumsan sem.</p>
+						<!--<canvas tentacles-back tentacle-type="free" tentacle-count="10" class="drawCanvasSmall"> </canvas>-->
+						<p>Proin lectus dui, sodales ut risus vel, consectetur volutpat nisl. Suspendisse eu turpis ac tellus mollis placerat. Vivamus est arcu, vestibulum quis commodo sed, posuere sit amet dui. Proin faucibus mollis neque, quis accumsan sem faucibus ac. In risus orci, efficitur eu quam vel, dignissim fringilla elit. Praesent consequat nibh in pellentesque iaculis. Aenean tempor, quam nec sagittis efficitur, nulla mi mattis ipsum, sit amet venenatis turpis magna et urna. Maecenas et turpis a orci pretium faucibus vitae non mauris. Praesent cursus ullamcorper laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin imperdiet ac orci non consequat. In non massa eu sapien tempus aliquam a vitae quam. Morbi convallis mattis tortor et condimentum. Vivamus in accumsan sem.</p>
+						<p>Proin lectus dui, sodales ut risus vel, consectetur volutpat nisl. Suspendisse eu turpis ac tellus mollis placerat. Vivamus est arcu, vestibulum quis commodo sed, posuere sit amet dui. Proin faucibus mollis neque, quis accumsan sem faucibus ac. In risus orci, efficitur eu quam vel, dignissim fringilla elit. Praesent consequat nibh in pellentesque iaculis. Aenean tempor, quam nec sagittis efficitur, nulla mi mattis ipsum, sit amet venenatis turpis magna et urna. Maecenas et turpis a orci pretium faucibus vitae non mauris. Praesent cursus ullamcorper laoreet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin imperdiet ac orci non consequat. In non massa eu sapien tempus aliquam a vitae quam. Morbi convallis mattis tortor et condimentum. Vivamus in accumsan sem.</p>
+					</div>
+				</div>
+				<div ng-if="animation == 1" >
+					<h3 id="subTitle furry"><br>furry</h3>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+				</div>
+				<div ng-if="animation == 2" >
+					<p class="hideWhenSmall"><br>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<div class="tentacleTrackCanvas circle"><h3 class="textInCircle">lines come around chosen elements...</h3></div>
+					<p class="hideWhenSmall">Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<h3><strong>...go away when element is offset...</strong></h3>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<div class="tentacleTrackCanvas second"><h3 class="textInCircle">...to come back when the next element is visible...</h3></div>
+					<div class="hideWhenSmall">
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					<div class="tentacleTrackCanvas flat"><h3 class="textInCircle black">...following any...</h3></div>
+					<div class="tentacleTrackCanvas tower"><h3 class="textInCircle black">.<br>.<br>.<br>s<br>h<br>a<br>p<br>e<br>.</h3></div>
+					<p>Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. Scroll me. </p>
+					</div>
+				</div>
+			</div>
+			<canvas ng-if="animation == 0" tentacles-back tentacle-type="free" tentacle-fog="true" tentacle-count="10" scrollable="true" class="drawCanvas fullSize"> </canvas>
+			<canvas ng-if="animation == 2" tentacles-back tentacle-type="canvas" tentacle-count="10" class="drawCanvas fullSize"> </canvas>
+			<div ng-if="animation == 1">
+				<!--<canvas tentacles-back tentacle-type="1" tentacle-count="40" class="drawCanvas bottom"> </canvas>-->
+				<canvas  tentacles-back tentacle-type="2" tentacle-count="200"  class="drawCanvas right"> </canvas>
+				<canvas tentacles-back tentacle-type="3" tentacle-count="200"  class="drawCanvas left"> </canvas>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	var gData = <%-JSON.stringify(data)%>;
+	var gRoot = '<%-root %>';
+	var gAnimated = true;
+	window.stopAnimation = function() {
+		gAnimated = false
+	}
+
+	window.startAnimation = function() {
+		gAnimated = true
+	}
+</script>
