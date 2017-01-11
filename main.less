@@ -1,0 +1,64 @@
+
+@colorBack: rgba(245, 245, 245, 1);
+@colorBackBright: rgba(255, 255, 255, 1);
+@colorBackTransparent: rgba(245, 245, 245, 0);
+
+@widthSampleFrame:350px;
+@heightSampleFrame:250px;
+
+@zoomSamplesBig: 1;
+
+.zoom-cross(@zoom) {
+  //zoom: @zoom;
+
+  -moz-transform: scale(@zoom);
+  -moz-transform-origin: 0 0;
+  -o-transform: scale(@zoom);
+  -o-transform-origin: 0 0;
+  -webkit-transform: scale(@zoom);
+  -webkit-transform-origin: 0 0;
+}
+
+body {
+  //font-family: Monospace;
+  background-color: @colorBack;
+  margin: 0px;
+  display:block;
+
+}
+
+.content {
+  position:absolute;
+  //display:block;
+  height:100%;
+}
+
+.sampleContainer {
+  margin-left: 1%;
+  margin-right: 30px;
+  //width:30%;
+  //height:30%;
+  float: left;
+  //background:forestgreen;
+  border-width: 10px;
+  margin-top:30px;
+  display:block;
+}
+
+sample iframe {
+  //position:absolute;
+  //height:100%;
+  height: @heightSampleFrame;
+  width: @widthSampleFrame;
+}
+
+sample iframe.doubleSize {
+  height: @heightSampleFrame * @zoomSamplesBig;
+  width: @widthSampleFrame * @zoomSamplesBig;
+
+  .zoom-cross(1 / @zoomSamplesBig);
+}
+
+.bottomSample {
+  margin-top: (1 - @zoomSamplesBig) * @heightSampleFrame;
+}

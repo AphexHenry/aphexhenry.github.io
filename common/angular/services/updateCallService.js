@@ -8,12 +8,13 @@
             var updateCallFactory = {};
             var updateCalls = [];
             var lastUpdate = Date.now();
+            var forceAnimate;
 
             animate();
             function animate() {
 
                 requestAnimationFrame( animate );
-                if(gAnimated) {
+                if(gAnimated || forceAnimate) {
                     render();
                 }
             }
@@ -32,6 +33,10 @@
 
             updateCallFactory.attach = function(method) {
                 updateCalls.push(method);
+            };
+
+            updateCallFactory.forceAnimate = function(method) {
+                forceAnimate = true;
             };
 
             return updateCallFactory;

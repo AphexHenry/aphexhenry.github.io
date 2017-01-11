@@ -11,12 +11,15 @@
             var lastIndexEvent = 0;
 
             updateCallService.attach(render);
+            updateCallService.forceAnimate();
 
             audioMovementService.whenReady(function() {
 
                 $('#loading').fadeOut(1500);
                 $timeout(function(){$('#fader').fadeOut(2000);}, 1500);
-                $timeout(audioMovementService.play, 3000);
+                if(gAnimated) {
+                    $timeout(audioMovementService.play, 3000);
+                }
                 cameraService.setDistance(3);
                 cameraService.pickNewAngle();
             });
@@ -27,6 +30,7 @@
 
 
             audioTimeout(function() {
+
             //    cameraService.setDistance(3);
             //    cameraService.pickNewAngle();
             //    audioMovementService.setSoundPosition(60);
@@ -141,6 +145,13 @@
             function render() {
                 if(lastIndexEvent >= events.length)
                     return;
+
+                if(!gAnimated)
+                {
+                    audioMovementService.stop();
+                    return;
+                }
+
                 var lastIndexTime = events[lastIndexEvent].time;
                 var currentTimeAudioMs = audioMovementService.getTimeElapsedS();
                 if(currentTimeAudioMs >= lastIndexTime) {

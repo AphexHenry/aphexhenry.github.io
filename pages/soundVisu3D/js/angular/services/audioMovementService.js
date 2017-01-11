@@ -55,7 +55,9 @@
 				this.son.onended = finnishCallback;
 				this.son.ontimeupdate = whilePlayingCallback;
 				document.body.appendChild(this.son);
-				this.play();
+				if(gAnimated) {
+					this.play();
+				}
 			};
 
 			this.play=function()
@@ -216,6 +218,10 @@
 			sound.play();
 		};
 
+		var stop = function() {
+			sound.stop();
+		};
+
 		audioMovementFactory.setup = setup;
 		audioMovementFactory.whenReady = whenReady;
 		audioMovementFactory.whenFinnished = whenFinnished;
@@ -225,6 +231,7 @@
 		audioMovementFactory.getPositionWithDelay = getPositionWithDelay;
 		audioMovementFactory.setSound = setSound;
 		audioMovementFactory.play = play;
+		audioMovementFactory.stop = stop;
 		audioMovementFactory.setString = setString;
 		audioMovementFactory.getString = getString;
 		audioMovementFactory.setSoundPosition = setPosition;

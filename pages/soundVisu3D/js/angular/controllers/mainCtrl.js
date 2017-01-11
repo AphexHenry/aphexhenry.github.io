@@ -85,7 +85,9 @@ var mainController = app.controller('mainCtrl', ['$scope', 'blurService', 'audio
         function animate() {
 
             requestAnimationFrame( animate );
-            render();
+            if(gAnimated) {
+                render();
+            }
 
         }
 
