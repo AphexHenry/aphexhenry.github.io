@@ -16,8 +16,8 @@ var mainController = app.controller('mainCtrl', ['$scope', '$http', function($sc
         getPages();
 
         function getPages() {
-            $scope.pages.push({name:"pages/backgroundTentacles"});
-            $scope.pages.push({name:"pages/blackNwhite"});
+            $scope.pages.push({name:"pages/backgroundTentacles", options:{animationType:"0"}});
+            $scope.pages.push({name:"pages/grass", options:{animationType:"1"}});
             $scope.pages.push({name:"pages/multilayer/index.html"});
             $scope.pages.push({name:"pages/realistic/index.html"});
             $scope.pages.push({name:"pages/soundMonster/index.html"});

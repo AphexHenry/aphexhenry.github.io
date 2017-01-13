@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="../../common/libs/bootstrap.min.css">
 		<script src="../../common/libs/bootstrap.min.js"></script>
+		<script src="../../common/libs/threejs/three.min.js"></script>
 
 		<!-- ANGULAR-->
 		<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>-->
@@ -100,7 +101,7 @@
 </html>
 
 <script>
-	var gData = {animationType:'0'};
+	var gData = {animationType:'1'};
 	var gRoot = '.';
 	var gAnimated = true;
 	window.stopAnimation = function() {
@@ -109,9 +110,9 @@
 
 	window.startAnimation = function() {
 		gAnimated = true
-	}
+	};
 
 	window.setData = function(aData) {
 		gData = aData;
-	}
+	};
 </script>

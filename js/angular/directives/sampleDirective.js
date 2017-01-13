@@ -37,6 +37,9 @@ app.directive('sample', [function() {
                 setTimeout(function() {
                     if(frame[0].contentWindow.stopAnimation)
                         frame[0].contentWindow.stopAnimation();
+
+                    //if(frame[0].contentWindow.stopAnimation && scope.page.options)
+                    //    frame[0].contentWindow.setData(scope.page.options);
                 }, 500);
             });
 

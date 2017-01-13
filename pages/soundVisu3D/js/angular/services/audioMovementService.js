@@ -26,7 +26,7 @@
 		var setup = function() {
 
 				setSound(gRoot + "/audio/VSA.mp3");
-		}
+		};
 
 		function Sound(source,volume,loop, whilePlayingCallback, finnishCallback, onCanPlayCallback)
 		{
@@ -36,9 +36,10 @@
 			var son;
 			this.son=son;
 			this.finish=false;
+
 			this.stop=function()
 			{
-				document.body.removeChild(this.son);
+				this.son.pause();
 			};
 
 			this.start=function()
