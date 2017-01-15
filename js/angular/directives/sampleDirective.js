@@ -74,7 +74,7 @@ app.directive('imageFit', [function() {
 
             if(element.height() > element.width()) {
                 element.height('100%');
-                element.width('auto');
+                //element.width('auto');
             }
         }
     };
