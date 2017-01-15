@@ -43,7 +43,7 @@ ParticleGroupMonsterSound.prototype.InitFood = function(aName, position, size, u
 {
 	var randAngle = myRandom() * Math.PI;
 	this.positionHomeMonsters = [];
-	this.positionHomeMonsters[0] = {pos:new THREE.Vector3(this.positionCenter.y - window.innerWidth * .7, this.positionCenter.y + window.innerHeight * .5, this.positionCenter.z), name:"I am an audio player"};
+	this.positionHomeMonsters[0] = {pos:new THREE.Vector3(this.positionCenter.y - window.innerWidth * .7, this.positionCenter.y + window.innerHeight * .5, this.positionCenter.z), name:"Click a Song."};
 	this.AddFood("Noise", new THREE.Vector3(this.positionHomeMonsters[0].pos.x, this.positionHomeMonsters[0].pos.y + window.innerHeight * 0.2, this.positionHomeMonsters[0].pos.z), 1., "data/sound/Monsters/Tripouille.mp3", 0.7);
 	this.AddFood("Bonobo", new THREE.Vector3(this.positionHomeMonsters[0].pos.x + window.innerWidth * 0.3, this.positionHomeMonsters[0].pos.y, this.positionHomeMonsters[0].pos.z), 1., "data/sound/Monsters/Bonobo.mp3", 1.);
 	this.AddFood("Noise 2", new THREE.Vector3(this.positionHomeMonsters[0].pos.x + window.innerWidth * 0.6, this.positionHomeMonsters[0].pos.y + window.innerHeight * 0.2, this.positionHomeMonsters[0].pos.z), 1., "data/sound/Monsters/RawCut.mp3", 0.4);
