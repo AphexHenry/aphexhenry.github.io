@@ -4,9 +4,12 @@
 @colorBackTransparent: rgba(245, 245, 245, 0);
 
 @widthSampleFrame:350px;
-@heightSampleFrame:250px;
+@heightSampleFrame:200px;
 
 @zoomSamplesBig: 1;
+
+@zoomWhenHold: 1.1;
+@zoomWhenNotHold: 1.01;
 
 .zoom-cross(@zoom) {
   //zoom: @zoom;
@@ -24,18 +27,20 @@ body {
   background-color: @colorBack;
   margin: 0px;
   display:block;
-
+  font-family: "Times New Roman", Times, serif;
 }
 
 .content {
   position:absolute;
   //display:block;
   height:100%;
+  width:70%;
+  margin-left: 15%;
 }
 
 .sampleContainer {
-  margin-left: 1%;
-  margin-right: 30px;
+  //margin-left: 1%;
+  //margin-right: 0px;
   //width:30%;
   //height:30%;
   float: left;
@@ -45,12 +50,86 @@ body {
   display:block;
 }
 
-sample iframe {
+sample iframe,
+sample img{
+  width: 100%;
   //position:absolute;
   //height:100%;
-  height: @heightSampleFrame;
-  width: @widthSampleFrame;
+  //height: @heightSampleFrame;
 }
+
+sample img
+{
+  height:200px;
+  border-width: 10px;
+  padding:1px;
+  transition-property: all;
+  transition-duration: 1.5s;
+  transition-timing-function: ease-in-out;
+  -ms-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* IE 9 */
+  -webkit-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* Safari */
+  transform: scale(@zoomWhenNotHold, @zoomWhenNotHold);
+  //-webkit-animation: effectOff 1s forwards;
+}
+
+.imageContainer
+{
+  margin-top: 5%;
+  width: 100%;
+  border:1px solid #aaa;
+  overflow: hidden;
+  border-radius:4px;
+}
+
+sample img:hover {
+  //transition-property: all;
+  transition-duration: 3s;
+  //transition-timing-function: ease-in-out;
+  -webkit-filter: blur(3px) brightness(95%);
+  -ms-transform: scale(@zoomWhenHold, @zoomWhenHold); /* IE 9 */
+  -webkit-transform: scale(@zoomWhenHold, @zoomWhenHold); /* Safari */
+  transform: scale(@zoomWhenHold, @zoomWhenHold);
+  //-webkit-animation: effectOn 3s forwards;
+}
+
+@-webkit-keyframes effectOn {
+  0%  {
+    -webkit-filter: blur(0px) brightness(100%);
+    -ms-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* IE 9 */
+    -webkit-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* Safari */
+    transform: scale(@zoomWhenNotHold, @zoomWhenNotHold);
+  }
+
+  100% {
+    -webkit-filter: blur(3px) brightness(95%);
+    -ms-transform: scale(@zoomWhenHold, @zoomWhenHold); /* IE 9 */
+    -webkit-transform: scale(@zoomWhenHold, @zoomWhenHold); /* Safari */
+    transform: scale(@zoomWhenHold, @zoomWhenHold);
+  }
+}
+
+@-webkit-keyframes effectOff {
+
+  //0% {
+  //  -webkit-filter: blur(3px) brightness(95%);
+  //  -ms-transform: scale(@zoomWhenHold, @zoomWhenHold); /* IE 9 */
+  //  -webkit-transform: scale(@zoomWhenHold, @zoomWhenHold); /* Safari */
+  //  transform: scale(@zoomWhenHold, @zoomWhenHold);
+  //}
+
+  to {
+    -webkit-filter: blur(0px) brightness(100%);
+    -ms-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* IE 9 */
+    -webkit-transform: scale(@zoomWhenNotHold, @zoomWhenNotHold); /* Safari */
+    transform: scale(@zoomWhenNotHold, @zoomWhenNotHold);
+  }
+}
+
+//sample img:hover
+//{
+//  -webkit-animation: blur 3s;
+//  -webkit-filter: blur(4px) invert(100%); filter: blur(4px) invert(100%);
+//}
 
 sample iframe.doubleSize {
   height: @heightSampleFrame * @zoomSamplesBig;
@@ -59,6 +138,29 @@ sample iframe.doubleSize {
   .zoom-cross(1 / @zoomSamplesBig);
 }
 
+.nameFrame {
+  text-align: center;
+  color:#777;
+}
+
 .bottomSample {
+  width: 100%;
   margin-top: (1 - @zoomSamplesBig) * @heightSampleFrame;
+}
+
+#title
+{
+  font-size: 170%;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+#subTitle
+{
+  font-size: 130%;
+  text-align: center;
+  color: #999;
+  font-family: "Times New Roman", Times, serif;
+  margin-bottom: 20px;
 }

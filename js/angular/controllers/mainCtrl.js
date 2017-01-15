@@ -16,12 +16,12 @@ var mainController = app.controller('mainCtrl', ['$scope', '$http', function($sc
         getPages();
 
         function getPages() {
-            $scope.pages.push({name:"pages/backgroundTentacles", options:{animationType:"0"}});
-            $scope.pages.push({name:"pages/grass", options:{animationType:"1"}});
-            $scope.pages.push({name:"pages/multilayer/index.html"});
-            $scope.pages.push({name:"pages/realistic/index.html"});
-            $scope.pages.push({name:"pages/soundMonster/index.html"});
-            $scope.pages.push({name:"pages/soundVisu3D/index.html"});
+            $scope.pages.push({path:"pages/backgroundTentacles", options:{animationType:"0"}, name:"Moving Lines"});
+            $scope.pages.push({path:"pages/grass", options:{animationType:"1"}, name:"Grass"});
+            $scope.pages.push({path:"pages/multilayer", name:"Scrolling Layers"});
+            $scope.pages.push({path:"pages/realistic", name:"Hidden Sun"});
+            $scope.pages.push({path:"pages/soundMonster", name:"Music Monster"});
+            $scope.pages.push({path:"pages/soundVisu3D", name:"Appearance"});
             $scope.$apply();
         }
 

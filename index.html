@@ -34,13 +34,19 @@
 <!--<script src="dest/backTentacles.min.js"></script>-->
 <body ng-app="myApp">
 <div  ng-controller="mainCtrl">
-    <div id="header"></div>
+    <div id="header">
+        <div id="title">Baptiste Bohelay</div>
+        <div id="subTitle">Developer & Visual Artist</div>
+    </div>
     <div class="content">
-        <sample class="sampleContainer" sample-data="page" ng-repeat="page in pages">
-            <iframe class="doubleSize" ng-src="{{page.name}}"></iframe>
+        <sample class="sampleContainer col-md-4" sample-data="page" ng-repeat="page in pages">
+            <!--<iframe ng-src="{{page.path}}" ng-click="redirect()"></iframe>-->
+            <div class="imageContainer">
+                <image class="imageFit" ng-src="{{getPreview()}}" ng-click="redirect()"></image>
+            </div>
             <div class="bottomSample">
-                <h4 style="float:left;">{{page.name}}</h4>
-                <button ng-click="redirect()">view full screen</button>
+                <h4 class="nameFrame">{{page.name}}</h4>
+                <!--<button ng-click="redirect()">view full screen</button>-->
             </div>
         </sample>
     </div>

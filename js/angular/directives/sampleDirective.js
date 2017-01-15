@@ -7,28 +7,28 @@ app.directive('sample', [function() {
         link:function(scope, element, attrs) {
 
             function setZoom(value) {
-                var height = 250 * value;
-                var width = 350 * value;
-                var scale = 1 / value;
-                frame.css({
-                    height: height + 'px',
-                    width: width + 'px',
-                    '-moz-transform': 'scale(' + scale + ')',
-                    '-o-transform': 'scale(' + scale + ')',
-                    '-webkit-transform': 'scale(' + scale + ')'
-                });
-
-                var heightMargin = (1 - value) * height * 0.5;
-                var rightMargin = (1 - value) * (width) * 0.5;
-                elementBottom.css({'margin-top': heightMargin + 'px'});
-                element.css({'margin-right': rightMargin + 'px'})
+                //var height = 200 * value;
+                //var width = 350 * value;
+                //var scale = 1 / value;
+                //frame.css({
+                //    height: height + 'px',
+                //    width: width + 'px',
+                //    '-moz-transform': 'scale(' + scale + ')',
+                //    '-o-transform': 'scale(' + scale + ')',
+                //    '-webkit-transform': 'scale(' + scale + ')'
+                //});
+                //
+                //var heightMargin = (1 - value) * height * 0.5;
+                //var rightMargin = (1 - value) * (width) * 0.5;
+                //elementBottom.css({'margin-top': heightMargin + 'px'});
+                //element.css({'margin-right': rightMargin + 'px'})
             }
 
             scope.redirect = function() {
                 window.open(scope.linkUrl, '_blank');
             };
 
-            scope.linkUrl = window.location + scope.page.name;
+            scope.linkUrl = window.location + scope.page.path;
 
             var frame = element.find('iframe');
             var elementBottom = element.find('.bottomSample');
@@ -38,10 +38,16 @@ app.directive('sample', [function() {
                     if(frame[0].contentWindow.stopAnimation)
                         frame[0].contentWindow.stopAnimation();
 
-                    //if(frame[0].contentWindow.stopAnimation && scope.page.options)
-                    //    frame[0].contentWindow.setData(scope.page.options);
+                    if(frame[0].contentWindow.stopAnimation && scope.page.options)
+                        frame[0].contentWindow.setData(scope.page.options);
                 }, 500);
             });
+
+            scope.getPreview = function()
+            {
+                return scope.page.path + "/preview.jpg";
+            };
+
 
             setZoom(scope.page.scale || 1.3);
 
@@ -54,6 +60,22 @@ app.directive('sample', [function() {
                     frame[0].contentWindow.stopAnimation();
                 }
             });
+        }
+    };
+
+}]);
+
+app.directive('imageFit', [function() {
+
+    return {
+        restrict: 'C',
+        scope:'@',
+        link:function(scope, element, attrs) {
+
+            if(element.height() > element.width()) {
+                element.height('100%');
+                element.width('auto');
+            }
         }
     };
 
