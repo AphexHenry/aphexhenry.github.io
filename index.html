@@ -39,16 +39,22 @@
         <div id="subTitle">Developer & Visual Artist</div>
     </div>
     <div class="content">
-        <sample class="sampleContainer col-md-4" sample-data="page" ng-repeat="page in pages">
-            <!--<iframe ng-src="{{page.path}}" ng-click="redirect()"></iframe>-->
-            <div class="imageContainer">
-                <image class="imageFit" ng-src="{{getPreview()}}" ng-click="redirect()"></image>
+        <div class="row center-xs">
+            <div class="col-xs-12 col-sm-12">
+                <div class="row">
+                    <sample class="sampleContainer projects-grid__thumbnail col-xs-12 col-sm-6 col-md-4" sample-data="page" ng-repeat="page in pages">
+                        <!--<iframe ng-src="{{page.path}}" ng-click="redirect()"></iframe>-->
+                        <div class="imageContainer">
+                            <image class="imageFit" ng-src="{{getPreview()}}" ng-click="redirect()"></image>
+                        </div>
+                        <div class="bottomSample">
+                            <h4 class="nameFrame">{{page.name}}</h4>
+                            <!--<button ng-click="redirect()">view full screen</button>-->
+                        </div>
+                    </sample>
+                </div>
             </div>
-            <div class="bottomSample">
-                <h4 class="nameFrame">{{page.name}}</h4>
-                <!--<button ng-click="redirect()">view full screen</button>-->
-            </div>
-        </sample>
+        </div>
     </div>
 </div>
 </body>
