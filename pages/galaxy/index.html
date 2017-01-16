@@ -108,7 +108,7 @@
 			sceneCube = new THREE.Scene();
 			clock = new THREE.Clock();
 
-			var amount = 25000;
+			var amount = 20000;
 			var radius = 180;
 
 			var positions = new Float32Array( amount * 3 );
@@ -134,15 +134,16 @@
 
 				var length = vertex.lengthSq() / (radius * radius);
 
+				var brightness = 1;
 				if ( length < (Math.random() * 0.3) ) {
-					color.setHSL( 0.1 * ( i / amount ), 0.4, 0.4 );
+					color.setHSL( 0.1 * ( i / amount ), 0.4, brightness );
 				} else {
-					color.setHSL( 0.5 + 0.1 * ( i / amount ), 0.4, 0.4 );
+					color.setHSL( 0.5 + 0.1 * ( i / amount ), 0.4, brightness );
 				}
 
 				color.toArray( colors, i * 3 );
 
-				sizes[ i ] = 10 * (1.5 + Math.cos(0.5 * Math.PI * distance / radius) + Math.cos(4 * angle1 + 5 * Math.PI * distance / radius));
+				sizes[ i ] = 3 * (1.5 + Math.cos(0.5 * Math.PI * distance / radius) + Math.cos(4 * angle1 + 5 * Math.PI * distance / radius));
 				sizesInit[i] = sizes[i];
 			}
 
@@ -156,7 +157,7 @@
 				uniforms: {
 					amplitude: { value: 1.0 },
 					color:     { value: new THREE.Color( 0xffffff ) },
-					texture:   { value: new THREE.TextureLoader().load( "textures/spark1.png" ) }
+					texture:   { value: new THREE.TextureLoader().load( "textures/spark2.png" ) }
 				},
 				vertexShader:   document.getElementById( 'vertexshader' ).textContent,
 				fragmentShader: document.getElementById( 'fragmentshader' ).textContent,
