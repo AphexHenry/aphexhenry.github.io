@@ -134,11 +134,12 @@
 
 				var length = vertex.lengthSq() / (radius * radius);
 
-				var brightness = 1;
+				var brightness = 0.8;
+				var saturation = 0.7;
 				if ( length < (Math.random() * 0.3) ) {
-					color.setHSL( 0.1 * ( i / amount ), 0.4, brightness );
+					color.setHSL( 0.1 * ( i / amount ), saturation, brightness );
 				} else {
-					color.setHSL( 0.5 + 0.1 * ( i / amount ), 0.4, brightness );
+					color.setHSL( 0.5 + 0.1 * ( i / amount ), saturation, brightness );
 				}
 
 				color.toArray( colors, i * 3 );
