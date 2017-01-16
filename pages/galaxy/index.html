@@ -195,12 +195,14 @@
 			var textureFlare2 = textureLoader.load( "textures/lensflare/lensflare2.png" );
 			var textureFlare3 = textureLoader.load( "textures/lensflare/lensflare3.png" );
 
-			addLight( 0.55, 0.9, 0.5, 0, 0, 0, 700);
-			addLight( 0.08, 0.8, 0.5, 0, 0, 100, 200 );
-			addLight( 0.995, 0.5, 0.9, 100, 0, 0, 200 );
-			addLight( 0.995, 0.5, 0.9, -70, 0, 70, 150 );
+			addLight( 0.55, 0.9, 0.5, 0, 0, 0, 700, true);
+			addLight( 0.08, 0.8, 0.5, 0, 0, 100, 70 );
+			addLight( 0.995, 0.9, 0.9, 100, 0, 0, 40 );
+			addLight( 0.995, 0.9, 0.9, -70, 0, 70, 10 );
+			addLight( 0.1, 0.9, 0.9, -70, 0, 150, 100 , true);
+//			addLight( 0.5, 0.9, 0.9, -70, 0, -150, 30 );
 
-			function addLight( h, s, l, x, y, z , aSize) {
+			function addLight( h, s, l, x, y, z , aSize, aAddFlares) {
 
 				var light = new THREE.PointLight( 0xffffff, 1.5, 2000 );
 				light.color.setHSL( h, s, l );
@@ -215,17 +217,17 @@
 				lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
 				lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
 				lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending );
+				if(aAddFlares) {
+					lensFlare.add(textureFlare3, 60, 0.6, THREE.AdditiveBlending);
+					lensFlare.add(textureFlare3, 70, 0.7, THREE.AdditiveBlending);
+					lensFlare.add(textureFlare3, 120, 0.9, THREE.AdditiveBlending);
+					lensFlare.add(textureFlare3, 70, 1.0, THREE.AdditiveBlending);
 
-				lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending );
-				lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending );
-				lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending );
-				lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending );
-
-				lensFlare.customUpdateCallback = lensFlareUpdateCallback;
+					lensFlare.customUpdateCallback = lensFlareUpdateCallback;
+				}
 				lensFlare.position.copy( light.position );
 
 				scene.add( lensFlare );
-
 			}
 
 			renderer.gammaInput = true;
