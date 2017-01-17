@@ -33,7 +33,7 @@
 
 		<script src="../../common/libs/threejs83/three.min.js"></script>
 
-		<script src="../../common/libs/threejs83/js/controls/FlyControls.js"></script>
+		<script src="../../common/libs/threejs83/js/controls/OrbitControls.js"></script>
 
 		<script src="../../common/libs/threejs83/js/Detector.js"></script>
 		<script src="../../common/libs/threejs83/js/libs/stats.min.js"></script>
@@ -108,7 +108,7 @@
 			sceneCube = new THREE.Scene();
 			clock = new THREE.Clock();
 
-			var amount = 20000;
+			var amount = 30000;
 			var radius = 180;
 
 			var positions = new Float32Array( amount * 3 );
@@ -182,12 +182,19 @@
 			stats = new Stats();
 			container.appendChild( stats.dom );
 
-			controls = new THREE.FlyControls( camera);
-			controls.movementSpeed = 1000;
+			controls = new THREE.OrbitControls( camera);
+			controls.enableDamping = true;
+			controls.dampingFactor = 0.03;
+			controls.enableZoom = true;
+			controls.zoomSpeed = 0.2;
+			controls.minPolarAngle = 0.5 * Math.PI - 0.7;
+			controls.maxPolarAngle = 0.5 * Math.PI + 0.7;
+			controls.maxDistance = 2500;
+			controls.minDistance = 50;
+			controls.rotateSpeed = 0.03;
 			controls.domElement = container;
-			controls.rollSpeed = Math.PI / 24;
-			controls.autoForward = false;
-			controls.dragToLook = false;
+//			controls.autoForward = false;
+//			controls.dragToLook = false;
 
 			// lens flares
 			var textureLoader = new THREE.TextureLoader();
@@ -286,7 +293,7 @@
 						side: THREE.BackSide
 
 					} );
-			var mesh = new THREE.Mesh( new THREE.BoxGeometry( 10000, 10000, 10000 ), skyboxMaterial );
+			var mesh = new THREE.Mesh( new THREE.BoxGeometry( 8000, 8000, 8000 ), skyboxMaterial );
 //			mesh.scale = new THREE.Vector3(10,10,10);
 			scene.add( mesh );
 		}
@@ -332,18 +339,26 @@
 			var geometry = sphere.geometry;
 			var attributes = geometry.attributes;
 
+			var lCameraDistance = camera.position.length() / 2500;
+			var lSizeAdd = 0.2 + lCameraDistance * 20;
+			lSizeAdd = Math.min(lSizeAdd, 5);
+
 			for ( var i = 0; i < attributes.size.array.length / 4; i++ ) {
-				var lSize = sizesInit[i];
-				attributes.size.array[ i ] = lSize + lSize * Math.sin( 0.1 * i + time * 0.25 );
+				var lSize = 0.3 * sizesInit[i] * lSizeAdd;
+				attributes.size.array[ i ] =  lSize + lSize * Math.sin( 0.1 * i + time * 0.25 );
+			}
+			for ( var i = attributes.size.array.length / 4; i < attributes.size.array.length; i++ ) {
+				var lSize = 0.3 * sizesInit[i] * lSizeAdd * 1;
+				attributes.size.array[ i ] =  lSize;// + lSize * Math.sin( 0.1 * i + time * 0.25 );
 			}
 
 			attributes.size.needsUpdate = true;
 
 			cameraCube.rotation.copy( camera.rotation );
 
-			controls.movementSpeed = 30;
-			controls.rollSpeed = 0.4;
-			controls.update( delta );
+//			controls.movementSpeed = 0;
+//			controls.rollSpeed = 0.4;
+			controls.update( );
 
 			renderer.render( scene, camera );
 
