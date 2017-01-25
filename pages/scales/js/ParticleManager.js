@@ -10,21 +10,21 @@ function ParticleManager(aScene)
         bumpScale: - 0.05,
         color: 0xffffff,
         metalness: 0.2,
-        roughness: 0.8,
+        roughness: 0,
         shading: THREE.SmoothShading,
         premultipliedAlpha: true,
         transparent: true
     } );
 
     var textureLoader = new THREE.TextureLoader();
-    //textureLoader.load( "textures/brick_diffuse.jpg", function( map ) {
-    //    map.wrapS = THREE.RepeatWrapping;
-    //    map.wrapT = THREE.RepeatWrapping;
-    //    map.anisotropy = 4;
-    //    //map.repeat.set( 9, 0.5 );
-    //    standardMaterial.map = map;
-    //    standardMaterial.needsUpdate = true;
-    //} );
+    textureLoader.load( "textures/brick_diffuse.jpg", function( map ) {
+        map.wrapS = THREE.RepeatWrapping;
+        map.wrapT = THREE.RepeatWrapping;
+        map.anisotropy = 4;
+        //map.repeat.set( 9, 0.5 );
+        standardMaterial.map = map;
+        standardMaterial.needsUpdate = true;
+    } );
 
     textureLoader.load( "textures/brick_alpha.jpg", function( map ) {
         //map.wrapS = THREE.RepeatWrapping;
@@ -62,7 +62,7 @@ function ParticleManager(aScene)
         standardMaterial.needsUpdate = true;
     } );
 
-    //standardMaterial.side = THREE.DoubleSide;
+    standardMaterial.side = THREE.DoubleSide;
     var geometry = new THREE.PlaneGeometry( 10, 10, 4, 4 );
 
     this.group = new THREE.Group();
@@ -111,7 +111,7 @@ function ParticleManager(aScene)
     //bigSphereMesh.position.set(-20,-30,-20);
     bigSphereMesh.castShadow = true;
     bigSphereMesh.receiveShadow = true;
-    //aScene.add(bigSphereMesh);
+    aScene.add(bigSphereMesh);
 }
 
 ParticleManager.prototype.update = function(aDelta) {

@@ -61,34 +61,20 @@
 
 	var container, stats;
 	var params = {
-		opacity: 1.0,
-		roughness: 1.0,
-		bumpScale: 1.0,
-		exposure: 10.0,
-		whitePoint: 5.0,
 		projection: 'normal',
 		background: false,
-//		exposure: 1.0,
-		bloomStrength: 1.5,
+		exposure: 1.0,
+		bloomStrength: 0.7,
 		bloomThreshold: 0.85,
-		bloomRadius: 0.4,
-		toneMapping: "Uncharted2",
-		renderMode: "Renderer"
+		bloomRadius: 0.4
 	};
-
-	var toneMappingOptions = {
-		None: THREE.NoToneMapping,
-		Linear: THREE.LinearToneMapping,
-		Reinhard: THREE.ReinhardToneMapping,
-		Uncharted2: THREE.Uncharted2ToneMapping,
-		Cineon: THREE.CineonToneMapping
-	};
-
-	var camera, scene, renderer, controls, group;
-	var composer;
-	var standardMaterial, standardMaterialPremultiplied, floorMaterial;
 	var particleManager;
-	var bloomPass;
+	var camera, scene, renderer, controls, objects = [];
+	var effectFXAA, bloomPass, renderScene;
+	var hdrCubeMap;
+	var composer;
+	var standardMaterial;
+	var hdrCubeRenderTarget;
 
 	init();
 	animate();
@@ -99,40 +85,58 @@
 		document.body.appendChild( container );
 
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 2000 );
-		camera.position.set( 0.0, 40, 40 * 3.5 );
+		camera.position.set( 0.0, 35, 35 * 3.5 );
 
 		scene = new THREE.Scene();
 
 		renderer = new THREE.WebGLRenderer( { antialias: false } );
+		renderer.setClearColor( new THREE.Color( 0x111111 ) );
+		renderer.toneMapping = THREE.LinearToneMapping;
 
-		particleManager = new ParticleManager(scene);
-
-		floorMaterial = new THREE.MeshStandardMaterial( {
+		standardMaterial = new THREE.MeshStandardMaterial( {
 			map: null,
-			roughnessMap: null,
 			color: 0xffffff,
-			metalness: 0.0,
-			roughness: 1.0,
-			side: THREE.BackSide
+			metalness: 1.0,
+			shading: THREE.SmoothShading
 		} );
 
-		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
-		var mesh = new THREE.Mesh( geometry, floorMaterial );
-		mesh.position.y = 50;
-		mesh.rotation.x = - Math.PI * 0.5;
-		mesh.receiveShadow = true;
-		scene.add( mesh );
+		floorMaterial = new THREE.MeshStandardMaterial( {
+					roughnessMap: null,
+					color: 0xffffff,
+					metalness: 0.0,
+					roughness: 1.0,
+					side: THREE.BackSide
+				} );
 
-		// Materials
-		var hdrpath = "textures/cube/pisaHDR/";
-		var hdrformat = '.hdr';
-		var hdrurls = [
-			hdrpath + 'px' + hdrformat, hdrpath + 'nx' + hdrformat,
-			hdrpath + 'py' + hdrformat, hdrpath + 'ny' + hdrformat,
-			hdrpath + 'pz' + hdrformat, hdrpath + 'nz' + hdrformat
-		];
+		var geometry = new THREE.TorusKnotGeometry( 18, 8, 150, 20 );
+		var torusMesh1 = new THREE.Mesh( geometry, standardMaterial );
+		torusMesh1.position.x = 0.0;
+		torusMesh1.castShadow = true;
+		torusMesh1.receiveShadow = true;
+//		scene.add( torusMesh1 );
+//		objects.push( torusMesh1 );
 
-		var hdrCubeMap = new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrurls, function ( hdrCubeMap ) {
+		var textureLoader = new THREE.TextureLoader();
+		textureLoader.load( "./textures/roughness_map.jpg", function( map ) {
+			map.wrapS = THREE.RepeatWrapping;
+			map.wrapT = THREE.RepeatWrapping;
+			map.anisotropy = 4;
+			map.repeat.set( 9, 2 );
+			standardMaterial.roughnessMap = map;
+			standardMaterial.bumpMap = map;
+			standardMaterial.needsUpdate = true;
+		} );
+
+		var genCubeUrls = function( prefix, postfix ) {
+			return [
+				prefix + 'px' + postfix, prefix + 'nx' + postfix,
+				prefix + 'py' + postfix, prefix + 'ny' + postfix,
+				prefix + 'pz' + postfix, prefix + 'nz' + postfix
+			];
+		};
+
+		var hdrUrls = genCubeUrls( "./textures/cube/pisaHDR/", ".hdr" );
+		new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrUrls, function ( hdrCubeMap ) {
 
 			var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
 			pmremGenerator.update( renderer );
@@ -140,49 +144,51 @@
 			var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker( pmremGenerator.cubeLods );
 			pmremCubeUVPacker.update( renderer );
 
-			standardMaterial.envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-			standardMaterial.needsUpdate = true;
+			hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
 
 		} );
-
 		// Lights
 
-		scene.add( new THREE.HemisphereLight( 0x111111, 0x000000 ) );
+		scene.add( new THREE.AmbientLight( 0x222222 ) );
 
 		var spotLight = new THREE.SpotLight( 0xffffff );
 		spotLight.position.set( 50, 100, 50 );
 		spotLight.angle = Math.PI / 7;
-		spotLight.decay = 2;
-		spotLight.distance = 300;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
 		scene.add( spotLight );
+
+		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+		var mesh = new THREE.Mesh( geometry, floorMaterial);
+		mesh.position.y = 50;
+		mesh.rotation.x = - Math.PI * 0.5;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
 
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.shadowMap.enabled = true;
 		container.appendChild( renderer.domElement );
 
-		renderer.gammaInput = true;
-		renderer.gammaOutput = true;
+		renderScene = new THREE.RenderPass(scene, camera);
 
-		composer = new THREE.EffectComposer( renderer );
-		composer.setSize( window.innerWidth, window.innerHeight );
-
-		var renderScene = new THREE.RenderPass( scene, camera );
-//		composer.addPass( renderScene );
-
+		// renderScene.clear = true;
 		effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
 		effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
 
-		composer.addPass(effectFXAA);
+		var copyShader = new THREE.ShaderPass(THREE.CopyShader);
+		copyShader.renderToScreen = true;
 
 		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);//1.0, 9, 0.5, 512);
+		composer = new THREE.EffectComposer(renderer);
+		composer.setSize(window.innerWidth, window.innerHeight);
+		composer.addPass(renderScene);
+		composer.addPass(effectFXAA);
 		composer.addPass(bloomPass);
-
-		var copyPass = new THREE.ShaderPass( THREE.CopyShader );
-		copyPass.renderToScreen = true;
-		composer.addPass( copyPass );
+		composer.addPass(copyShader);
+		//renderer.toneMapping = THREE.ReinhardToneMapping;
+		renderer.gammaInput = true;
+		renderer.gammaOutput = true;
 
 		stats = new Stats();
 		container.appendChild( stats.dom );
@@ -195,11 +201,7 @@
 
 		var gui = new dat.GUI();
 
-		gui.add( params, 'toneMapping', Object.keys( toneMappingOptions ) );
-		gui.add( params, 'exposure', 5, 15 );
-		gui.add( params, 'whitePoint', 0, 10 );
-		gui.add( params, 'opacity', 0, 1 );
-		gui.add( params, 'renderMode', [ 'Renderer', 'Composer'] );
+		gui.add( params, 'exposure', 0.1, 2 );
 		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
 			bloomPass.threshold = Number(value);
 		});
@@ -210,6 +212,8 @@
 			bloomPass.radius = Number(value);
 		});
 		gui.open();
+
+		particleManager = new ParticleManager(scene);
 
 	}
 
@@ -223,7 +227,7 @@
 
 		renderer.setSize( width, height );
 		composer.setSize( width, height );
-
+		effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
 	}
 
 	//
@@ -242,32 +246,38 @@
 
 		if ( standardMaterial !== undefined ) {
 
+			standardMaterial.roughness = 1.0;
+			standardMaterial.bumpScale = - 0.05;
 
-			standardMaterial.roughness = params.roughness;
-			standardMaterial.bumpScale = - 0.05 * params.bumpScale;
-			standardMaterial.opacity = params.opacity;
+			var newEnvMap = standardMaterial.envMap;
+			newEnvMap = hdrCubeRenderTarget ? hdrCubeRenderTarget.texture : null;
+
+			if( newEnvMap !== standardMaterial.envMap ) {
+
+				standardMaterial.envMap = newEnvMap;
+				standardMaterial.needsUpdate = true;
+
+			}
 
 		}
-		if( renderer.toneMapping !== toneMappingOptions[ params.toneMapping ] ) {
-			renderer.toneMapping = toneMappingOptions[ params.toneMapping ];
-			if( standardMaterial ) standardMaterial.needsUpdate = true;
-			if( floorMaterial ) floorMaterial.needsUpdate = true;
-		}
-		renderer.toneMappingExposure = params.exposure;
-		renderer.toneMappingWhitePoint = params.whitePoint;
+
+		renderer.toneMappingExposure = Math.pow( params.exposure, 4.0 );
 
 		var timer = Date.now() * 0.00025;
 
 		camera.lookAt( scene.position );
 
+		for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+			var object = objects[ i ];
+			object.rotation.y += 0.005;
+
+		}
+
 		particleManager.update(0.03);
 
-//		if( params.renderMode === "Composer" ) {
+		// renderer.render( scene, camera );
 		composer.render();
-//		}
-//		else {
-//			renderer.render( scene, camera );
-//		}
 	}
 
 </script>
