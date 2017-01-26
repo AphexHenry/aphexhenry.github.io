@@ -42,14 +42,13 @@ Particle.prototype.init = function(aOptions) {
 
 };
 
-
 Particle.prototype.update = function(aDelta) {
     this.time += aDelta;
     //if(this.mesh.position.y > -10) {
         this.mesh.rotation.set(this.rotationInit.x, this.rotationInit.y, this.rotationInit.z);
         var lAngle = (0.5 + Math.cos(-this.time + this.mesh.position.y * 0.5));
         this.mesh.rotateX(this.mesh.position.y * 0.07 * lAngle);
-        var lRadiusChange = Math.cos(this.time + this.mesh.position.y * 0.1);
-        this.mesh.position.set(this.positionInit.x * lRadiusChange, this.positionInit.y, this.positionInit.z * lRadiusChange);
+        var lRadiusChange = Math.cos(this.time + this.positionInit.y * 0.1);
+        this.mesh.position.set(this.positionInit.x * lRadiusChange, this.positionInit.y * lRadiusChange, this.positionInit.z * lRadiusChange);
     //}
 };

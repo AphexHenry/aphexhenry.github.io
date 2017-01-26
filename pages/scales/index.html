@@ -63,8 +63,8 @@
 	var params = {
 		projection: 'normal',
 		background: false,
-		exposure: 1.0,
-		bloomStrength: 0.7,
+		exposure: 1.4,
+		bloomStrength: 3,
 		bloomThreshold: 0.85,
 		bloomRadius: 0.4
 	};
@@ -85,7 +85,7 @@
 		document.body.appendChild( container );
 
 		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 2000 );
-		camera.position.set( 0.0, 35, 35 * 3.5 );
+		camera.position.set( 150, 0, 0 );
 
 		scene = new THREE.Scene();
 
@@ -102,7 +102,7 @@
 
 		floorMaterial = new THREE.MeshStandardMaterial( {
 					roughnessMap: null,
-					color: 0xffffff,
+					color: 0x000000,
 					metalness: 0.0,
 					roughness: 1.0,
 					side: THREE.BackSide
@@ -149,10 +149,17 @@
 		} );
 		// Lights
 
-		scene.add( new THREE.AmbientLight( 0x222222 ) );
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
 
 		var spotLight = new THREE.SpotLight( 0xffffff );
 		spotLight.position.set( 50, 100, 50 );
+		spotLight.angle = Math.PI / 7;
+		spotLight.penumbra = 0.8;
+		spotLight.castShadow = true;
+//		scene.add( spotLight );
+
+		var spotLight = new THREE.SpotLight( 0xffffff );
+		spotLight.position.set( 30, 0, 0 );
 		spotLight.angle = Math.PI / 7;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
@@ -179,7 +186,7 @@
 		var copyShader = new THREE.ShaderPass(THREE.CopyShader);
 		copyShader.renderToScreen = true;
 
-		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);//1.0, 9, 0.5, 512);
+		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 3, 0.4, 0.75);//1.0, 9, 0.5, 512);
 		composer = new THREE.EffectComposer(renderer);
 		composer.setSize(window.innerWidth, window.innerHeight);
 		composer.addPass(renderScene);

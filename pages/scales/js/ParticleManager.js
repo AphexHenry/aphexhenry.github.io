@@ -7,10 +7,10 @@ function ParticleManager(aScene)
     this.particles = [];
 
     standardMaterial = new THREE.MeshStandardMaterial( {
-        bumpScale: - 0.05,
+        bumpScale: 0.05,
         color: 0xffffff,
         metalness: 0.2,
-        roughness: 0,
+        roughness: 0.6,
         shading: THREE.SmoothShading,
         premultipliedAlpha: true,
         transparent: true
@@ -35,42 +35,42 @@ function ParticleManager(aScene)
         standardMaterial.needsUpdate = true;
     } );
 
-    textureLoader.load( "textures/brick_displace.jpg", function( map ) {
-        map.wrapS = THREE.RepeatWrapping;
-        map.wrapT = THREE.RepeatWrapping;
-        map.anisotropy = 4;
-        //map.repeat.set( 9, 0.5 );
-        standardMaterial.displacementMap = map;
-        standardMaterial.displacementScale = -2;
-        standardMaterial.needsUpdate = true;
-    } );
+    //textureLoader.load( "textures/brick_displace.jpg", function( map ) {
+    //    map.wrapS = THREE.RepeatWrapping;
+    //    map.wrapT = THREE.RepeatWrapping;
+    //    map.anisotropy = 4;
+    //    //map.repeat.set( 9, 0.5 );
+    //    standardMaterial.displacementMap = map;
+    //    standardMaterial.displacementScale = -2;
+    //    standardMaterial.needsUpdate = true;
+    //} );
+    //
+    //textureLoader.load( "textures/brick_bump.jpg", function( map ) {
+    //    map.wrapS = THREE.RepeatWrapping;
+    //    map.wrapT = THREE.RepeatWrapping;
+    //    map.anisotropy = 4;
+    //    //map.repeat.set( 9, 0.5 );
+    //    standardMaterial.bumpMap = map;
+    //    standardMaterial.needsUpdate = true;
+    //} );
+    //textureLoader.load( "textures/brick_roughness.jpg", function( map ) {
+    //    map.wrapS = THREE.RepeatWrapping;
+    //    map.wrapT = THREE.RepeatWrapping;
+    //    map.anisotropy = 4;
+    //    //map.repeat.set( 9, 0.5 );
+    //    standardMaterial.roughnessMap = map;
+    //    standardMaterial.needsUpdate = true;
+    //} );
 
-    textureLoader.load( "textures/brick_bump.jpg", function( map ) {
-        map.wrapS = THREE.RepeatWrapping;
-        map.wrapT = THREE.RepeatWrapping;
-        map.anisotropy = 4;
-        //map.repeat.set( 9, 0.5 );
-        standardMaterial.bumpMap = map;
-        standardMaterial.needsUpdate = true;
-    } );
-    textureLoader.load( "textures/brick_roughness.jpg", function( map ) {
-        map.wrapS = THREE.RepeatWrapping;
-        map.wrapT = THREE.RepeatWrapping;
-        map.anisotropy = 4;
-        //map.repeat.set( 9, 0.5 );
-        standardMaterial.roughnessMap = map;
-        standardMaterial.needsUpdate = true;
-    } );
-
-    standardMaterial.side = THREE.DoubleSide;
-    var geometry = new THREE.PlaneGeometry( 10, 10, 4, 4 );
+    //standardMaterial.side = THREE.DoubleSide;
+    var geometry = new THREE.SphereGeometry( 10, 10, 4, 4 );
 
     this.group = new THREE.Group();
     var radius = 13;
     for(var height = 0; height < 1; height+= 0.03)
     {
         var radiusCoeff = Math.sin(height * Math.PI);
-        var numAzimut = radiusCoeff * 40 * (1 + height * 2.3);
+        var numAzimut = radiusCoeff * 30 * (1 + height * 2.3);
         for(var i = 0; i < numAzimut; i++)
         {
             var azimut = 2 * Math.PI * i / numAzimut;
@@ -92,8 +92,6 @@ function ParticleManager(aScene)
         }
     }
 
-    aScene.add(this.group );
-
     var geometryBigSphere = new THREE.SphereGeometry( radius, radius, 15, 15 );
     var sphereMaterial = new THREE.MeshStandardMaterial( {
         color: 0xffffff,
@@ -111,11 +109,19 @@ function ParticleManager(aScene)
     //bigSphereMesh.position.set(-20,-30,-20);
     bigSphereMesh.castShadow = true;
     bigSphereMesh.receiveShadow = true;
-    aScene.add(bigSphereMesh);
+    //this.group.position.x = -100;
+    //this.group.add(bigSphereMesh);
+    this.time = 0;
+
+    aScene.add(this.group );
+
+
 }
 
 ParticleManager.prototype.update = function(aDelta) {
     this.group.rotation.y += 0.001;
+    this.group.position.x = Math.cos(this.time * 0.1) * 10;
+    this.time += aDelta;
     for(var i = 0; i < this.particles.length; i++)
     {
         this.particles[i].update(aDelta);
