@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>threejs webgl - inline tone mapping</title>
@@ -55,17 +55,30 @@
 <script src="js/Particle.js"></script>
 <script src="js/ParticleManager.js"></script>
 
-
 <script type="x-shader/x-vertex" id="vertexShader">
-        // Put the Vertex Shader code here
+        varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+
+			float displacement = 20.2 * cos(position.x + position.y * 0.8);
+    		vec3 newPosition = position + normal * displacement;
+    		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+    		//gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}
     </script>
 
 <script type="x-shader/x-vertex" id="fragmentShader">
-        // Put the Fragment Shader code here
-    </script>
+        varying vec2 vUv;
 
-<script type="text/javascript" id="mainCode">
-	// Put the main code here
+		void main() {
+
+			// colour is RGBA: u, v, 0, 1
+			gl_FragColor = vec4( vec3( vUv, 0. ), 1. );
+
+		}
 </script>
 
 <script>
@@ -164,22 +177,18 @@
 
 		scene.add( new THREE.AmbientLight( 0xffffff ) );
 
-		var spotLight = new THREE.SpotLight( 0xffffff );
-		spotLight.position.set( 50, 100, 50 );
-		spotLight.angle = Math.PI / 7;
-		spotLight.penumbra = 0.8;
-		spotLight.castShadow = true;
+//		var spotLight = new THREE.SpotLight( 0xffffff );
+//		spotLight.position.set( 50, 100, 50 );
+//		spotLight.angle = Math.PI / 7;
+//		spotLight.penumbra = 0.8;
+//		spotLight.castShadow = true;
 //		scene.add( spotLight );
 
 		var spotLight = new THREE.SpotLight( 0xffffff );
-		spotLight.position.set( 30, 0, 0 );
-		spotLight.angle = Math.PI / 7;
+		spotLight.position.set( 70, 0, 0 );
+		spotLight.angle = Math.PI / 5;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
-		spotLight.shadowBias = 0.0001;
-		spotLight.shadowDarkness = 0.2;
-		spotLight.shadowMapWidth = 2048;
-		spotLight.shadowMapHeight = 2048;
 		scene.add( spotLight );
 
 		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
@@ -192,7 +201,6 @@
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.shadowMap.enabled = true;
-		renderer.shadowMapType = THREE.PCFSoftShadowMap
 		container.appendChild( renderer.domElement );
 
 		renderScene = new THREE.RenderPass(scene, camera);
