@@ -55,6 +55,19 @@
 <script src="js/Particle.js"></script>
 <script src="js/ParticleManager.js"></script>
 
+
+<script type="x-shader/x-vertex" id="vertexShader">
+        // Put the Vertex Shader code here
+    </script>
+
+<script type="x-shader/x-vertex" id="fragmentShader">
+        // Put the Fragment Shader code here
+    </script>
+
+<script type="text/javascript" id="mainCode">
+	// Put the main code here
+</script>
+
 <script>
 
 	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
@@ -163,6 +176,10 @@
 		spotLight.angle = Math.PI / 7;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
+		spotLight.shadowBias = 0.0001;
+		spotLight.shadowDarkness = 0.2;
+		spotLight.shadowMapWidth = 2048;
+		spotLight.shadowMapHeight = 2048;
 		scene.add( spotLight );
 
 		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
@@ -175,6 +192,7 @@
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.shadowMap.enabled = true;
+		renderer.shadowMapType = THREE.PCFSoftShadowMap
 		container.appendChild( renderer.domElement );
 
 		renderScene = new THREE.RenderPass(scene, camera);
@@ -206,19 +224,19 @@
 
 		window.addEventListener( 'resize', onWindowResize, false );
 
-//		var gui = new dat.GUI();
-//
-//		gui.add( params, 'exposure', 0.1, 2 );
-//		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
-//			bloomPass.threshold = Number(value);
-//		});
-//		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
-//			bloomPass.strength = Number(value);
-//		});
-//		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
-//			bloomPass.radius = Number(value);
-//		});
-//		gui.open();
+		var gui = new dat.GUI();
+
+		gui.add( params, 'exposure', 0.1, 2 );
+		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
+			bloomPass.threshold = Number(value);
+		});
+		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
+			bloomPass.strength = Number(value);
+		});
+		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
+			bloomPass.radius = Number(value);
+		});
+		gui.open();
 
 		particleManager = new ParticleManager(scene);
 

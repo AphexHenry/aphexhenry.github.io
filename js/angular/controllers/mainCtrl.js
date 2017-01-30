@@ -23,7 +23,6 @@ var mainController = app.controller('mainCtrl', ['$scope', '$http', function($sc
             $scope.pages.push({path:"pages/soundMonster", name:"Music Monster"});
             $scope.pages.push({path:"pages/soundVisu3D", name:"Appearance"});
             $scope.pages.push({path:"pages/galaxy", name:"Galaxy"});
-            $scope.pages.push({path:"pages/scales", name:"Ghostly"});
             $scope.$apply();
         }
 

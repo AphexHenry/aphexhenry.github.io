@@ -49,6 +49,6 @@ Particle.prototype.update = function(aDelta) {
         var lAngle = (0.5 + Math.cos(-this.time + this.mesh.position.y * 0.5));
         this.mesh.rotateX(this.mesh.position.y * 0.07 * lAngle);
         var lRadiusChange = Math.cos(this.time + this.positionInit.y * 0.1);
-        this.mesh.position.set(this.positionInit.x * lRadiusChange, this.positionInit.y, this.positionInit.z * lRadiusChange);
+        this.mesh.position.set(this.positionInit.x * lRadiusChange, this.positionInit.y * lRadiusChange, this.positionInit.z * lRadiusChange);
     //}
 };

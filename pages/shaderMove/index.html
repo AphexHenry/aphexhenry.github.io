@@ -1,7 +1,7 @@
 	<!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Custom Shader</title>
+	<title>threejs webgl - inline tone mapping</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
@@ -56,7 +56,6 @@
 <script src="js/ParticleManager.js"></script>
 
 <script type="x-shader/x-vertex" id="vertexShader2">
-
         varying vec2 vUv;
 
 		void main() {
@@ -67,11 +66,13 @@
     		vec3 newPosition = position + normal * displacement;
     		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
     		//gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
 		}
 </script>
 
 <script type="x-shader/x-vertex" id="vertexShader">
 			uniform sampler2D heightmap;
+			uniform float time;
 
 			#define PHONG
 
@@ -136,7 +137,7 @@
 
 				vViewPosition = - mvPosition.xyz;
 
-			float displacement = 20.2 * cos(position.x + position.y * 0.8);
+			float displacement = 20.2 * cos(position.x + position.y * 0.8 + time);
     		vec3 newPosition = position + normal * displacement;
     		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 
@@ -168,9 +169,9 @@
 		projection: 'normal',
 		background: false,
 		exposure: 1.4,
-		bloomStrength: 3,
-		bloomThreshold: 0.85,
-		bloomRadius: 0.4
+		bloomStrength: 1,
+		bloomThreshold: 0.17,
+		bloomRadius: 0.17
 	};
 	var particleManager;
 	var camera, scene, renderer, controls, objects = [];
@@ -255,14 +256,15 @@
 
 		scene.add( new THREE.AmbientLight( 0xffffff ) );
 
-		// Create light
-//		var light = new THREE.PointLight(0xffffff, 1.0);
-//		// We want it to be very close to our character
-//		light.position.set(0.0,0.0,0.1);
-//		scene.add(light);
+//		var spotLight = new THREE.SpotLight( 0xffffff );
+//		spotLight.position.set( 50, 100, 50 );
+//		spotLight.angle = Math.PI / 7;
+//		spotLight.penumbra = 0.8;
+//		spotLight.castShadow = true;
+//		scene.add( spotLight );
 
 		var spotLight = new THREE.SpotLight( 0xffffff );
-		spotLight.position.set( 30, -30, 0 );
+		spotLight.position.set( 70, 0, 0 );
 		spotLight.angle = Math.PI / 5;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
@@ -289,7 +291,7 @@
 		var copyShader = new THREE.ShaderPass(THREE.CopyShader);
 		copyShader.renderToScreen = true;
 
-		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 3, 0.4, 0.75);//1.0, 9, 0.5, 512);
+		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), params.bloomStrength, params.bloomRadius, params.bloomThreshold);//1.0, 9, 0.5, 512);
 		composer = new THREE.EffectComposer(renderer);
 		composer.setSize(window.innerWidth, window.innerHeight);
 		composer.addPass(renderScene);
