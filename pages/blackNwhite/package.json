@@ -1,7 +1,0 @@
-{
-  "name": "backgroundTentacles",
-  "version": "0.1.0",
-  "devDependencies": {
-    "grunt-contrib-uglify": "^0.10.0"
-  }
-}
