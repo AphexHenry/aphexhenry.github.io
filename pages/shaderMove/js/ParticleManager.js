@@ -10,6 +10,7 @@ function ParticleManager(aScene)
     //} );
 
     var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+    var vertexShader2 = document.getElementById( 'vertexShader2' ).textContent;
     var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
 
     var uniforms = THREE.UniformsUtils.merge( [
@@ -19,38 +20,31 @@ function ParticleManager(aScene)
 
     ] );
 
-    this.material = new THREE.ShaderMaterial( {
-        uniforms:uniforms,
-        vertexShader: vertexShader,
-        fragmentShader: THREE.ShaderChunk[ 'meshphong_frag' ]
-    } );
+    //this.material = new THREE.ShaderMaterial( {
+    //    uniforms:uniforms,
+    //    vertexShader: vertexShader,
+    //    fragmentShader: THREE.ShaderChunk[ 'meshphong_frag' ]
+    //} );
 
-    this.material.lights = true;
-
-    var materialColor = 0x0040C0;
+    var materialColor = 0x030303;
 
     // Material attributes from MeshPhongMaterial
-    this.material.color = new THREE.Color( materialColor );
-    this.material.specular = new THREE.Color( 0x111111 );
-    this.material.shininess = 50;
+    //this.material.color = new THREE.Color( materialColor );
+    //this.material.specular = new THREE.Color( 0x111111 );
+    //this.material.shininess = 50;
+    //
+    //// Sets the uniforms with the material values
+    //this.material.uniforms.diffuse.value = this.material.color;
+    //this.material.uniforms.specular.value = this.material.specular;
+    //this.material.uniforms.shininess.value = Math.max( this.material.shininess, 1e-4 );
+    //this.material.uniforms.opacity.value =this. material.opacity;
+    //this.material.lights = true;
 
-    // Sets the uniforms with the material values
-    this.material.uniforms.diffuse.value = this.material.color;
-    this.material.uniforms.specular.value = this.material.specular;
-    this.material.uniforms.shininess.value = Math.max( this.material.shininess, 1e-4 );
-    this.material.uniforms.opacity.value =this. material.opacity;
-
-    var hash = document.location.hash.substr( 1 );
-    if ( hash ) hash = parseInt( hash, 0 );
-    // Texture width for simulation
-    var WIDTH = hash || 128;
-
-    // Water size in system units
-    var BOUNDS = 512;
-
-    // Defines
-    this.material.defines.WIDTH = window.innerWidth.toFixed( 1 );
-    this.material.defines.BOUNDS = BOUNDS.toFixed( 1 );
+    this.material = new THREE.ShaderMaterial( {
+        //uniforms:uniforms,
+        vertexShader: vertexShader2,
+        fragmentShader: fragmentShader
+    } );
 
     // create a sphere and assign the material
     this.mesh = new THREE.Mesh(
@@ -76,7 +70,6 @@ function ParticleManager(aScene)
     this.time = 0;
 
     aScene.add(this.group );
-
 }
 
 ParticleManager.prototype.update = function(aDelta) {
