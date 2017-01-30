@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>threejs webgl - inline tone mapping</title>
@@ -134,9 +134,17 @@
 
 				vViewPosition = - mvPosition.xyz;
 
-			//float displacement = 20.2 * cos(position.x + position.y * 0.8 + time);
-			float displacement = -20. + 20.2 * position.x;
-    		vec3 newPosition = position + normal * displacement;
+			float displacement = 20.2;// * cos(position.x + position.y * 0.8 + time);
+			float angle = position.y + time;
+			float lDistanceTavel = 100.;
+			float timeWithDecay = time * 0.1 + position.y * 0.1;
+			vec3 lPositionBig = vec3(lDistanceTavel * cos(timeWithDecay * 1.4), lDistanceTavel * sin(timeWithDecay), 0.);
+			float displacementX = displacement * 0.5 * (cos(angle) + 1.);
+    		float displacementY = displacement * 0.5 * (sin(angle) + 1.);
+			vec3 newPosition = position;
+    		newPosition.x += displacementX;
+    		newPosition.y += displacementY;
+    		newPosition = newPosition + lPositionBig;
     		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 
 				#include <worldpos_vertex>
@@ -178,6 +186,7 @@
 	var composer;
 	var standardMaterial;
 	var hdrCubeRenderTarget;
+	var clock = new THREE.Clock();
 
 	init();
 	animate();
@@ -204,20 +213,12 @@
 		} );
 
 		floorMaterial = new THREE.MeshStandardMaterial( {
-					roughnessMap: null,
-					color: 0x000000,
-					metalness: 0.0,
-					roughness: 1.0,
-					side: THREE.BackSide
-				} );
-
-		var geometry = new THREE.TorusKnotGeometry( 18, 8, 150, 20 );
-		var torusMesh1 = new THREE.Mesh( geometry, standardMaterial );
-		torusMesh1.position.x = 0.0;
-		torusMesh1.castShadow = true;
-		torusMesh1.receiveShadow = true;
-//		scene.add( torusMesh1 );
-//		objects.push( torusMesh1 );
+			roughnessMap: null,
+			color: 0x000000,
+			metalness: 0.0,
+			roughness: 1.0,
+			side: THREE.BackSide
+		} );
 
 		var textureLoader = new THREE.TextureLoader();
 		textureLoader.load( "./textures/roughness_map.jpg", function( map ) {
@@ -261,14 +262,15 @@
 //		spotLight.castShadow = true;
 //		scene.add( spotLight );
 
-		var spotLight = new THREE.SpotLight( 0xffffff );
+		var spotLight = new THREE.SpotLight( 0xffff33 );
 		spotLight.position.set( 70, 0, 0 );
 		spotLight.angle = Math.PI / 5;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
 		scene.add( spotLight );
 
-		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+		var sizeBox = 300;
+		var geometry = new THREE.BoxBufferGeometry( sizeBox, sizeBox, sizeBox );
 		var mesh = new THREE.Mesh( geometry, floorMaterial);
 		mesh.position.y = 50;
 		mesh.rotation.x = - Math.PI * 0.5;
@@ -373,18 +375,18 @@
 
 		renderer.toneMappingExposure = Math.pow( params.exposure, 4.0 );
 
-		var timer = Date.now() * 0.00025;
+		var timer = Date.now() * 0.00555;
 
 		camera.lookAt( scene.position );
 
 		for ( var i = 0, l = objects.length; i < l; i ++ ) {
 
 			var object = objects[ i ];
-			object.rotation.y += 0.005;
+			object.rotation.y = timer;
 
 		}
 
-		particleManager.update(0.03);
+		particleManager.update(clock.getDelta() * 3);
 
 		// renderer.render( scene, camera );
 		composer.render();

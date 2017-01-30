@@ -261,14 +261,14 @@
 //		spotLight.castShadow = true;
 //		scene.add( spotLight );
 
-		var spotLight = new THREE.SpotLight( 0xffffff );
+		var spotLight = new THREE.SpotLight( 0xffff00 );
 		spotLight.position.set( 70, 0, 0 );
 		spotLight.angle = Math.PI / 5;
 		spotLight.penumbra = 0.8;
 		spotLight.castShadow = true;
 		scene.add( spotLight );
 
-		var geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+		var geometry = new THREE.BoxBufferGeometry( 300, 300, 300 );
 		var mesh = new THREE.Mesh( geometry, floorMaterial);
 		mesh.position.y = 50;
 		mesh.rotation.x = - Math.PI * 0.5;

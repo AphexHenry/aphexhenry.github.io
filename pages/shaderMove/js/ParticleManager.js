@@ -67,7 +67,7 @@ function ParticleManager(aScene)
 }
 
 ParticleManager.prototype.update = function(aDelta) {
-    this.group.rotation.y += 0.002;
+    this.group.rotation.y += aDelta * 0.2;
     this.group.position.x = 10 * Math.cos(this.time * 0.1);
     this.time += aDelta;
     this.mesh.customDepthMaterial.uniforms.time.value = this.time;
