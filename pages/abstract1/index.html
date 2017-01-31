@@ -175,9 +175,9 @@
 		projection: 'normal',
 		background: false,
 		exposure: 1.4,
-		bloomStrength: 1,
+		bloomStrength: 1.9,
 		bloomThreshold: 0.17,
-		bloomRadius: 0.17
+		bloomRadius: 0.57
 	};
 	var particleManager;
 	var camera, scene, renderer, controls, objects = [];
@@ -187,6 +187,7 @@
 	var standardMaterial;
 	var hdrCubeRenderTarget;
 	var clock = new THREE.Clock();
+	var cameraShift = {};
 
 	init();
 	animate();
@@ -264,12 +265,12 @@
 
 		var spotLight = new THREE.SpotLight( 0xffff33 );
 		spotLight.position.set( 70, 0, 0 );
-		spotLight.angle = Math.PI / 5;
-		spotLight.penumbra = 0.8;
+		spotLight.angle = Math.PI / 4;
+		spotLight.penumbra = 1;
 		spotLight.castShadow = true;
 		scene.add( spotLight );
 
-		var sizeBox = 300;
+		var sizeBox = 450;
 		var geometry = new THREE.BoxBufferGeometry( sizeBox, sizeBox, sizeBox );
 		var mesh = new THREE.Mesh( geometry, floorMaterial);
 		mesh.position.y = 50;
@@ -307,9 +308,10 @@
 
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.target.set( 0, 0, 0 );
-		controls.update();
+//		controls.update();
 
 		window.addEventListener( 'resize', onWindowResize, false );
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 		var gui = new dat.GUI();
 
@@ -354,6 +356,13 @@
 
 	}
 
+	function onDocumentMouseMove( event ) {
+
+		cameraShift.x = event.clientX - window.innerWidth * 0.5;
+		cameraShift.y = event.clientY - window.innerHeight * 0.5;
+
+	}
+
 	function render() {
 
 		if ( standardMaterial !== undefined ) {
@@ -377,6 +386,7 @@
 
 		var timer = Date.now() * 0.00555;
 
+		camera.position.set(300, cameraShift.y * 0.9, scene.position.z + cameraShift.x * 0.5);
 		camera.lookAt( scene.position );
 
 		for ( var i = 0, l = objects.length; i < l; i ++ ) {
