@@ -28,7 +28,7 @@ app.directive('sample', [function() {
                 window.open(scope.linkUrl, '_blank');
             };
 
-            scope.linkUrl = window.location + scope.page.path;
+            scope.linkUrl = scope.page.path;
 
             var frame = element.find('iframe');
             var elementBottom = element.find('.bottomSample');
