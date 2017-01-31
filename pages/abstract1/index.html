@@ -73,6 +73,8 @@
 <script type="x-shader/x-vertex" id="vertexShader">
 			uniform sampler2D heightmap;
 			uniform float time;
+			uniform float random;
+			//uniform vec3 uPositionTarget;
 
 			#define PHONG
 
@@ -135,12 +137,12 @@
 				vViewPosition = - mvPosition.xyz;
 
 			float displacement = 20.2;// * cos(position.x + position.y * 0.8 + time);
-			float angle = position.y + time;
-			float lDistanceTavel = 100.;
+			float angle = position.y + time * (1. + random);
+			float lDistanceTravel = 100.;
 			float timeWithDecay = time * 0.1 + position.y * 0.1;
-			vec3 lPositionBig = vec3(lDistanceTavel * cos(timeWithDecay * 1.4), lDistanceTavel * sin(timeWithDecay), 0.);
-			float displacementX = displacement * 0.5 * (cos(angle) + 1.);
-    		float displacementY = displacement * 0.5 * (sin(angle) + 1.);
+			vec3 lPositionBig = vec3(lDistanceTravel * cos(16. * random + timeWithDecay * 1.4), lDistanceTravel * sin(12. * random + timeWithDecay), 0.);
+			float displacementX = displacement * 0.5 * (cos(angle + random * 15.) + 1.);
+    		float displacementY = displacement * 0.5 * (sin(angle + random * 10.) + 1.);
 			vec3 newPosition = position;
     		newPosition.x += displacementX;
     		newPosition.y += displacementY;
@@ -387,7 +389,7 @@
 		var timer = Date.now() * 0.00555;
 
 		camera.position.set(300, cameraShift.y * 0.9, scene.position.z + cameraShift.x * 0.5);
-		camera.lookAt( scene.position );
+		camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
 
 		for ( var i = 0, l = objects.length; i < l; i ++ ) {
 
