@@ -136,16 +136,18 @@
 
 				vViewPosition = - mvPosition.xyz;
 
-			float displacement = 20.2;// * cos(position.x + position.y * 0.8 + time);
-			float angle = position.y + time * (1. + random);
+			float displacement = 60.2;// * cos(position.x + position.y * 0.8 + time);
+			float angle = position.y + 0.3 * time * (1. + random);
 			float lDistanceTravel = 100.;
-			float timeWithDecay = time * 0.1 + position.y * 0.1;
+			float timeWithDecay = time * 0.05 + position.y * 0.1;
 			vec3 lPositionBig = vec3(lDistanceTravel * cos(16. * random + timeWithDecay * 1.4), lDistanceTravel * sin(12. * random + timeWithDecay), 0.);
 			float displacementX = displacement * 0.5 * (cos(angle + random * 15.) + 1.);
     		float displacementY = displacement * 0.5 * (sin(angle + random * 10.) + 1.);
+    		float displacementZ = 1. * displacement * 0.5 * (sin(angle + random * 40.) + 1.);
 			vec3 newPosition = position;
     		newPosition.x += displacementX;
     		newPosition.y += displacementY;
+    		newPosition.z += displacementZ;
     		newPosition = newPosition + lPositionBig;
     		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 
@@ -189,7 +191,8 @@
 	var standardMaterial;
 	var hdrCubeRenderTarget;
 	var clock = new THREE.Clock();
-	var cameraShift = {};
+	var cameraShift = {x:0, y:0};
+	var spotLight;
 
 	init();
 	animate();
@@ -258,14 +261,7 @@
 
 		scene.add( new THREE.AmbientLight( 0xffffff ) );
 
-//		var spotLight = new THREE.SpotLight( 0xffffff );
-//		spotLight.position.set( 50, 100, 50 );
-//		spotLight.angle = Math.PI / 7;
-//		spotLight.penumbra = 0.8;
-//		spotLight.castShadow = true;
-//		scene.add( spotLight );
-
-		var spotLight = new THREE.SpotLight( 0xffff33 );
+		spotLight = new THREE.SpotLight( 0x33ffff );
 		spotLight.position.set( 70, 0, 0 );
 		spotLight.angle = Math.PI / 4;
 		spotLight.penumbra = 1;
@@ -388,8 +384,12 @@
 
 		var timer = Date.now() * 0.00555;
 
-		camera.position.set(300, cameraShift.y * 0.9, scene.position.z + cameraShift.x * 0.5);
-		camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
+		if(cameraShift) {
+			camera.position.set(300, camera.position.y + (cameraShift.y * 0.9 - camera.position.y) * 0.03, camera.position.z + (scene.position.z + cameraShift.x * 0.5 - camera.position.z) * 0.033);
+			camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
+		}
+
+		spotLight.position.set( camera.position.x * 0.1 + 70, camera.position.y * 0.2 - 30, camera.position.z * 0.2 );
 
 		for ( var i = 0, l = objects.length; i < l; i ++ ) {
 
