@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>threejs webgl - inline tone mapping</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #fff;
+			font-family:Monospace;
+			font-size:13px;
+			text-align:center;
+
+			background-color: #000;
+
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		a { color: #ff2 }
+
+		#info {
+			position: absolute;
+			top: 0px; width: 100%;
+			padding: 5px;
+		}
+	</style>
+</head>
+<body>
+
+<div id="container"></div>
+
+<script src="../../common/libs/threejs83/three.min.js"></script>
+<script src="../../common/libs/threejs83/js/controls/OrbitControls.js"></script>
+
+<script src="../../common/libs/threejs83/js/Detector.js"></script>
+<script src="../../common/libs/threejs83/js/libs/stats.min.js"></script>
+
+<script src="../../common/libs/dat.gui.min.js"></script>
+<script src="../../common/libs/threejs83/js/loaders/RGBELoader.js"></script>
+<script src="../../common/libs/threejs83/js/loaders/HDRCubeTextureLoader.js"></script>
+<script src="../../common/libs/threejs83/js/pmrem/PMREMGenerator.js"></script>
+<script src="../../common/libs/threejs83/js/pmrem/PMREMCubeUVPacker.js"></script>
+
+<script src="../../common/libs/threejs83/js/postprocessing/EffectComposer.js"></script>
+<script src="../../common/libs/threejs83/js/postprocessing/RenderPass.js"></script>
+<script src="../../common/libs/threejs83/js/postprocessing/MaskPass.js"></script>
+<script src="../../common/libs/threejs83/js/postprocessing/ShaderPass.js"></script>
+<script src="../../common/libs/threejs83/js/shaders/FXAAShader.js"></script>
+<script src="../../common/libs/threejs83/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="../../common/libs/threejs83/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="../../common/libs/threejs83/js/shaders/CopyShader.js"></script>
+
+
+<script src="js/Particle.js"></script>
+<script src="js/ParticleManager.js"></script>
+
+<script type="x-shader/x-vertex" id="vertexShader2">
+        varying vec2 vUv;
+
+		void main() {
+
+			vUv = uv;
+
+			float displacement = 20.2 * cos(position.x + position.y * 0.8);
+    		vec3 newPosition = position + normal * displacement;
+    		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+    		//gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+		}
+</script>
+
+<script type="x-shader/x-vertex" id="vertexShader">
+			uniform sampler2D heightmap;
+			uniform float time;
+			uniform float random;
+			uniform float amplitudes[256];
+			//uniform vec3 uPositionTarget;
+
+			#define PHONG
+
+			varying vec3 vViewPosition;
+
+			#ifndef FLAT_SHADED
+
+				varying vec3 vNormal;
+
+			#endif
+
+			#include <common>
+			#include <uv_pars_vertex>
+			#include <uv2_pars_vertex>
+			#include <displacementmap_pars_vertex>
+			#include <envmap_pars_vertex>
+			#include <color_pars_vertex>
+			#include <morphtarget_pars_vertex>
+			#include <skinning_pars_vertex>
+			#include <shadowmap_pars_vertex>
+			#include <logdepthbuf_pars_vertex>
+			#include <clipping_planes_pars_vertex>
+
+			void main() {
+
+				//vec2 cellSize = vec2( 1.0 / WIDTH, 1.0 / WIDTH );
+
+				#include <uv_vertex>
+				#include <uv2_vertex>
+				#include <color_vertex>
+
+				// # include <beginnormal_vertex>
+				// Compute normal from heightmap
+				vec3 objectNormal = normal;
+				//<beginnormal_vertex>
+
+				#include <morphnormal_vertex>
+				#include <skinbase_vertex>
+				#include <skinnormal_vertex>
+				#include <defaultnormal_vertex>
+
+			#ifndef FLAT_SHADED // Normal computed with derivatives when FLAT_SHADED
+
+				vNormal = normalize( transformedNormal );
+
+			#endif
+
+				//# include <begin_vertex>
+				float heightValue = texture2D( heightmap, uv ).x;
+				vec3 transformed = vec3( position.x, position.y, heightValue );
+				//<begin_vertex>
+
+				#include <displacementmap_vertex>
+				#include <morphtarget_vertex>
+				#include <skinning_vertex>
+				#include <project_vertex>
+				#include <logdepthbuf_vertex>
+				#include <clipping_planes_vertex>
+
+				vViewPosition = - mvPosition.xyz;
+
+			int lIndexAmp = int((150. + position.y * 30.) * 0.4);
+			float displacement = 20.2 * amplitudes[lIndexAmp];
+
+			float angle = position.y + 0.3 * time * (1. + random);
+			float lDistanceTravel = 300.;
+			float timeWithDecay = position.y * 0.1;
+			vec3 lPositionBig = vec3(lDistanceTravel * timeWithDecay, 0, 0.);
+			float displacementX = displacement * 0.5 * (cos(angle + random * 15.) + 1.);
+    		float displacementY = displacement * 0.5 * (sin(angle + random * 10.) + 1.);
+    		float displacementZ = 1. * displacement * 0.5 * (sin(angle + random * 40.) + 1.);
+			vec3 newPosition = position;
+    		newPosition.x += displacementX;
+    		newPosition.y += displacementY;
+    		//newPosition.z += displacementZ;
+    		newPosition = newPosition + lPositionBig;
+    		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+
+				#include <worldpos_vertex>
+				#include <envmap_vertex>
+				#include <shadowmap_vertex>
+
+		}
+
+    </script>
+
+<script type="x-shader/x-vertex" id="fragmentShader">
+        varying vec2 vUv;
+
+		void main() {
+
+			// colour is RGBA: u, v, 0, 1
+			gl_FragColor = vec4( vec3( vUv, 0. ), 1. );
+
+		}
+</script>
+
+<!-- the core stuff -->
+<script type="text/javascript" src="../../common/libs/soundmanager/script/soundmanager2.js"></script>
+<!--<script src="../../common/libs/threejs83/js/pmrem/PMREMCubeUVPacker.js"></script>-->
+
+<script type="text/javascript">
+
+	soundManager.setup({
+		flashVersion: 9,
+		preferFlash: true, // for visualization effects
+		useHighPerformance: true, // keep flash on screen, boost performance
+		wmode: 'transparent', // transparent SWF, if possible
+		url: 'soundmanager/swf/'
+	});
+
+	soundManager.useFlashBlock = true;
+	sSoundManagerReady = false;
+
+	// even if HTML5 supports MP3, prefer flash so the visualization features can be used.
+	soundManager.preferFlash = true;
+</script>
+
+<div id="sm2-container" style="z-index:-300;position: absolute;">
+
+<script>
+
+	if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+	var container, stats;
+	var params = {
+		projection: 'normal',
+		background: false,
+		exposure: 1.4,
+		bloomStrength: 1.9,
+		bloomThreshold: 0.17,
+		bloomRadius: 0.57
+	};
+	var particleManager;
+	var camera, scene, renderer, controls, objects = [];
+	var effectFXAA, bloomPass, renderScene;
+	var hdrCubeMap;
+	var composer;
+	var standardMaterial;
+	var hdrCubeRenderTarget;
+	var clock = new THREE.Clock();
+	var cameraShift = {x:0, y:0};
+	var spotLight;
+
+	init();
+	animate();
+
+	function init() {
+
+		container = document.createElement( 'div' );
+		document.body.appendChild( container );
+
+		camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 2000 );
+		camera.position.set( 150, 0, 0 );
+
+		scene = new THREE.Scene();
+
+		renderer = new THREE.WebGLRenderer( { antialias: false } );
+		renderer.setClearColor( new THREE.Color( 0x111111 ) );
+		renderer.toneMapping = THREE.LinearToneMapping;
+
+		standardMaterial = new THREE.MeshStandardMaterial( {
+			map: null,
+			color: 0xffffff,
+			metalness: 1.0,
+			shading: THREE.SmoothShading
+		} );
+
+		floorMaterial = new THREE.MeshStandardMaterial( {
+			roughnessMap: null,
+			color: 0x000000,
+			metalness: 0.0,
+			roughness: 1.0,
+			side: THREE.BackSide
+		} );
+
+		var textureLoader = new THREE.TextureLoader();
+		textureLoader.load( "./textures/roughness_map.jpg", function( map ) {
+			map.wrapS = THREE.RepeatWrapping;
+			map.wrapT = THREE.RepeatWrapping;
+			map.anisotropy = 4;
+			map.repeat.set( 9, 2 );
+			standardMaterial.roughnessMap = map;
+			standardMaterial.bumpMap = map;
+			standardMaterial.needsUpdate = true;
+		} );
+
+		var genCubeUrls = function( prefix, postfix ) {
+			return [
+				prefix + 'px' + postfix, prefix + 'nx' + postfix,
+				prefix + 'py' + postfix, prefix + 'ny' + postfix,
+				prefix + 'pz' + postfix, prefix + 'nz' + postfix
+			];
+		};
+
+		var hdrUrls = genCubeUrls( "./textures/cube/pisaHDR/", ".hdr" );
+		new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrUrls, function ( hdrCubeMap ) {
+
+			var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
+			pmremGenerator.update( renderer );
+
+			var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker( pmremGenerator.cubeLods );
+			pmremCubeUVPacker.update( renderer );
+
+			hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+
+		} );
+		// Lights
+
+		scene.add( new THREE.AmbientLight( 0xffffff ) );
+
+		spotLight = new THREE.SpotLight( 0x33ffff );
+		spotLight.position.set( 70, 0, 0 );
+		spotLight.angle = Math.PI / 4;
+		spotLight.penumbra = 1;
+		spotLight.castShadow = true;
+		scene.add( spotLight );
+
+		var sizeBox = 450;
+		var geometry = new THREE.BoxBufferGeometry( sizeBox, sizeBox, sizeBox );
+		var mesh = new THREE.Mesh( geometry, floorMaterial);
+		mesh.position.y = 50;
+		mesh.rotation.x = - Math.PI * 0.5;
+		mesh.receiveShadow = true;
+		scene.add( mesh );
+
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.shadowMap.enabled = true;
+		container.appendChild( renderer.domElement );
+
+		renderScene = new THREE.RenderPass(scene, camera);
+
+		// renderScene.clear = true;
+		effectFXAA = new THREE.ShaderPass(THREE.FXAAShader);
+		effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
+
+		var copyShader = new THREE.ShaderPass(THREE.CopyShader);
+		copyShader.renderToScreen = true;
+
+		bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), params.bloomStrength, params.bloomRadius, params.bloomThreshold);//1.0, 9, 0.5, 512);
+		composer = new THREE.EffectComposer(renderer);
+		composer.setSize(window.innerWidth, window.innerHeight);
+		composer.addPass(renderScene);
+		composer.addPass(effectFXAA);
+		composer.addPass(bloomPass);
+		composer.addPass(copyShader);
+		//renderer.toneMapping = THREE.ReinhardToneMapping;
+		renderer.gammaInput = true;
+		renderer.gammaOutput = true;
+
+		stats = new Stats();
+		container.appendChild( stats.dom );
+
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.target.set( 0, 0, 0 );
+//		controls.update();
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		window.addEventListener( 'keypress', onKeyPressed, false );
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+		var gui = new dat.GUI();
+
+		gui.add( params, 'exposure', 0.1, 2 );
+		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
+			bloomPass.threshold = Number(value);
+		});
+		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
+			bloomPass.strength = Number(value);
+		});
+		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
+			bloomPass.radius = Number(value);
+		});
+		gui.open();
+
+		particleManager = new ParticleManager(scene);
+
+	}
+
+	function onWindowResize() {
+
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( width, height );
+		composer.setSize( width, height );
+		effectFXAA.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight );
+	}
+
+	function onKeyPressed(e) {
+		if(e.keyCode == 32){
+			particleManager.togglePlay();
+		}
+	}
+
+	function animate() {
+
+		requestAnimationFrame( animate );
+
+		stats.begin();
+		render();
+		stats.end();
+
+	}
+
+	function onDocumentMouseMove( event ) {
+
+		cameraShift.x = event.clientX - window.innerWidth * 0.5;
+		cameraShift.y = event.clientY - window.innerHeight * 0.5;
+
+	}
+
+	function render() {
+
+		if ( standardMaterial !== undefined ) {
+
+			standardMaterial.roughness = 1.0;
+			standardMaterial.bumpScale = - 0.05;
+
+			var newEnvMap = standardMaterial.envMap;
+			newEnvMap = hdrCubeRenderTarget ? hdrCubeRenderTarget.texture : null;
+
+			if( newEnvMap !== standardMaterial.envMap ) {
+
+				standardMaterial.envMap = newEnvMap;
+				standardMaterial.needsUpdate = true;
+
+			}
+
+		}
+
+		renderer.toneMappingExposure = Math.pow( params.exposure, 4.0 );
+
+		var timer = Date.now() * 0.00555;
+
+		if(cameraShift) {
+			camera.position.set(300, camera.position.y + (cameraShift.y * 0.9 - camera.position.y) * 0.03, camera.position.z + (scene.position.z + cameraShift.x * 0.5 - camera.position.z) * 0.033);
+			camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
+		}
+
+		spotLight.position.set( camera.position.x * 0.1 + 70, camera.position.y * 0.2 - 30, camera.position.z * 0.2 );
+
+		for ( var i = 0, l = objects.length; i < l; i ++ ) {
+
+			var object = objects[ i ];
+			object.rotation.y = timer;
+
+		}
+
+		particleManager.update(clock.getDelta() * 3);
+
+		// renderer.render( scene, camera );
+		composer.render();
+	}
+
+</script>
+
+</body>
+</html>
