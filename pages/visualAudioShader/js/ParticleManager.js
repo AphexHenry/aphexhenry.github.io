@@ -54,9 +54,10 @@ ParticleManager.prototype.initSound = function() {
                 that.counter++;
                 var lSamplesToMove = that.dataArray.length - 128;
                 that.dataArray = that.dataArray.slice(lSamplesToMove, that.dataArray.length);
-                if(that.counter % 3 == 0)
+                if(that.counter % 1 == 0)
                 {
                     that.dataArray.push(this.waveformData.right[0]);
+                    //that.dataArray.push(this.waveformData.right[0]);
                 }
                 else {
                     var lastElValue = that.dataArray[that.dataArray.length - 1];

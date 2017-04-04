@@ -137,16 +137,24 @@
 
 				vViewPosition = - mvPosition.xyz;
 
-			int lIndexAmp = int((150. + position.y * 30.) * 0.4);
-			float displacement = 20.2 * amplitudes[lIndexAmp];
+			int lIndexAmp = int((150. + abs(position.y) * 30.) * 0.4);
+			float displacement = 0.;
+			float xPosAbs = abs(position.y) * 0.5;
+			if(xPosAbs > 1.) {
+
+				displacement = 20.2 * amplitudes[lIndexAmp];
+			}
+			else {
+				displacement = 20.2 * amplitudes[lIndexAmp] * xPosAbs * xPosAbs;
+			}
 
 			float angle = position.y + 0.3 * time * (1. + random);
 			float lDistanceTravel = 300.;
 			float timeWithDecay = position.y * 0.1;
 			vec3 lPositionBig = vec3(lDistanceTravel * timeWithDecay, 0, 0.);
-			float displacementX = displacement * 0.5 * (cos(angle + random * 15.) + 1.);
-    		float displacementY = displacement * 0.5 * (sin(angle + random * 10.) + 1.);
-    		float displacementZ = 1. * displacement * 0.5 * (sin(angle + random * 40.) + 1.);
+			float displacementX = displacement * 0.1 * (cos(angle + random * 15.) + 1.);
+    		float displacementY = displacement * 0.5 * (0.5 + 0.5 * (sin(angle + random * 10.) + 1.));
+    		float displacementZ = 4. * displacement;// * 0.5 * (sin(angle + random * 40.) + 1.);
 			vec3 newPosition = position;
     		newPosition.x += displacementX;
     		newPosition.y += displacementY;
