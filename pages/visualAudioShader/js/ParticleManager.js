@@ -56,8 +56,9 @@ ParticleManager.prototype.initSound = function() {
                 that.dataArray = that.dataArray.slice(lSamplesToMove, that.dataArray.length);
                 if(that.counter % 1 == 0)
                 {
-                    that.dataArray.push(this.waveformData.right[0]);
-                    //that.dataArray.push(this.waveformData.right[0]);
+                    //that.dataArray.push(nPeak * nPeak * nPeak * 165);
+                    that.dataArray.push(this.waveformData.right[0] * 15);
+                    //that.dataArray.push(this.eqData[1] * 5);
                 }
                 else {
                     var lastElValue = that.dataArray[that.dataArray.length - 1];
@@ -92,7 +93,7 @@ ParticleManager.prototype.initSound = function() {
             id:'sound' + that.name,
             url:"audio/aphex.mp3",
             useWaveformData:true,
-            useEQData:false,
+            useEQData:true,
             usePeakData:true,
             volume:that.volume * 120,
             whileplaying:that.eventsSound.whileplaying,
@@ -111,7 +112,7 @@ ParticleManager.prototype.update = function(aDelta) {
     for(var i = 0; i < samplesToPut; i++) {
         //this.sampleArrayFiltered.push((this.dataArray[i] - 128) / 128);
         var lIndexInOriginArray = i;
-        this.sampleArrayFiltered.push(this.dataArray[i] * 15);
+        this.sampleArrayFiltered.push(this.dataArray[i]);
     }
 
     //this.group.rotation.y += aDelta * 0.2;

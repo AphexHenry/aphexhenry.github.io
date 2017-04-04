@@ -70,10 +70,10 @@ function Particle()
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
     var scale = 0.1;
-    this.mesh.scale.set(scale,scale,scale)
+    //this.mesh.scale.set(scale,scale,scale)
 
     this.time = 0;
-    this.mesh.position.z = 0 + this.randomShader * -230;
+    this.mesh.position.z = 90 + this.randomShader * -230;
 
 }
 
