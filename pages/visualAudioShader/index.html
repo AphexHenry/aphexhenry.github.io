@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>threejs webgl - inline tone mapping</title>
+	<title>shader audio visualisation</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
@@ -74,6 +74,7 @@
 			uniform sampler2D heightmap;
 			uniform float time;
 			uniform float random;
+			uniform float deployement;
 			uniform float amplitudes[256];
 			//uniform vec3 uPositionTarget;
 
@@ -156,10 +157,11 @@
     		float displacementY = displacement * 0.5;// * (0.6 + 0.4 * (sin(angle + random * 10.) + 1.));
     		float displacementZ = 4. * displacement;// * 0.5 * (sin(angle + random * 40.) + 1.);
 			vec3 newPosition = position;
+			float lRealDeployement = deployement;
     		newPosition.x += displacementX;
-    		newPosition.y += displacementY;
-    		//newPosition.z += displacementZ;
-    		newPosition = newPosition + lPositionBig;
+    		newPosition.y += displacementY * (0.03 * (1. - lRealDeployement) + 1. * lRealDeployement);
+    		//newPosition.z += displacementZ * lRealDeployement;
+    		newPosition = newPosition + lPositionBig * deployement;
     		gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
 
 				#include <worldpos_vertex>
@@ -293,12 +295,12 @@
 		} );
 		// Lights
 
-		scene.add( new THREE.AmbientLight( 0xffffff ) );
+		scene.add( new THREE.AmbientLight( 0xffffff, 50 ) );
 
 		spotLight = new THREE.SpotLight( 0x33ffff );
 		spotLight.position.set( 70, 0, 0 );
 		spotLight.angle = Math.PI / 4;
-		spotLight.penumbra = 1;
+		spotLight.penumbra = 0.21;
 		spotLight.castShadow = true;
 		scene.add( spotLight );
 
@@ -307,6 +309,7 @@
 		var mesh = new THREE.Mesh( geometry, floorMaterial);
 		mesh.position.y = 50;
 		mesh.rotation.x = - Math.PI * 0.5;
+//		mesh.rotation.y = - Math.PI * 0.25;
 		mesh.receiveShadow = true;
 		scene.add( mesh );
 

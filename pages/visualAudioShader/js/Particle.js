@@ -20,6 +20,7 @@ function Particle()
         {
             time: { type: "f", value: 1.0 },
             random: {type: "f", value: 1.0},
+            deployement: {type: "f", value: 0},
             amplitudes: {type: "fv", value: zeroArray}
         }
 
@@ -69,11 +70,11 @@ function Particle()
 
     this.mesh.castShadow = true;
     this.mesh.receiveShadow = true;
-    var scale = 0.1;
-    //this.mesh.scale.set(scale,scale,scale)
+    var scale = 10.1;
+    this.mesh.scale.set(scale,scale,scale)
 
     this.time = 0;
-    this.mesh.position.z = 90 + this.randomShader * -230;
+    this.mesh.position.z = 70;
 
 }
 
@@ -105,5 +106,10 @@ Particle.prototype.update = function(aDelta, aAmplitudes) {
     this.mesh.opacity = 0;
     //this.material.uniforms.time.value = this.time;
     this.material.uniforms.amplitudes.value = zeroArray;
+    this.material.uniforms.deployement.value = 1;//Math.max(Math.min(this.time * 0.03 - 1, 1), 0);
     this.mesh.customDepthMaterial.needsUpdate = true;
+
+    var lCoeffScale = Math.sqrt(this.material.uniforms.deployement.value);
+    var scale = (1 - lCoeffScale) * 10 + lCoeffScale;
+    this.mesh.scale.set(scale,scale,scale);
 };
