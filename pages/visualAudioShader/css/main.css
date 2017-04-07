@@ -2,8 +2,8 @@
 		position:absolute;
 		bottom:50px;
 		opacity: 0.3;
-		-webkit-transition: all 0.5s; /* Safari */
-		transition: all 0.5s;
+		-webkit-transition: all 0.2s; /* Safari */
+		transition: all 0.2s;
 	}
 
 	.playPauseButton:hover {
@@ -12,4 +12,6 @@
 
 	.playPauseButton.disabled {
 		visibility: hidden;
+		-webkit-transition: all 0s; /* Safari */
+		transition: all 0s;
 	}

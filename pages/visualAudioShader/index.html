@@ -56,6 +56,7 @@
 
 
 <script src="js/Particle.js"></script>
+<script src="js/ParticleCube.js"></script>
 <script src="js/ParticleManager.js"></script>
 
 <script type="x-shader/x-vertex" id="vertexShader2">
@@ -145,6 +146,7 @@
 			int lIndexAmp = int((150. + abs(position.y) * 30.) * 0.4);
 			float displacement = 0.;
 			float xPosAbs = abs(position.y) * 0.5;
+			float zPosAbs = abs(position.z) * 0.5;
 			if(xPosAbs > 1.) {
 
 				displacement = 20.2 * amplitudes[lIndexAmp];
@@ -165,12 +167,12 @@
 					displacement *= 10.;
 				}
 				float displacementX = displacement * 0.03 * (cos(angle + random * 15.) + 1.);
-				float displacementY = displacement * 0.5;// * (0.6 + 0.4 * (sin(angle + random * 10.) + 1.));
-				float displacementZ = 4. * displacement;// * 0.5 * (sin(angle + random * 40.) + 1.);
+				float displacementY = displacement * 0.5 + 5. * (sin(angle + random * 10.));
+				float displacementZ = zPosAbs * 3.;
 				float lRealDeployement = deployement;
 				newPosition.x += displacementX;
 				newPosition.y += displacementY * (0.03 * (1. - lRealDeployement) + 1. * lRealDeployement);
-				//newPosition.z += displacementZ * lRealDeployement;
+				newPosition.z += displacementZ;
 				newPosition = newPosition + lPositionBig * deployement;
 			}
 
@@ -327,24 +329,25 @@
 		mesh.receiveShadow = true;
 		scene.add( mesh );
 
-		floorMaterial = new THREE.MeshStandardMaterial( {
-			roughnessMap: null,
-			color: 0x000000,
-			metalness: 0.0,
-			roughness: 1.,
-//			side: THREE.BackSide
-		} );
+//		floorMaterial = new THREE.MeshStandardMaterial( {
+//			roughnessMap: null,
+//			color: 0x000000,
+//			metalness: 0.0,
+//			roughness: 1.,
+////			side: THREE.BackSide
+//		} );
 
-		sizeBox = 50;
-		var geometry = new THREE.BoxBufferGeometry( sizeBox, sizeBox, sizeBox );
-		mesh = new THREE.Mesh( geometry, floorMaterial);
-		mesh.position.x = -200;
-		mesh.position.y = 50;
-		mesh.rotation.x = - Math.PI * 0.25;
-//		mesh.rotation.y = - Math.PI * 0.25;
-		mesh.receiveShadow = true;
-		mesh.castShadow = true;
-		scene.add( mesh );
+//		sizeBox = 50;
+//		var geometry = new THREE.BoxBufferGeometry( sizeBox, sizeBox, sizeBox );
+//			mesh = new THREE.Mesh( geometry, floorMaterial);
+//			mesh.position.x = -200;
+//			mesh.position.y = 50;
+////			mesh.position.z = -200;
+//			mesh.rotation.x = - Math.PI * 0.25;
+////		mesh.rotation.y = - Math.PI * 0.25;
+//			mesh.receiveShadow = true;
+//			mesh.castShadow = true;
+//			scene.add( mesh );
 
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
@@ -382,19 +385,19 @@
 		window.addEventListener( 'keypress', onKeyPressed, false );
 		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
-		var gui = new dat.GUI();
-
-		gui.add( params, 'exposure', 0.1, 2 );
-		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
-			bloomPass.threshold = Number(value);
-		});
-		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
-			bloomPass.strength = Number(value);
-		});
-		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
-			bloomPass.radius = Number(value);
-		});
-		gui.open();
+//		var gui = new dat.GUI();
+//
+//		gui.add( params, 'exposure', 0.1, 2 );
+//		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
+//			bloomPass.threshold = Number(value);
+//		});
+//		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
+//			bloomPass.strength = Number(value);
+//		});
+//		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
+//			bloomPass.radius = Number(value);
+//		});
+//		gui.open();
 
 		particleManager = new ParticleManager(scene);
 
@@ -472,7 +475,10 @@
 			camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
 		}
 
-//		spotLight.position.set( camera.position.x * 0.1 + 70, camera.position.y * 0.2 - 30, camera.position.z * 0.2 );
+		spotLight.position.set( camera.position.x * 0.2 + 50, camera.position.y * 0.2 - 25, camera.position.z * 0.5);
+		spotLight.position.y = Math.max(-45, spotLight.position.y);
+		spotLight.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
+
 
 		for ( var i = 0, l = objects.length; i < l; i ++ ) {
 

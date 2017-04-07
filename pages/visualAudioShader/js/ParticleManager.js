@@ -6,12 +6,23 @@ function ParticleManager(aScene)
 {
     this.group = new THREE.Group();
     this.particles = [];
+    this.particlesSq = [];
     for(var i = 0; i < 1; i++)
     {
         var lParticle = new Particle(1);
         var mesh = lParticle.getMesh();
         this.particles.push(lParticle);
         this.group.add(mesh);
+    }
+
+    var eqCount = 6;
+    for(var i = 0; i < eqCount; i++)
+    {
+        var lPosX = -125 + i * 50;
+        var lParticle = new ParticleCube(lPosX);
+        var mesh = lParticle.getMesh();
+        this.particlesSq.push(lParticle);
+        //this.group.add(mesh);
     }
 
     this.time = 0;
@@ -25,6 +36,11 @@ function ParticleManager(aScene)
     //this.analyser.fftSize = 2048;
     this.sampleArrayFiltered = [];
     this.dataArray = [];
+    this.eqArray = [];
+
+    this.isPlaying = false;
+
+    this.amplitudeEq = 0.;
 
     var bufferLength = 128;
     for(var i = 0; i < bufferLength; i++) {
@@ -48,6 +64,7 @@ ParticleManager.prototype.initSound = function() {
             //    nPeak = (nPeak||this.eqData[i]);
             //}
             //that.dataArray = [];
+            that.eqArray = this.eqData.left;
 
 
             if((Math.abs(parseFloat(this.waveformData.left[0])) + Math.abs(parseFloat(this.waveformData.left[10])) + Math.abs(parseFloat(this.waveformData.left[3]))) != 0)
@@ -92,7 +109,7 @@ ParticleManager.prototype.initSound = function() {
         // create sound
         that.sound = soundManager.createSound({
             id:'sound' + that.name,
-            url:"audio/aphex.mp3",
+            url:"audio/aphex3.mp3",
             useWaveformData:true,
             useEQData:true,
             usePeakData:true,
@@ -106,24 +123,51 @@ ParticleManager.prototype.initSound = function() {
 
 ParticleManager.prototype.update = function(aDelta) {
     //
-    //this.analyser.getByteTimeDomainData(this.dataArray);
+
+    //if(this.isPlaying)
+    //{
+    //    this.amplitudeEq += (1. - this.amplitudeEq) * aDelta * 0.1;
+    //}
+    //else {
+    //    this.amplitudeEq += (-10. - this.amplitudeEq) * aDelta * 0.1;
+    //}
+
+    if(this.sound) {
+        this.amplitudeEq = Math.max(Math.min(((this.sound.position / 1000) - 13), 1), 0);
+    }
 
     this.sampleArrayFiltered = [];
+
+
     var samplesToPut = 512;
+    if(!this.isPlaying) {
+        this.dataArray = this.dataArray.slice(1, this.dataArray.length);
+        this.dataArray.push(0);
+    }
+
     for(var i = 0; i < samplesToPut; i++) {
         //this.sampleArrayFiltered.push((this.dataArray[i] - 128) / 128);
+
         var lIndexInOriginArray = i;
         this.sampleArrayFiltered.push(this.dataArray[i]);
     }
 
     //this.group.rotation.y += aDelta * 0.2;
     this.group.rotation.y = Math.PI * 0.5;
+    this.group.rotation.z = -Math.PI * 0.01;
     this.group.position.x = -50 ;//100  * Math.cos(this.time * 0.5);
     this.time += aDelta;
 
     for(var i = 0; i < this.particles.length; i++)
     {
         this.particles[i].update(aDelta, this.sampleArrayFiltered, this.peak);
+    }
+
+    for(var i = 0; i < this.particlesSq.length; i++)
+    {
+        var lIndex = Math.abs(i - this.particlesSq.length * 0.5);//this.eqArray.length * i / this.particlesSq.length;
+        var lValue = (this.isPlaying && this.eqArray.length) ? parseFloat(this.eqArray[lIndex]) : 0;
+        this.particlesSq[i].update(aDelta, lValue * this.amplitudeEq * this.amplitudeEq * this.amplitudeEq);
     }
 };
 
@@ -138,12 +182,15 @@ ParticleManager.prototype.togglePlay = function(aDelta) {
 
 ParticleManager.prototype.play = function(aDelta) {
     this.sound.play();
+    this.isPlaying = true;
     $('#playButton').addClass('disabled');
     $('#pauseButton').removeClass('disabled');
 };
 
 ParticleManager.prototype.pause = function(aDelta) {
     this.sound.pause();
+    this.isPlaying = false;
+
     $('#playButton').removeClass('disabled');
     $('#pauseButton').addClass('disabled');
 };
