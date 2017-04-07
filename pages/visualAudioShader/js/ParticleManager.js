@@ -8,7 +8,7 @@ function ParticleManager(aScene)
     this.particles = [];
     for(var i = 0; i < 1; i++)
     {
-        var lParticle = new Particle();
+        var lParticle = new Particle(1);
         var mesh = lParticle.getMesh();
         this.particles.push(lParticle);
         this.group.add(mesh);
@@ -17,6 +17,7 @@ function ParticleManager(aScene)
     this.time = 0;
     this.volume = 0.2;
     this.counter = 0;
+    this.peak = 0;
     this.initSound();
 
     //var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -39,7 +40,7 @@ ParticleManager.prototype.initSound = function() {
     this.eventsSound = {
 
         whileplaying: function() {
-            var nPeak = (this.peakData.left||this.peakData.right);
+            that.peak = (this.peakData.left||this.peakData.right);
             //// GIANT HACK: use EQ spectrum data for bass frequencies
             //var eqSamples = 3;
             //for (var i=0; i<eqSamples; i++)
@@ -122,15 +123,27 @@ ParticleManager.prototype.update = function(aDelta) {
 
     for(var i = 0; i < this.particles.length; i++)
     {
-        this.particles[i].update(aDelta, this.sampleArrayFiltered);
+        this.particles[i].update(aDelta, this.sampleArrayFiltered, this.peak);
     }
 };
 
 ParticleManager.prototype.togglePlay = function(aDelta) {
     if(this.sound.playState == 0 || this.sound.paused) {
-        this.sound.play();
+        this.play();
     }
     else {
-        this.sound.pause();
+        this.pause();
     }
+};
+
+ParticleManager.prototype.play = function(aDelta) {
+    this.sound.play();
+    $('#playButton').addClass('disabled');
+    $('#pauseButton').removeClass('disabled');
+};
+
+ParticleManager.prototype.pause = function(aDelta) {
+    this.sound.pause();
+    $('#playButton').removeClass('disabled');
+    $('#pauseButton').addClass('disabled');
 };
