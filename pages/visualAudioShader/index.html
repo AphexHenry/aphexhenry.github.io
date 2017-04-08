@@ -198,24 +198,13 @@
 </script>
 
 <!-- the core stuff -->
-<script type="text/javascript" src="../../common/libs/soundmanager/script/soundmanager2.js"></script>
+<!--<script type="text/javascript" src="../../common/libs/soundmanager/script/soundmanager2.js"></script>-->
+<script type="text/javascript" src="../../common/libs/SoundJS/_assets/libs/easeljs-NEXT.min.js"></script>
+<script type="text/javascript" src="../../common/libs/SoundJS/lib/soundjs-NEXT.combined.js"></script>
 <!--<script src="../../common/libs/threejs83/js/pmrem/PMREMCubeUVPacker.js"></script>-->
 
 <script type="text/javascript">
 
-	soundManager.setup({
-		flashVersion: 9,
-		preferFlash: true, // for visualization effects
-		useHighPerformance: true, // keep flash on screen, boost performance
-		wmode: 'transparent', // transparent SWF, if possible
-		url: 'soundmanager/swf/'
-	});
-
-	soundManager.useFlashBlock = true;
-	sSoundManagerReady = false;
-
-	// even if HTML5 supports MP3, prefer flash so the visualization features can be used.
-	soundManager.preferFlash = true;
 </script>
 <img src="./textures/play-button.png" width="64px" height="64px" class="playPauseButton" id="playButton"/>
 <img src="./textures/pause-button.png" width="64px" height="64px" class="playPauseButton disabled" id="pauseButton"/>
@@ -279,36 +268,36 @@
 		} );
 
 		var textureLoader = new THREE.TextureLoader();
-		textureLoader.load( "./textures/roughness_map.jpg", function( map ) {
-			map.wrapS = THREE.RepeatWrapping;
-			map.wrapT = THREE.RepeatWrapping;
-			map.anisotropy = 4;
-			map.repeat.set( 9, 2 );
-			standardMaterial.roughnessMap = map;
-			standardMaterial.bumpMap = map;
-			standardMaterial.needsUpdate = true;
-		} );
+//		textureLoader.load( "./textures/roughness_map.jpg", function( map ) {
+//			map.wrapS = THREE.RepeatWrapping;
+//			map.wrapT = THREE.RepeatWrapping;
+//			map.anisotropy = 4;
+//			map.repeat.set( 9, 2 );
+//			standardMaterial.roughnessMap = map;
+//			standardMaterial.bumpMap = map;
+//			standardMaterial.needsUpdate = true;
+//		} );
 
-		var genCubeUrls = function( prefix, postfix ) {
-			return [
-				prefix + 'px' + postfix, prefix + 'nx' + postfix,
-				prefix + 'py' + postfix, prefix + 'ny' + postfix,
-				prefix + 'pz' + postfix, prefix + 'nz' + postfix
-			];
-		};
-
-		var hdrUrls = genCubeUrls( "./textures/cube/pisaHDR/", ".hdr" );
-		new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrUrls, function ( hdrCubeMap ) {
-
-			var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
-			pmremGenerator.update( renderer );
-
-			var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker( pmremGenerator.cubeLods );
-			pmremCubeUVPacker.update( renderer );
-
-			hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
-
-		} );
+//		var genCubeUrls = function( prefix, postfix ) {
+//			return [
+//				prefix + 'px' + postfix, prefix + 'nx' + postfix,
+//				prefix + 'py' + postfix, prefix + 'ny' + postfix,
+//				prefix + 'pz' + postfix, prefix + 'nz' + postfix
+//			];
+//		};
+//
+//		var hdrUrls = genCubeUrls( "./textures/cube/pisaHDR/", ".hdr" );
+//		new THREE.HDRCubeTextureLoader().load( THREE.UnsignedByteType, hdrUrls, function ( hdrCubeMap ) {
+//
+//			var pmremGenerator = new THREE.PMREMGenerator( hdrCubeMap );
+//			pmremGenerator.update( renderer );
+//
+//			var pmremCubeUVPacker = new THREE.PMREMCubeUVPacker( pmremGenerator.cubeLods );
+//			pmremCubeUVPacker.update( renderer );
+//
+//			hdrCubeRenderTarget = pmremCubeUVPacker.CubeUVRenderTarget;
+//
+//		} );
 		// Lights
 
 		scene.add( new THREE.AmbientLight( 0xffffff ) );

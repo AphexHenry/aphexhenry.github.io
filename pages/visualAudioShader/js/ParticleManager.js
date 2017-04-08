@@ -37,6 +37,10 @@ function ParticleManager(aScene)
     this.sampleArrayFiltered = [];
     this.dataArray = [];
     this.eqArray = [];
+    //this.freqByteData;
+    //this.timeByteData;
+
+
 
     this.isPlaying = false;
 
@@ -50,90 +54,61 @@ function ParticleManager(aScene)
     aScene.add(this.group );
 }
 
+ParticleManager.prototype.handleLoad = function() {
+// get the context. NOTE to connect to existing nodes we need to work in the same context.
+    var context = createjs.Sound.activePlugin.context;
+
+    // create an analyser node
+    this.analyserNode = context.createAnalyser();
+    this.analyserNode.fftSize = 32;  //The size of the FFT used for frequency-domain analysis. This must be a power of two
+    this.analyserNode.smoothingTimeConstant = 0.85;  //A value from 0 -> 1 where 0 represents no time averaging with the last analysis frame
+    this.analyserNode.connect(context.destination);  // connect to the context.destination, which outputs the audio
+
+    // attach visualizer node to our existing dynamicsCompressorNode, which was connected to context.destination
+    var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
+    dynamicsNode.disconnect();  // disconnect from destination
+    dynamicsNode.connect(this.analyserNode);
+
+    // set up the arrays that we use to retrieve the this.analyserNode data
+    this.freqFloatData = new Float32Array(this.analyserNode.frequencyBinCount);
+    this.timeFloatData = new Float32Array(this.analyserNode.frequencyBinCount);
+    this.freqByteData = new Uint8Array(this.analyserNode.frequencyBinCount);
+
+
+};
+
 ParticleManager.prototype.initSound = function() {
     var that  = this;
+    this.src = "audio/aphex3.mp3";
 
-    this.eventsSound = {
+    if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
+        document.getElementById("error").style.display = "block";
+    }
 
-        whileplaying: function() {
-            that.peak = (this.peakData.left||this.peakData.right);
-            //// GIANT HACK: use EQ spectrum data for bass frequencies
-            //var eqSamples = 3;
-            //for (var i=0; i<eqSamples; i++)
-            //{
-            //    nPeak = (nPeak||this.eqData[i]);
-            //}
-            //that.dataArray = [];
-            that.eqArray = this.eqData.left;
+    createjs.Sound.on("fileload", this.handleLoad, this); // add an event listener for when load is completed
+    createjs.Sound.registerSound(this.src);
 
-
-            if((Math.abs(parseFloat(this.waveformData.left[0])) + Math.abs(parseFloat(this.waveformData.left[10])) + Math.abs(parseFloat(this.waveformData.left[3]))) != 0)
-            {
-                that.counter++;
-                var lSamplesToMove = that.dataArray.length - 128;
-                that.dataArray = that.dataArray.slice(lSamplesToMove, that.dataArray.length);
-                if(that.counter % 1 == 0)
-                {
-                    //that.dataArray.push(nPeak * nPeak * nPeak * 165);
-                    that.dataArray.push(this.waveformData.right[0] * 15);
-                    //that.dataArray.push(this.eqData[1] * 5);
-                }
-                else {
-                    var lastElValue = that.dataArray[that.dataArray.length - 1];
-                    var theOneBeforeValue = that.dataArray[that.dataArray.length - 2];
-                    that.dataArray[that.dataArray.length - 1] = (lastElValue * 0.3 + theOneBeforeValue * 0.7);
-                    that.dataArray.push(lastElValue);
-                }
-
-                //var samplesToSkip = 64;
-                //for(var i = 0; i < this.waveformData.left.length; i += samplesToSkip) {
-                //    that.dataArray.push(Math.abs(parseFloat(this.waveformData.left[i])));
-                //}
-            }
-            //sSoundAmplitude = (0.9+(nPeak*0.1));
-            //sLengthLegsSound.left = (sLengthLegsSound.left * 0.9 +(this.peakData.left*0.1));
-            //sLengthLegsSound.right = (sLengthLegsSound.right * 0.9 +(this.peakData.right*0.1));
-        },
-
-        stop: function()
-        {
-            sFoodArraySoundWait.push(sPlayingSound.particle);
-            sFoodArraySound.splice(0,1);
-            sMonsterSound.mParent.RemoveSound();
-        }
-    };
-
-    soundManager.onready(function() {
-        soundManager.defaultOptions.usePeakData = true;
-        soundManager.useFlashBlock = true;
-        // create sound
-        that.sound = soundManager.createSound({
-            id:'sound' + that.name,
-            url:"audio/aphex3.mp3",
-            useWaveformData:true,
-            useEQData:true,
-            usePeakData:true,
-            volume:that.volume * 120,
-            whileplaying:that.eventsSound.whileplaying,
-            onstop:that.eventsSound.stop,
-            onfinish:that.eventsSound.stop
-        });
-    });
+    //soundManager.onready(function() {
+    //    soundManager.defaultOptions.usePeakData = true;
+    //    soundManager.useFlashBlock = true;
+    //    // create sound
+    //    that.sound = soundManager.createSound({
+    //        id:'sound' + that.name,
+    //        url:"audio/aphex3.mp3",
+    //        useWaveformData:true,
+    //        useEQData:true,
+    //        usePeakData:true,
+    //        volume:that.volume * 120,
+    //        whileplaying:that.eventsSound.whileplaying,
+    //        onstop:that.eventsSound.stop,
+    //        onfinish:that.eventsSound.stop
+    //    });
+    //});
 };
 
 ParticleManager.prototype.update = function(aDelta) {
-    //
-
-    //if(this.isPlaying)
-    //{
-    //    this.amplitudeEq += (1. - this.amplitudeEq) * aDelta * 0.1;
-    //}
-    //else {
-    //    this.amplitudeEq += (-10. - this.amplitudeEq) * aDelta * 0.1;
-    //}
-
-    if(this.sound) {
-        this.amplitudeEq = Math.max(Math.min(((this.sound.position / 1000) - 13), 1), 0);
+    if(this.musicPosition) {
+        this.amplitudeEq = Math.max(Math.min(((this.musicPosition / 1000) - 7), 1), 0);
     }
 
     this.sampleArrayFiltered = [];
@@ -165,14 +140,16 @@ ParticleManager.prototype.update = function(aDelta) {
 
     for(var i = 0; i < this.particlesSq.length; i++)
     {
-        var lIndex = Math.abs(i - this.particlesSq.length * 0.5);//this.eqArray.length * i / this.particlesSq.length;
-        var lValue = (this.isPlaying && this.eqArray.length) ? parseFloat(this.eqArray[lIndex]) : 0;
+        var lIndex = Math.abs(1 * (i - this.particlesSq.length * 0.5)) + 3;//this.eqArray.length * i / this.particlesSq.length;
+        var lValue = (this.isPlaying && this.eqArray.length) ? this.eqArray[lIndex] : -120;
+        lValue = (lValue + 90 - i * 0) / 30;
+        lValue = Math.min(lValue, 1.3);
         this.particlesSq[i].update(aDelta, lValue * this.amplitudeEq * this.amplitudeEq * this.amplitudeEq);
     }
 };
 
 ParticleManager.prototype.togglePlay = function(aDelta) {
-    if(this.sound.playState == 0 || this.sound.paused) {
+    if(!this.soundInstance || this.soundInstance.paused) {
         this.play();
     }
     else {
@@ -180,15 +157,73 @@ ParticleManager.prototype.togglePlay = function(aDelta) {
     }
 };
 
+
+
 ParticleManager.prototype.play = function(aDelta) {
-    this.sound.play();
+    if(this.soundInstance) {
+        this.soundInstance.paused = false;
+    }
+    else
+    {
+        var that = this;
+        var tick = function(evt) {
+            if(that.soundInstance && that.soundInstance.paused) {
+
+                return;
+            }
+            that.musicPosition = evt.time;
+            that.analyserNode.getFloatFrequencyData(that.freqFloatData);  // this gives us the dBs
+            that.analyserNode.getFloatTimeDomainData(that.timeFloatData);  // this gives us the waveform
+            that.analyserNode.getByteFrequencyData(that.freqByteData);  // this gives us the frequency
+
+
+            var sum = 0;
+            for(var i = 0; i < that.timeFloatData.length * 0.3; i++) {
+                sum += that.timeFloatData[i] * that.timeFloatData[i];
+                sum = Math.sqrt(sum) / that.timeFloatData.length * 0.3;
+            }
+
+            that.peak = sum;
+
+            that.eqArray = that.freqFloatData;
+
+            if((Math.abs(parseFloat(that.timeFloatData[0])) + Math.abs(parseFloat(that.timeFloatData[10])) + Math.abs(parseFloat(that.timeFloatData[3]))) != 0)
+            {
+                that.counter++;
+                var lSamplesToMove = that.dataArray.length - 128;
+                that.dataArray = that.dataArray.slice(lSamplesToMove, that.dataArray.length);
+                if(that.counter % 1 == 0)
+                {
+                    //that.dataArray.push(nPeak * nPeak * nPeak * 165);
+                    that.dataArray.push(that.timeFloatData[0] * 15);
+                    //that.dataArray.push(this.eqData[1] * 5);
+                }
+                else {
+                    var lastElValue = that.dataArray[that.dataArray.length - 1];
+                    var theOneBeforeValue = that.dataArray[that.dataArray.length - 2];
+                    that.dataArray[that.dataArray.length - 1] = (lastElValue * 0.3 + theOneBeforeValue * 0.7);
+                    that.dataArray.push(lastElValue);
+                }
+            }
+        };
+
+        // start playing the sound we just loaded, looping indefinitely
+        this.soundInstance = createjs.Sound.play(this.src, {loop: -1, volume:0.2});
+        // start the tick and point it at the window so we can do some work before updating the stage:
+        createjs.Ticker.addEventListener("tick", tick);
+        createjs.Ticker.setInterval(20);
+
+
+    }
     this.isPlaying = true;
+
     $('#playButton').addClass('disabled');
     $('#pauseButton').removeClass('disabled');
+
 };
 
 ParticleManager.prototype.pause = function(aDelta) {
-    this.sound.pause();
+    this.soundInstance.paused = true;
     this.isPlaying = false;
 
     $('#playButton').removeClass('disabled');
