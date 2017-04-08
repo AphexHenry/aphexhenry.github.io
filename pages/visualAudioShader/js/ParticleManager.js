@@ -87,23 +87,6 @@ ParticleManager.prototype.initSound = function() {
 
     createjs.Sound.on("fileload", this.handleLoad, this); // add an event listener for when load is completed
     createjs.Sound.registerSound(this.src);
-
-    //soundManager.onready(function() {
-    //    soundManager.defaultOptions.usePeakData = true;
-    //    soundManager.useFlashBlock = true;
-    //    // create sound
-    //    that.sound = soundManager.createSound({
-    //        id:'sound' + that.name,
-    //        url:"audio/aphex3.mp3",
-    //        useWaveformData:true,
-    //        useEQData:true,
-    //        usePeakData:true,
-    //        volume:that.volume * 120,
-    //        whileplaying:that.eventsSound.whileplaying,
-    //        onstop:that.eventsSound.stop,
-    //        onfinish:that.eventsSound.stop
-    //    });
-    //});
 };
 
 ParticleManager.prototype.update = function(aDelta) {
