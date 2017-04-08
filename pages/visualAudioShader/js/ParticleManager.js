@@ -37,6 +37,7 @@ function ParticleManager(aScene)
     this.sampleArrayFiltered = [];
     this.dataArray = [];
     this.eqArray = [];
+    this.musicPosition = 0;
     //this.freqByteData;
     //this.timeByteData;
 
@@ -125,10 +126,23 @@ ParticleManager.prototype.update = function(aDelta) {
     {
         var lIndex = Math.abs(1 * (i - this.particlesSq.length * 0.5)) + 3;//this.eqArray.length * i / this.particlesSq.length;
         var lValue = (this.isPlaying && this.eqArray.length) ? this.eqArray[lIndex] : -120;
-        lValue = (lValue + 90 - i * 0) / 30;
-        lValue = Math.min(lValue, 1.3);
-        this.particlesSq[i].update(aDelta, lValue * this.amplitudeEq * this.amplitudeEq * this.amplitudeEq);
+        var medium = 0;
+        if(this.eqArray.length) {
+            for(var j = 0; j < this.eqArray.length; j++) {
+                medium += this.eqArray[j];
+            }
+            medium = medium / this.eqArray.length;
+            medium = (medium - 90) * 0.5;
+            lValue = (lValue - medium) / 30;
+            lValue += Math.sqrt(this.peak) * 10;
+            lValue = Math.min(lValue, 1.4);
+            this.particlesSq[i].update(aDelta, lValue * this.amplitudeEq * this.amplitudeEq * this.amplitudeEq);
+        }
     }
+
+    var bloomValue = Math.min(Math.max(0, 2 - (this.musicPosition - 1000) / 2000), 1.8);
+    //renderer.toneMappingExposure = Math.pow( bloomValue + 1.3, 4.0 );
+    bloomPass.strength = (1.6 + Math.sin(this.time * 0.04)) * 1.4;
 };
 
 ParticleManager.prototype.togglePlay = function(aDelta) {
@@ -143,7 +157,7 @@ ParticleManager.prototype.togglePlay = function(aDelta) {
 
 
 ParticleManager.prototype.play = function(aDelta) {
-    if(this.soundInstance) {
+    if(this.soundInstance && this.soundInstance.playState != "playFailed") {
         this.soundInstance.paused = false;
     }
     else

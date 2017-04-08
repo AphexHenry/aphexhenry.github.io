@@ -376,7 +376,7 @@
 //		gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function(value) {
 //			bloomPass.threshold = Number(value);
 //		});
-//		gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function(value) {
+//		gui.add( params, 'bloomStrength', 0.0, 10.0 ).onChange( function(value) {
 //			bloomPass.strength = Number(value);
 //		});
 //		gui.add( params, 'bloomRadius', 0.0, 1.0 ).onChange( function(value) {
@@ -456,7 +456,7 @@
 		var timer = Date.now() * 0.00555;
 
 		if(cameraShift) {
-			camera.position.set(300, camera.position.y + (cameraShift.y * 0.9 - camera.position.y) * 0.03, camera.position.z + (scene.position.z + cameraShift.x * 0.5 - camera.position.z) * 0.033);
+			camera.position.set(300, camera.position.y + (-cameraShift.y * 0.9 - camera.position.y) * 0.03, camera.position.z + (scene.position.z + cameraShift.x * 0.5 - camera.position.z) * 0.033);
 			camera.lookAt( new THREE.Vector3(scene.position.x - 100, scene.position.y, scene.position.z  ));
 		}
 
