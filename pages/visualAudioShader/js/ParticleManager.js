@@ -79,15 +79,45 @@ ParticleManager.prototype.handleLoad = function() {
 };
 
 ParticleManager.prototype.initSound = function() {
+
     var that  = this;
+
+    var lHandleLoad = function() {
+        var context = createjs.Sound.activePlugin.context;
+
+        // create an analyser node
+        that.analyserNode = context.createAnalyser();
+        that.analyserNode.fftSize = 32;  //The size of the FFT used for frequency-domain analysis. This must be a power of two
+        that.analyserNode.smoothingTimeConstant = 0.85;  //A value from 0 -> 1 where 0 represents no time averaging with the last analysis frame
+        that.analyserNode.connect(context.destination);  // connect to the context.destination, which outputs the audio
+
+        // attach visualizer node to our existing dynamicsCompressorNode, which was connected to context.destination
+        var dynamicsNode = createjs.Sound.activePlugin.dynamicsCompressorNode;
+        dynamicsNode.disconnect();  // disconnect from destination
+        dynamicsNode.connect(that.analyserNode);
+
+        // set up the arrays that we use to retrieve the this.analyserNode data
+        that.freqFloatData = new Float32Array(that.analyserNode.frequencyBinCount);
+        that.timeFloatData = new Float32Array(that.analyserNode.frequencyBinCount);
+        that.freqByteData = new Uint8Array(that.analyserNode.frequencyBinCount);
+
+        $("#loadingIcon").remove();
+        $(".unloaded").removeClass("unloaded");
+    };
+
     this.src = "audio/aphex3.mp3";
 
     if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
         document.getElementById("error").style.display = "block";
     }
 
-    createjs.Sound.on("fileload", this.handleLoad, this); // add an event listener for when load is completed
-    createjs.Sound.registerSound(this.src);
+    var queue = new createjs.LoadQueue();
+    queue.installPlugin(createjs.Sound);
+    queue.addEventListener("complete", lHandleLoad);
+    queue.loadFile({src:this.src});
+
+    //createjs.Sound.on("fileload", this.handleLoad, this); // add an event listener for when load is completed
+    //createjs.Sound.registerSound(this.src);
 };
 
 ParticleManager.prototype.update = function(aDelta) {
@@ -206,11 +236,11 @@ ParticleManager.prototype.play = function(aDelta) {
 
         // start playing the sound we just loaded, looping indefinitely
         this.soundInstance = createjs.Sound.play(this.src, {loop: -1, volume:0.2});
-        // start the tick and point it at the window so we can do some work before updating the stage:
-        createjs.Ticker.addEventListener("tick", tick);
-        createjs.Ticker.setInterval(20);
-
-
+        if(this.soundInstance.playState != "playFailed") {
+            // start the tick and point it at the window so we can do some work before updating the stage:
+            createjs.Ticker.addEventListener("tick", tick);
+            createjs.Ticker.setInterval(20);
+        }
     }
     this.isPlaying = true;
 

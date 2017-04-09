@@ -15,3 +15,50 @@
 		-webkit-transition: all 0s; /* Safari */
 		transition: all 0s;
 	}
+
+	.playPauseButton.unloaded {
+		opacity: 0;
+	}
+
+	#loadingIcon {
+
+		position:absolute;
+		bottom:150px;
+		opacity: 0.3;
+		-webkit-transition: all 0.2s; /* Safari */
+		transition: all 0.2s;
+
+		animation-duration: 0.75s;
+		animation-name: spin;
+		animation-timing-function: steps(8, end);
+		animation-iteration-count: infinite;
+	}
+
+	@-ms-keyframes spin {
+		from {
+			-ms-transform: rotate(0deg);
+		} to {
+			  -ms-transform: rotate(360deg);
+		  }
+	}
+	@-moz-keyframes spin {
+		from {
+			-moz-transform: rotate(0deg);
+		} to {
+			  -moz-transform: rotate(360deg);
+		  }
+	}
+	@-webkit-keyframes spin {
+		from {
+			-webkit-transform: rotate(0deg);
+		} to {
+			  -webkit-transform: rotate(360deg);
+		  }
+	}
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		} to {
+			  transform: rotate(360deg);
+		  }
+	}

@@ -39,8 +39,10 @@ ParticleCube.prototype.init = function(aOptions) {
 };
 
 ParticleCube.prototype.update = function(aDelta, aAmplitudes) {
+    if(isNaN(aAmplitudes))
+        return;
 
-    var lTarget = -280 + aAmplitudes * 180;
+        var lTarget = -280 + aAmplitudes * 180;
     if(lTarget > this.positionZ) {
         this.positionZ += (lTarget - this.positionZ) * aDelta * 5;
     }
