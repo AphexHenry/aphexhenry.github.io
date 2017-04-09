@@ -105,7 +105,7 @@ ParticleManager.prototype.initSound = function() {
         $(".unloaded").removeClass("unloaded");
     };
 
-    this.src = "audio/aphex3.mp3";
+    this.src = "audio/aphex2.mp3";
 
     if (!createjs.Sound.registerPlugins([createjs.WebAudioPlugin])) {
         document.getElementById("error").style.display = "block";
