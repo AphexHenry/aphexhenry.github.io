@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>threejs webgl - inline tone mapping</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #fff;
+			font-family:Monospace;
+			font-size:13px;
+			text-align:center;
+
+			background-color: #000;
+
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#ferns {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: 2;
+			left: 0;
+		}
+
+		#fractals {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: 0;
+			left: 0;
+		}
+
+		#mask {
+			width: 100%;
+			height: 100%;
+			display: block;
+			position: absolute;
+			z-index: 1;
+			left: 0;
+		}
+	</style>
+</head>
+<body>
+
+<script src="../../common/libs/jquery.min.js"></script>
+<script src="../../common/libs/threejs83/three.min.js"></script>
+
+<script src="../../common/libs/dat.gui.min.js"></script>
+<script src="js/Triangle.js"></script>
+<script src="js/Fern.js"></script>
+
+
+<canvas id="ferns"></canvas>
+<img id="mask" src="textures/mask.png"></img>
+<canvas id="fractals"></canvas>
+
+<script>
+	var sTriangles = [];
+	var sFerns = [new Fern()];
+	var sCanvasFerns = $("#ferns")[0];
+	var sCanvasFractals = $("#fractals")[0];
+	var sCanvasMask = $("#mask")[0];
+	var sIndexTriangle = 0;
+	var sPtTouched = false;
+
+	var obj = { reset:function(){ reset(); }};
+	var gui = new dat.GUI();
+	var params = {
+		numTriangle: 3,
+		numPts: 3,
+		probabilitySwitchTriangle:0.2
+	};
+
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+		document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+
+	gui.add( params, 'numTriangle', 1, 5 ).step(1);
+	gui.add( params, 'numPts', 3, 16 ).step(1);
+	gui.add( params, 'probabilitySwitchTriangle', 0.001, 1 ).step(0.001);
+	gui.add(obj,'reset');
+
+	function animate() {
+		requestAnimationFrame( animate );
+
+		for(var i = 0; i < 200; i++) {
+
+			if(Math.random() < params.probabilitySwitchTriangle) {
+				var lPt = sTriangles[sIndexTriangle].lastPt;
+				sIndexTriangle++;
+				sIndexTriangle = sIndexTriangle % sTriangles.length;
+				sTriangles[sIndexTriangle].lastPt = lPt;
+			}
+
+			sTriangles[sIndexTriangle].drawNewPoint(sCanvasFractals);
+		}
+
+		for(var i = 0; i < 150; i++) {
+			sFerns[0].drawNewPoint(sCanvasFerns);
+		}
+	}
+
+	function reset() {
+		sTriangles = [];
+		sCanvasFerns.width = window.innerWidth;
+		sCanvasFerns.height = window.innerHeight;
+//		sCanvasFerns.getContext('2d').clearRect(0, 0, sCanvasFerns.width, sCanvasFerns.height);
+		sCanvasFractals.width = window.innerWidth;
+		sCanvasFractals.height = window.innerHeight;
+		sCanvasMask.width = window.innerWidth;
+		sCanvasMask.height = window.innerHeight;
+		sIndexTriangle = 0;
+
+		for(var i = 0; i < params.numTriangle; i++) {
+			sTriangles.push(new Triangle());
+			sTriangles[i].init(params.numPts);
+			switch(i) {
+				case 0:
+				sTriangles[i].pts[i].y = 0;
+				sTriangles[i].pts[i].x = 0;
+					break;
+				case 1:
+					sTriangles[i].pts[i].y = window.innerHeight;
+					sTriangles[i].pts[i].x = 0;
+					break;
+				case 2:
+					sTriangles[i].pts[i].y = window.innerHeight;
+					sTriangles[i].pts[i].x = window.innerWidth;
+					break;
+			}
+
+			sTriangles[i].drawTriangle(sCanvasFractals);
+		}
+	}
+
+	function resetDrawing() {
+		sCanvasFerns.width = window.innerWidth;
+		sCanvasFerns.height = window.innerHeight;
+
+		for(var i = 0; i < params.numTriangle; i++) {
+			sTriangles[i].drawTriangle(sCanvasFerns);
+		}
+	}
+
+	function onDocumentMouseMove(e) {
+		if(sPtTouched) {
+			sPtTouched.x = e.offsetX;
+			sPtTouched.y = e.offsetY;
+			resetDrawing();
+		}
+	}
+
+	function onDocumentMouseDown(e) {
+		for(var i = 0; i < sTriangles.length; i++) {
+			sPtTouched = sTriangles[i].getPtTouched(new THREE.Vector2(e.offsetX, e.offsetY));
+			if(sPtTouched) {
+				return;
+			}
+		}
+	}
+
+	function onDocumentMouseUp(e) {
+		sPtTouched = false;
+	}
+
+	reset();
+	animate();
+
+
+</script>
+
+</body>
+</html>
