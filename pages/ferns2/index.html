@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>threejs webgl - inline tone mapping</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #fff;
+			font-family:Monospace;
+			font-size:13px;
+			text-align:center;
+
+			background-color: #000;
+
+			margin: 0px;
+			overflow: hidden;
+		}
+
+		#container {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+
+<script src="../../common/libs/jquery.min.js"></script>
+<script src="../../common/libs/threejs83/three.min.js"></script>
+
+<script src="../../common/libs/dat.gui.min.js"></script>
+<script src="js/Triangle.js"></script>
+
+<canvas id="container"></canvas>
+
+<script>
+	var sTriangles = [];
+	var sCanvas = $("#container")[0];
+	var sIndexTriangle = 0;
+	var sPtTouched = false;
+
+	var sLastPt = new THREE.Vector2();
+
+	var obj = { reset:function(){ reset(); }, random:function(){ generateRandom(); }};
+	var gui = new dat.GUI();
+	var params = {
+		p1: 0.01,
+		a2: 0.85,
+		b2: 0.04,
+		c2:-0.04,
+		d2: 0.85,
+		f2:1.60,
+		p2:0.85,
+		a3: 0.20,
+		b3: -0.26,
+		c3:-0.23,
+		d3: 0.22,
+		f3:1.60,
+		p3:0.07
+	};
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+		document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+		document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+
+	gui.add( params, 'p1', 0, 1 );
+//	gui.add( params, 'a2', 0.8, 1 );
+	gui.add( params, 'b2', -0.1, 0.1 );
+//	gui.add( params, 'c2', -0.2, 0.).step(0.001);
+//	gui.add( params, 'd2', 0, 1 );
+	gui.add( params, 'f2', 0, 4 );
+//	gui.add( params, 'p2', 0, 1 );
+	gui.add( params, 'a3', 0.15, 0.4 );
+	gui.add( params, 'b3', -0.5, 0 );
+	gui.add( params, 'c3', -0.4, 0.).step(0.001);
+	gui.add( params, 'd3', 0, 1 );
+	gui.add( params, 'f3', 0, 4 );
+	gui.add( params, 'p3', 0, 1 );
+
+	gui.add(obj,'reset');
+	gui.add(obj,'random');
+
+	function animate() {
+		requestAnimationFrame( animate );
+
+		for(var i = 0; i < 100; i++) {
+			var newPoint = getNewPoint().clone();
+			newPoint.multiplyScalar(50);
+			newPoint.x += window.innerWidth * 0.5;
+			newPoint.y = window.innerHeight - newPoint.y;
+			var ctx = sCanvas.getContext("2d");
+			ctx.globalAlpha = 0.25;
+			ctx.fillStyle = "#99FF99";
+			ctx.fillRect(newPoint.x,newPoint.y,1,1);
+		}
+
+
+	}
+
+	function getNewPoint() {
+		var lRand = Math.random();
+		if(lRand < params.p1) {
+			sLastPt.x = 0;
+			sLastPt.y = 0.16 * sLastPt.y;
+		}
+		else if(lRand < params.p2 + params.p1) {
+			sLastPt.x = params.a2 * sLastPt.x + params.b2 * sLastPt.y;
+			sLastPt.y = params.c2 * sLastPt.x + params.d2 * sLastPt.y + params.f2;
+		}
+		else if(lRand < params.p2 + params.p1 + params.p3) {
+			sLastPt.x = params.a3 * sLastPt.x + params.b3 * sLastPt.y;
+			sLastPt.y = params.c3 * sLastPt.x + params.d3 * sLastPt.y + params.f3;
+		}
+		else {
+				sLastPt.x = -0.15 * sLastPt.x + 0.28 * sLastPt.y;
+				sLastPt.y = 0.26 * sLastPt.x + 0.24 * sLastPt.y + 0.44;
+		}
+		return sLastPt;
+	}
+
+	function reset() {
+		sTriangles = [];
+		sCanvas.width = window.innerWidth;
+		sCanvas.height = window.innerHeight;
+		sIndexTriangle = 0;
+
+//		for(var i = 0; i < params.numTriangle; i++) {
+//			sTriangles.push(new Triangle());
+//			sTriangles[i].init(params.numPts);
+//			sTriangles[i].drawTriangle(sCanvas);
+//		}
+	}
+
+	function generateRandom() {
+		sCanvas.width = window.innerWidth;
+		sCanvas.height = window.innerHeight;
+
+//		p1: 0.01,
+//				a2: 0.85,
+//				b2: 0.04,
+//				c2:-0.04,
+//				d2: 0.85,
+//				f2:1.60,
+//				p2:0.85,
+//				a3: 0.20,
+//				b3: -0.26,
+//				c3:-0.23,
+//				d3: 0.22,
+//				f3:1.60,
+//				p3:0.07
+
+		params.b2 = Math.random() * 0.15 + 0.03;
+		params.f2 = Math.random() + 1;
+		params.a3 = Math.random() * 0.2 + 0.1;
+		params.d3 = Math.random() * 0.2 + 0.12;
+	}
+
+	function resetDrawing() {
+		sCanvas.width = window.innerWidth;
+		sCanvas.height = window.innerHeight;
+
+		for(var i = 0; i < params.numTriangle; i++) {
+			sTriangles[i].drawTriangle(sCanvas);
+		}
+	}
+
+	function onDocumentMouseMove(e) {
+		if(sPtTouched) {
+			sPtTouched.x = e.offsetX;
+			sPtTouched.y = e.offsetY;
+			resetDrawing();
+		}
+	}
+
+	function onDocumentMouseDown(e) {
+		for(var i = 0; i < sTriangles.length; i++) {
+			sPtTouched = sTriangles[i].getPtTouched(new THREE.Vector2(e.offsetX, e.offsetY));
+			if(sPtTouched) {
+				return;
+			}
+		}
+	}
+
+	function onDocumentMouseUp(e) {
+		sPtTouched = false;
+	}
+
+	generateRandom();
+	animate();
+
+
+</script>
+
+</body>
+</html>
