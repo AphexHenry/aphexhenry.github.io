@@ -22,6 +22,7 @@ function Fern()
 
 
     this.lastPt = new THREE.Vector2();
+    this.timeOutCoeff = 0.7;
     this.init();
     this.initMove();
 }
@@ -46,7 +47,7 @@ Fern.prototype.init = function(aNumPt) {
             that.init();
         }
         else {
-            setTimeout(swith, Math.random() * 2000 + that.params.f2 * 4000);
+            setTimeout(swith, (Math.random() * 3000 + that.params.f2 * 4000) * that.timeOutCoeff);
         }
     };
 
@@ -60,10 +61,10 @@ Fern.prototype.initMove = function() {
     var move = function() {
         that.params.b2 += (Math.random() - 0.5) * 0.2;
         that.params.b2 = Math.max(Math.min(that.params.b2, 0.16), -0.05);
-        var timeoutTime = 300;
+        var timeoutTime = 300 + that.params.f2 * 100;
         if(Math.random() < 0.1) {
             timeoutTime = 3000 + Math.random() * 1000;
-            var lColor = new THREE.Color(0x99ff99).multiplyScalar(Math.random() * 0.5 + 0.5);
+            var lColor = new THREE.Color(0x99ff99).multiplyScalar(Math.random() * 0.75 + 0.25);
             var hex = lColor.getHexString();
             that.color = '#' + hex;
         }
@@ -74,7 +75,7 @@ Fern.prototype.initMove = function() {
             var hex = lColor.getHexString();
             that.color = '#' + hex;
         }
-        setTimeout(move, timeoutTime);
+        setTimeout(move, timeoutTime * that.timeOutCoeff);
     };
     move();
 }
@@ -102,9 +103,9 @@ Fern.prototype.getNewPoint = function() {
 
 Fern.prototype.drawNewPoint = function(aCanvas) {
     var newPoint = this.getNewPoint().clone();
-    newPoint.multiplyScalar(50);
+    newPoint.multiplyScalar(85 / Math.sqrt(0.3 + this.params.f2));
     newPoint.x += this.posX;
-    newPoint.y = window.innerHeight - newPoint.y + 50;
+    newPoint.y = window.innerHeight - newPoint.y + 100;
     var ctx = aCanvas.getContext("2d");
     ctx.globalAlpha = 0.25;
     ctx.fillStyle = this.color;
