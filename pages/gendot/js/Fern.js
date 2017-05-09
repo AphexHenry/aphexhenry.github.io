@@ -88,8 +88,8 @@ Fern.prototype.initMove = function() {
         if(that.time > 40)
         {
             that.color.multiplyScalar(Math.random() * 0.1);
-            that.params.f2 = Math.random() * 0.5 + 1;
-            if(that.time > 45)
+            that.params.f2 = Math.random() * 0.5 + 1.2;
+            if(that.time > 48)
             {
                 that.time = 0;
             }
