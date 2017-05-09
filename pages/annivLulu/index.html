@@ -69,7 +69,7 @@
 	var obj = { reset:function(){ reset(); }};
 	var gui = new dat.GUI();
 	var params = {
-		numTriangle: 3,
+		numTriangle: 2,
 		numPts: 3,
 		probabilitySwitchTriangle:0.2
 	};
@@ -119,16 +119,16 @@
 			sTriangles[i].init(params.numPts);
 			switch(i) {
 				case 0:
-				sTriangles[i].pts[i].y = 0;
-				sTriangles[i].pts[i].x = 0;
+					sTriangles[i].pts[0].y = 0;
+					sTriangles[i].pts[0].x = 0;
+					sTriangles[i].pts[1].y = window.innerHeight * (0.5 + 0.5 * Math.random());;
+					sTriangles[i].pts[1].x = window.innerWidth * (0.5 + 0.5 * Math.random());;
 					break;
 				case 1:
-					sTriangles[i].pts[i].y = window.innerHeight;
-					sTriangles[i].pts[i].x = 0;
-					break;
-				case 2:
-					sTriangles[i].pts[i].y = window.innerHeight;
-					sTriangles[i].pts[i].x = window.innerWidth;
+					sTriangles[i].pts[0].y = window.innerHeight * (0.5 + 0.5 * Math.random());;
+					sTriangles[i].pts[0].x = 0;
+					sTriangles[i].pts[1].y = 0;
+					sTriangles[i].pts[1].x = window.innerWidth * (0.5 + 0.5 * Math.random());
 					break;
 			}
 

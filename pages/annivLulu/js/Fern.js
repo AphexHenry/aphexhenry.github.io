@@ -23,6 +23,9 @@ function Fern()
 
     this.lastPt = new THREE.Vector2();
     this.timeOutCoeff = 0.7;
+    this.sizeCoeff = 1.;
+    this.time = 0;
+    this.opacity = 0.25;
     this.init();
     this.initMove();
 }
@@ -36,12 +39,15 @@ Fern.prototype.init = function(aNumPt) {
     var that = this;
     var swith = function() {
 
+        that.time++;
+
         that.params.f2 = 0.05 + Math.random() * 1.8;
         that.params.b2 = (Math.random() - 0.5) * 0.3;
         that.params.b2 = Math.max(Math.min(that.params.b2, 0.16), -0.05);
         //that.posX += window.innerWidth * 0.075;
         that.posX = Math.random() * window.innerWidth;
-
+        var divider = 0.5 * (0.05 + that.params.f2) + 0.5 * Math.sqrt(0.02 + that.params.f2);
+        that.sizeCoeff = (0.3 + 0.7 * Math.random()) * 85 / divider;
         if(that.posX >= window.innerWidth)
         {
             that.init();
@@ -50,7 +56,6 @@ Fern.prototype.init = function(aNumPt) {
             setTimeout(swith, (Math.random() * 3000 + that.params.f2 * 4000) * that.timeOutCoeff);
         }
     };
-
 
     swith();
 };
@@ -61,24 +66,29 @@ Fern.prototype.initMove = function() {
     var move = function() {
         that.params.b2 += (Math.random() - 0.5) * 0.2;
         that.params.b2 = Math.max(Math.min(that.params.b2, 0.16), -0.05);
-        var timeoutTime = 300 + that.params.f2 * 100;
-        if(Math.random() < 0.1) {
-            timeoutTime = 3000 + Math.random() * 1000;
-            var lColor = new THREE.Color(0x99ff99).multiplyScalar(Math.random() * 0.75 + 0.25);
-            var hex = lColor.getHexString();
-            that.color = '#' + hex;
+        var timeoutTime = 0;
+        if(Math.random() < 0.15) {
+            timeoutTime = 3000 + Math.random() * 3000;
+            that.color= new THREE.Color(0x69ff69).multiplyScalar(Math.random() * 0.15 + 0.85);
+            that.opacity = 0.2 + Math.random() * 0.25;
         }
         else {
-            var lColor = new THREE.Color(0x99ff99).multiplyScalar(Math.random() * 0.5 + 0.5);
-            lColor.setHSL( Math.random(), 1,0.5 )
-
-            var hex = lColor.getHexString();
-            that.color = '#' + hex;
+            that.color = new THREE.Color().setHSL( Math.random() * 0.6, 1, 0.5 );
+            timeoutTime = 300 + that.params.f2 * 300;
+            that.opacity = 0.15 + Math.random() * 0.15;
+        }
+        if(that.time > 30)
+        {
+            that.color.multiplyScalar(Math.random() * 0.1);
+            if(that.time > 50)
+            {
+                that.time = 0;
+            }
         }
         setTimeout(move, timeoutTime * that.timeOutCoeff);
     };
     move();
-}
+};
 
 Fern.prototype.getNewPoint = function() {
     var lRand = Math.random();
@@ -99,16 +109,19 @@ Fern.prototype.getNewPoint = function() {
         this.lastPt.y = 0.26 * this.lastPt.x + 0.24 * this.lastPt.y + 0.44;
     }
     return this.lastPt;
-}
+};
 
 Fern.prototype.drawNewPoint = function(aCanvas) {
     var newPoint = this.getNewPoint().clone();
-    newPoint.multiplyScalar(85 / Math.sqrt(0.3 + this.params.f2));
+    newPoint.multiplyScalar(this.sizeCoeff);
     newPoint.x += this.posX;
     newPoint.y = window.innerHeight - newPoint.y + 100;
     var ctx = aCanvas.getContext("2d");
-    ctx.globalAlpha = 0.25;
-    ctx.fillStyle = this.color;
+    ctx.globalAlpha = 0.35;//this.opacity;
+
+    var hex = this.color.getHexString();
+    var lColor = '#' + hex;
+    ctx.fillStyle = lColor;
     ctx.fillRect(newPoint.x,newPoint.y,1,1);
 };
 
