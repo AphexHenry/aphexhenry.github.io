@@ -59,12 +59,13 @@
 
 <script>
 	var sTriangles = [];
-	var sFerns = [new Fern()];
+	var sFerns = [new Fern(), new Fern()];
 	var sCanvasFerns = $("#ferns")[0];
 	var sCanvasFractals = $("#fractals")[0];
 	var sCanvasMask = $("#mask")[0];
 	var sIndexTriangle = 0;
 	var sPtTouched = false;
+	var startTime = new Date();
 
 	var obj = { reset:function(){ reset(); }};
 	var gui = new dat.GUI();
@@ -86,6 +87,10 @@
 	function animate() {
 		requestAnimationFrame( animate );
 
+		var endTime = new Date();
+		var timeDiff = (endTime - startTime) / 1000;
+		var lSwitchFaster = timeDiff > 60 * 1.5;
+
 		for(var i = 0; i < 200; i++) {
 
 			if(Math.random() < params.probabilitySwitchTriangle) {
@@ -94,12 +99,14 @@
 				sIndexTriangle = sIndexTriangle % sTriangles.length;
 				sTriangles[sIndexTriangle].lastPt = lPt;
 			}
-
-			sTriangles[sIndexTriangle].drawNewPoint(sCanvasFractals);
+			if(!lSwitchFaster)
+				sTriangles[sIndexTriangle].drawNewPoint(sCanvasFractals);
 		}
 
 		for(var i = 0; i < 200; i++) {
 			sFerns[0].drawNewPoint(sCanvasFerns);
+			if(lSwitchFaster)
+				sFerns[1].drawNewPoint(sCanvasFerns);
 		}
 		sFerns[0].drawImg(sCanvasFerns);
 
