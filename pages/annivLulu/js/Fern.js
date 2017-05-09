@@ -53,7 +53,7 @@ Fern.prototype.init = function(aNumPt) {
         //that.posX += window.innerWidth * 0.075;
         that.posX = Math.random() * window.innerWidth;
         var divider = 0.5 * (0.05 + that.params.f2) + 0.5 * Math.sqrt(0.02 + that.params.f2);
-        that.sizeCoeff = (0.3 + 0.7 * Math.random()) * 95 / divider;
+        that.sizeCoeff = (0.3 + 0.7 * Math.random()) * 100 / divider;
         if(that.posX >= window.innerWidth)
         {
             that.init();
@@ -75,7 +75,7 @@ Fern.prototype.initMove = function() {
         var timeoutTime = 0;
         if(Math.random() < 0.15) {
             timeoutTime = 3000 + Math.random() * 3000;
-            that.color= new THREE.Color(0x69ff69).multiplyScalar(Math.random() * 0.15 + 0.85);
+            that.color= new THREE.Color(0x49ff49).multiplyScalar(Math.random() * 0.15 + 0.85);
             that.opacity = 0.2 + Math.random() * 0.25;
         }
         else {
@@ -138,5 +138,5 @@ Fern.prototype.drawImg = function(aCanvas) {
         ctx.globalAlpha = 0.01;//this.opacity;
         ctx.drawImage(this.img, 0, 0, aCanvas.width, aCanvas.height);
     }
-}
+};
 
