@@ -33,6 +33,8 @@ function Fern()
     this.img     = new Image();
     this.img.src     = 'textures/mask2.png';
 
+    this.upsideDown = false;
+
 }
 
 Fern.prototype.init = function(aNumPt) {
@@ -45,7 +47,7 @@ Fern.prototype.init = function(aNumPt) {
     var swith = function() {
 
         that.time++;
-
+        that.upsideDown = Math.random() < 0.7;
         var lRand = Math.random();
         that.params.f2 = 0.03 + lRand * lRand * 1.8;
         that.params.b2 = (Math.random() - 0.5) * 0.3;
@@ -75,7 +77,7 @@ Fern.prototype.initMove = function() {
         var timeoutTime = 0;
         if(Math.random() < 0.15) {
             timeoutTime = 3000 + Math.random() * 3000;
-            that.color= new THREE.Color(0x49ff49).multiplyScalar(Math.random() * 0.15 + 0.85);
+            that.color= new THREE.Color(0x39ff39).multiplyScalar(Math.random() * 0.25 + 0.75);
             that.opacity = 0.2 + Math.random() * 0.25;
         }
         else {
@@ -121,7 +123,12 @@ Fern.prototype.drawNewPoint = function(aCanvas) {
     var newPoint = this.getNewPoint().clone();
     newPoint.multiplyScalar(this.sizeCoeff);
     newPoint.x += this.posX;
-    newPoint.y = window.innerHeight - newPoint.y + 100;
+    if(this.upsideDown) {
+        newPoint.y = window.innerHeight - newPoint.y + 100;
+    }
+    else {
+        newPoint.y = newPoint.y - 100;
+    }
     var ctx = aCanvas.getContext("2d");
     ctx.globalAlpha = 0.35;//this.opacity;
 
@@ -133,7 +140,7 @@ Fern.prototype.drawNewPoint = function(aCanvas) {
 
 Fern.prototype.drawImg = function(aCanvas) {
     this.eraseCounter++;
-    if(this.eraseCounter % 200 == 0) {
+    if(this.eraseCounter % 150 == 0) {
         var ctx = aCanvas.getContext("2d");
         ctx.globalAlpha = 0.01;//this.opacity;
         ctx.drawImage(this.img, 0, 0, aCanvas.width, aCanvas.height);
