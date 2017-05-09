@@ -25,9 +25,14 @@ function Fern()
     this.timeOutCoeff = 0.7;
     this.sizeCoeff = 1.;
     this.time = 0;
+    this.eraseCounter = 0;
     this.opacity = 0.25;
     this.init();
     this.initMove();
+
+    this.img     = new Image();
+    this.img.src     = 'textures/mask2.png';
+
 }
 
 Fern.prototype.init = function(aNumPt) {
@@ -41,7 +46,8 @@ Fern.prototype.init = function(aNumPt) {
 
         that.time++;
 
-        that.params.f2 = 0.05 + Math.random() * 1.8;
+        var lRand = Math.random();
+        that.params.f2 = 0.03 + lRand * lRand * 1.8;
         that.params.b2 = (Math.random() - 0.5) * 0.3;
         that.params.b2 = Math.max(Math.min(that.params.b2, 0.16), -0.05);
         //that.posX += window.innerWidth * 0.075;
@@ -77,7 +83,7 @@ Fern.prototype.initMove = function() {
             timeoutTime = 300 + that.params.f2 * 300;
             that.opacity = 0.15 + Math.random() * 0.15;
         }
-        if(that.time > 30)
+        if(that.time > 40)
         {
             that.color.multiplyScalar(Math.random() * 0.1);
             if(that.time > 50)
@@ -125,4 +131,12 @@ Fern.prototype.drawNewPoint = function(aCanvas) {
     ctx.fillRect(newPoint.x,newPoint.y,1,1);
 };
 
+Fern.prototype.drawImg = function(aCanvas) {
+    this.eraseCounter++;
+    if(this.eraseCounter % 200 == 0) {
+        var ctx = aCanvas.getContext("2d");
+        ctx.globalAlpha = 0.01;//this.opacity;
+        ctx.drawImage(this.img, 0, 0, aCanvas.width, aCanvas.height);
+    }
+}
 
