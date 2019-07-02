@@ -1,0 +1,237 @@
+
+@colorBack: rgba(245, 245, 245, 1);
+@colorBackBright: rgba(255, 255, 255, 1);
+@colorBackTransparent: rgba(245, 245, 245, 0);
+@dimensionCircles: 100px;
+
+@font-face {
+  font-family: GreatVibes;
+  src: url("../resources/fonts/GreatVibes-Regular.otf") format("opentype");
+}
+
+body {
+  //font-family: Monospace;
+  background-color: @colorBack;
+  margin: 0px;
+  display:block;
+}
+
+.contentWidth{
+  width:60%;
+  min-width: 350px;
+}
+
+.contentWidthSmall{
+  width:100%;
+  min-width: 100px;
+}
+
+@contentGradientStop:82%;
+
+.content {
+  .contentWidth;
+
+  display:block;
+  position: absolute;
+  z-index: 5;
+
+  padding-left:20%;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e0e0e0+62,ffffff+100&amp;1+62,0+100 */
+  background: -moz-linear-gradient(left,  @colorBackBright @contentGradientStop, rgba(255,255,255,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(@contentGradientStop,rgba(224,224,224,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  @colorBackBright @contentGradientStop,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  @colorBackBright @contentGradientStop,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  @colorBackBright @contentGradientStop,rgba(255,255,255,0) 100%); /* IE10+ */
+  background: linear-gradient(to right,  @colorBackBright @contentGradientStop,@colorBackTransparent 100%); /* W3C */
+}
+
+.border .content {
+  background:transparent;
+}
+
+.hairy .content {
+  padding-left:13%;
+}
+
+.left
+{
+  left:0;
+}
+
+.right
+{
+  right:0;
+}
+
+.drawCanvas.bottom {
+  width:100%;
+  height:400px;
+  bottom:0;
+  z-index:20;
+}
+
+.drawCanvas
+{
+  position:fixed;
+  width:15%;
+  height:100%;
+  background-color:transparent;
+  z-index:20;
+}
+
+.fullSize {
+  width:100%;
+  z-index:0;
+}
+
+.drawCanvasSmall
+{
+  width:70%;
+  margin-left: 15%;
+  height:300px;
+  background-color:transparent;
+  border-radius: 15px;
+  border:1px solid black;
+}
+
+.drawCanvasSmallHeight
+{
+  width:200px;
+  margin-left: 15%;
+  height:400px;
+  background-color:transparent;
+  border-radius: 15px;
+  border:1px solid black;
+}
+
+.iconBrowser {
+  margin-left: 3px;
+}
+
+#header {
+  position:fixed;
+  width:100%;
+  height:10px;
+  z-index:10;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&1+0,0+100;White+to+Transparent */
+  background: -moz-linear-gradient(top, @colorBack 0%, @colorBackTransparent 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@colorBack), color-stop(100%,@colorBackTransparent)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, @colorBack 0%,@colorBackTransparent 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, @colorBack 0%,@colorBackTransparent 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, @colorBack 0%,@colorBackTransparent 100%); /* IE10+ */
+  background: linear-gradient(to bottom, @colorBack 30%,@colorBackTransparent 100%); /* W3C */
+}
+
+@marginTitleTop:30px;
+
+h2 {
+  float:left;
+  padding-right: 10px;
+  font-size: 38px;
+  margin-top: @marginTitleTop;
+  margin-right: 10px;
+  margin-bottom: -10px;
+}
+
+h4 {
+  margin-left: 15px;
+  color: #999;
+  margin-top: 5px + @marginTitleTop;
+  margin-bottom: 10px;
+  vertical-align: bottom;
+}
+
+.tentacleTrackCanvas {
+  width: @dimensionCircles * 3;
+  height: @dimensionCircles * 3;
+  background: #A8A8EC;
+  margin: 60px;
+  border-radius: 150px;
+}
+
+.tentacleTrackCanvas.flat {
+  width: @dimensionCircles * 5;
+  height: @dimensionCircles;
+  border: 1px solid black;
+  background: transparent;
+}
+
+.tentacleTrackCanvas.tower {
+  width: @dimensionCircles;
+  height: @dimensionCircles * 5;
+  margin-left:50%;
+  -webkit-transform: translateX(-50%);
+  border: 1px solid black;
+  background: transparent;
+
+}
+
+.textInCircle {
+  color:white;
+  position:relative;
+  margin:0;
+  width:250px;
+  text-align: center;
+  top:50%;
+  left:50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+.textInCircle.black {
+  color:black;
+}
+
+#subTitle {
+  color:#999;
+  margin-top:-30px;
+  float:right;
+}
+
+#subTitle.furry {
+  color:#999;
+  margin-top:60px;
+  float:right;
+}
+
+@media (max-width: 710px) {
+  .content{
+    .contentWidthSmall;
+  }
+
+  .tentacles .content {
+    //display: none;
+    width:60%;
+  }
+
+  #stats {
+    display:none;
+  }
+
+  .tentacleTrackCanvas {
+    margin-top: 20px;
+    width: @dimensionCircles * 1.5;
+    height: @dimensionCircles * 1.5;
+  }
+
+  .tentacleTrackCanvas.second {
+    margin-top: 20px;
+    margin-left:0;
+    width: @dimensionCircles * 2.7;
+    height: @dimensionCircles;
+    background-color: transparent;
+  }
+
+  .hideWhenSmall {
+    display:none;
+  }
+
+  .textInCircle {
+    color:black;
+  }
+
+  .canvas #title {
+    display:none;
+    padding-bottom: 10px;
+  }
+
+}
