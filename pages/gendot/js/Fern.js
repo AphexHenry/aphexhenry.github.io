@@ -77,7 +77,7 @@ Fern.prototype.initMove = function() {
         var timeoutTime = 0;
         if(Math.random() < 0.1) {
             timeoutTime = 3000 + Math.random() * 3000;
-            that.color= new THREE.Color(0x39ff39).multiplyScalar(Math.random() * 0.25 + 0.75);
+            that.color= new THREE.Color(0x39ff39).multiplyScalar(Math.random() * 0.75 + 0.25);
             that.opacity = 0.2 + Math.random() * 0.25;
         }
         else {

@@ -42,13 +42,14 @@ Triangle.prototype.drawTriangle = function(aCanvas) {
 };
 
 Triangle.prototype.drawNewPoint = function(aCanvas) {
-    var lRandIndex = Math.floor(Math.random() * this.pts.length);
-    this.lastPt.x = 0.5 * (this.lastPt.x + this.pts[lRandIndex].x);
-    this.lastPt.y = 0.5 * (this.lastPt.y + this.pts[lRandIndex].y);
-    var ctx = aCanvas.getContext("2d");
+    var newPoint = getNewPoint().clone();
+    newPoint.multiplyScalar(50);
+    newPoint.x += window.innerWidth * 0.5;
+    newPoint.y = window.innerHeight - newPoint.y;
+    var ctx = sCanvas.getContext("2d");
     ctx.globalAlpha = 0.25;
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(this.lastPt.x,this.lastPt.y,1,1);
+    ctx.fillStyle = "#99FF99";
+    ctx.fillRect(newPoint.x,newPoint.y,1,1);
 };
 
 Triangle.prototype.getPtTouched = function(aPos) {

@@ -77,19 +77,19 @@ Fern.prototype.initMove = function() {
         var timeoutTime = 0;
         if(Math.random() < 0.1) {
             timeoutTime = 3000 + Math.random() * 3000;
-            that.color= new THREE.Color(0x39ff39).multiplyScalar(Math.random() * 0.25 + 0.75);
+            that.color= new THREE.Color(0x39ff39).multiplyScalar(Math.random() * 1);
             that.opacity = 0.2 + Math.random() * 0.25;
         }
         else {
             that.color = new THREE.Color().setHSL( Math.random() * 0.65, 1, 0.5 );
-            timeoutTime = 300 + that.params.f2 * 300;
+            timeoutTime = 500 + that.params.f2 * 300;
             that.opacity = 0.15 + Math.random() * 0.15;
         }
         if(that.time > 40)
         {
             that.color.multiplyScalar(Math.random() * 0.1);
-            that.params.f2 = Math.random() * 0.5 + 1;
-            if(that.time > 45)
+            that.params.f2 = Math.random() * 0.5 + 1.2;
+            if(that.time > 48)
             {
                 that.time = 0;
             }
