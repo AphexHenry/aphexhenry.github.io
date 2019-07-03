@@ -101,6 +101,7 @@
 	var sFerns = [new Fern(), new Fern()];
 	var sCanvasFerns = $("#ferns")[0];
 	var sCanvasFractals = $("#fractals")[0];
+	var sTools = new Tools();
 	var sCanvasMask = $("#mask")[0];
 	var sIndexTriangle = 0;
 	var sPtTouched = false;
@@ -128,8 +129,7 @@
 		requestAnimationFrame( animate );
 
 		sStepManager.update();
-		sStepManager.draw(sCanvasFerns);
-
+		sStepManager.draw(sCanvasFractals);
 
 	}
 
@@ -143,27 +143,6 @@
 //		sCanvasMask.width = window.innerWidth;
 //		sCanvasMask.height = window.innerHeight;
 		sIndexTriangle = 0;
-
-		for(var i = 0; i < params.numTriangle; i++) {
-			sTriangles.push(new Triangle());
-			sTriangles[i].init(params.numPts);
-			switch(i) {
-				case 0:
-					sTriangles[i].pts[0].y = 0;
-					sTriangles[i].pts[0].x = 0;
-					sTriangles[i].pts[1].y = window.innerHeight * (0.75 + 0.25 * Math.random());;
-					sTriangles[i].pts[1].x = window.innerWidth * (0.75 + 0.25 * Math.random());;
-					break;
-				case 1:
-					sTriangles[i].pts[0].y = window.innerHeight * (0.75 + 0.25 * Math.random());;
-					sTriangles[i].pts[0].x = 0;
-					sTriangles[i].pts[1].y = 0;
-					sTriangles[i].pts[1].x = window.innerWidth * (0.75 + 0.25 * Math.random());
-					break;
-			}
-
-			sTriangles[i].drawTriangle(sCanvasFractals);
-		}
 	}
 
 	function resetDrawing() {

@@ -67,5 +67,5 @@ InstructionManager.prototype.getRandomInt = function(aMax) {
 };
 
 InstructionManager.prototype.getNumbers = function() {
-    return this.numbers.push(quantity);
+    return this.numbers;
 };
