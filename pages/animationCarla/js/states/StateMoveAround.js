@@ -2,7 +2,7 @@ function StateMoveAround(aArrayObjectsCount) {
     this.objects = [];
     for(var i = 0; i < aArrayObjectsCount.length; i++) {
         for (var count = 0; count < aArrayObjectsCount[i]; count++) {
-            this.objects.push(new AnimationMoveAround(new ObjectWorm()));
+            this.objects.push(new AnimationMoveAround(new ObjectWorm(i)));
         }
     }
 };

@@ -7,6 +7,8 @@ function AnimationMoveAround(object){
     this.targety = 0.5;
     this.randomAmplitude = Math.random() + 0.5;
     this.randomFast = Math.random() + 0.5;
+    this.randomAngle = Math.random() - 0.5;
+    this.angle = this.randomFast;
     this.time = this.randomAmplitude + this.randomFast;
     this.object = object;
 }
@@ -18,6 +20,8 @@ AnimationMoveAround.prototype.update = function(delta) {
     this.targety += (Math.random() - 0.5) * delta;
     this.targety = sTools.clamp(this.targety, 0, 1);
 
+    this.angle += this.randomAngle * delta;
+
     var realTargetX = this.targetx + this.randomAmplitude * 0.15 * Math.cos(this.time * this.randomFast);
     var realTargetY = this.targety + this.randomAmplitude * 0.15 * Math.sin(this.time * 1.31 * this.randomFast);
     this.speedx += (realTargetX - this.x) * delta;
@@ -27,5 +31,5 @@ AnimationMoveAround.prototype.update = function(delta) {
 };
 
 AnimationMoveAround.prototype.draw = function(canvas) {
-    this.object.draw(canvas, this.x * canvas.width, this.y * canvas.height);
+    this.object.draw(canvas, this.x * canvas.width, this.y * canvas.height, this.angle);
 };
