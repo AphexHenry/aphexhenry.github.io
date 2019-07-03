@@ -33,6 +33,16 @@
 			left: 0;
 		}
 
+		#instructions {
+			text-align: center;
+			margin-left: 15%;
+			width: 70%;
+			height: 100%;
+			font-size: 30px;
+			position: absolute;
+			top: 25%;
+		}
+
 		#mask {
 			width: 100%;
 			height: 100%;
@@ -54,10 +64,17 @@
 
 <script src="js/StepManager.js"></script>
 <script src="js/TextInBetween.js"></script>
+<script src="js/InstructionManager.js"></script>
 
 <canvas id="ferns"></canvas>
 <!--<img id="mask" src="textures/mask.png"></img>-->
 <canvas id="fractals"></canvas>
+
+<div id="instructions">
+	<div id="stepText">etape 34</div>
+	<div id="instructionsText">blabla</div>
+</div>
+
 
 <script>
 	var sTriangles = [];
@@ -113,6 +130,7 @@
 		}
 		sFerns[0].drawImg(sCanvasFerns);
 
+		sStepManager.update(timeDiff)
 		sStepManager.draw(sCanvasFerns);
 
 
