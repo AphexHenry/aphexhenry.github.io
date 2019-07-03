@@ -40,7 +40,19 @@
 			height: 100%;
 			font-size: 30px;
 			position: absolute;
-			top: 25%;
+			background: black;
+		}
+
+		#backgroundInstruction {
+			width:100%;
+			height:100%;
+			background: black;
+			position:absolute;
+		}
+
+		#stepText {
+			margin-top:25%;
+			margin-bottom: 5%;
 		}
 
 		#mask {
@@ -65,15 +77,23 @@
 <script src="js/StepManager.js"></script>
 <script src="js/TextInBetween.js"></script>
 <script src="js/InstructionManager.js"></script>
+<script src="js/Tools.js"></script>
+
+<script src="js/states/StateMoveAround.js"></script>
+<script src="js/objects/ObjectWorm.js"></script>
+<script src="js/animations/AnimationMoveAround.js"></script>
 
 <canvas id="ferns"></canvas>
 <!--<img id="mask" src="textures/mask.png"></img>-->
 <canvas id="fractals"></canvas>
 
-<div id="instructions">
-	<div id="stepText">etape 34</div>
-	<div id="instructionsText">blabla</div>
+<div id="backgroundInstruction">
+	<div id="instructions">
+		<div id="stepText">etape 34</div>
+		<div id="instructionsText">blabla</div>
+	</div>
 </div>
+
 
 
 <script>
@@ -88,16 +108,16 @@
 	var sStepManager = new StepManager();
 
 	var obj = { reset:function(){ reset(); }};
-//	var gui = new dat.GUI();
+
 	var params = {
 		numTriangle: 2,
 		numPts: 3,
 		probabilitySwitchTriangle:0.2
 	};
 
-		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-		document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 
 //	gui.add( params, 'numTriangle', 1, 5 ).step(1);
 //	gui.add( params, 'numPts', 3, 16 ).step(1);
@@ -107,30 +127,7 @@
 	function animate() {
 		requestAnimationFrame( animate );
 
-		var endTime = new Date();
-		var timeDiff = (endTime - startTime) / 1000;
-		var lSwitchFaster = timeDiff > 60 * 1;
-
-		for(var i = 0; i < 200; i++) {
-
-			if(Math.random() < params.probabilitySwitchTriangle) {
-				var lPt = sTriangles[sIndexTriangle].lastPt;
-				sIndexTriangle++;
-				sIndexTriangle = sIndexTriangle % sTriangles.length;
-				sTriangles[sIndexTriangle].lastPt = lPt;
-			}
-			if(!lSwitchFaster)
-				sTriangles[sIndexTriangle].drawNewPoint(sCanvasFractals);
-		}
-
-		for(var i = 0; i < 200; i++) {
-			sFerns[0].drawNewPoint(sCanvasFerns);
-			if(lSwitchFaster)
-				sFerns[1].drawNewPoint(sCanvasFerns);
-		}
-		sFerns[0].drawImg(sCanvasFerns);
-
-		sStepManager.update(timeDiff)
+		sStepManager.update();
 		sStepManager.draw(sCanvasFerns);
 
 

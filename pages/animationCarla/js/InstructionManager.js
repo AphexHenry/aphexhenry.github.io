@@ -2,6 +2,7 @@ function InstructionManager(aScene)
 {
     this.names = [this.makeName("durinère", true), this.makeName("suticule", true), this.makeName("païson", false), this.makeName("giron", false)];
     this.verbs = ["mettre dans la boîte", "suturer", "couper", "murmurer doucement aux oreilles de", "court cuicuiter", "nasauter", "caliner"];
+    this.numbers = [];
 }
 
 InstructionManager.prototype.makeName = function(name, isFeminin) {
@@ -12,6 +13,7 @@ InstructionManager.prototype.getRandomSentence = function(aDelta) {
     var lNameCount = 1 + this.getRandomInt(3);
     var lIndexVerb = this.getRandomInt(this.verbs.length);
     var lPhrase = this.verbs[lIndexVerb] + " ";
+    this.numbers = [];
     for(var i = 0;i < lNameCount; i++) {
         lPhrase += this.getRandomNameWithArticle();
         if(i < lNameCount - 2 && lNameCount > 2) {
@@ -27,6 +29,8 @@ InstructionManager.prototype.getRandomSentence = function(aDelta) {
 InstructionManager.prototype.getRandomNameWithArticle = function() {
     var indexName = this.getRandomInt(this.names.length);
     var quantity = 1 + this.getRandomInt(6);
+    // we store those numbers.
+    this.numbers.push(quantity);
     var nameAccorde = quantity <= 1 ? this.names[indexName].name : this.names[indexName].plural;
 
     var lArticle;
@@ -60,4 +64,8 @@ InstructionManager.prototype.getRandomNameWithArticle = function() {
 
 InstructionManager.prototype.getRandomInt = function(aMax) {
     return Math.floor(Math.random() * Math.floor(aMax));
+};
+
+InstructionManager.prototype.getNumbers = function() {
+    return this.numbers.push(quantity);
 };

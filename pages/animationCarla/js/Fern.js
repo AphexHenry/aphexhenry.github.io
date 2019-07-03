@@ -30,9 +30,6 @@ function Fern()
     this.init();
     this.initMove();
 
-    this.img     = new Image();
-    this.img.src     = 'textures/mask2.png';
-
     this.upsideDown = false;
 
 }
@@ -140,11 +137,6 @@ Fern.prototype.drawNewPoint = function(aCanvas) {
 };
 
 Fern.prototype.drawImg = function(aCanvas) {
-    this.eraseCounter++;
-    if(this.eraseCounter % 90 == 0) {
-        var ctx = aCanvas.getContext("2d");
-        ctx.globalAlpha = 0.01;//this.opacity;
-        ctx.drawImage(this.img, 0, 0, aCanvas.width, aCanvas.height);
-    }
+
 };
 
