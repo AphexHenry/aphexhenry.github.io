@@ -10,8 +10,8 @@ InstructionManager.prototype.makeName = function(name, isFeminin) {
 };
 
 InstructionManager.prototype.getRandomSentence = function(aDelta) {
-    var lNameCount = 1 + this.getRandomInt(3);
-    var lIndexVerb = this.getRandomInt(this.verbs.length);
+    var lNameCount = 1 + sTools.getRandomInt(3);
+    var lIndexVerb = sTools.getRandomInt(this.verbs.length);
     var lPhrase = this.verbs[lIndexVerb] + " ";
     this.numbers = [];
     for(var i = 0;i < lNameCount; i++) {
@@ -27,8 +27,8 @@ InstructionManager.prototype.getRandomSentence = function(aDelta) {
 };
 
 InstructionManager.prototype.getRandomNameWithArticle = function() {
-    var indexName = this.getRandomInt(this.names.length);
-    var quantity = 1 + this.getRandomInt(6);
+    var indexName = sTools.getRandomInt(this.names.length);
+    var quantity = 1 + sTools.getRandomInt(6);
     // we store those numbers.
     this.numbers.push(quantity);
     var nameAccorde = quantity <= 1 ? this.names[indexName].name : this.names[indexName].plural;

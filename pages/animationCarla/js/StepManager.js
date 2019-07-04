@@ -25,7 +25,7 @@ StepManager.prototype.update = function() {
     switch (this.state) {
         case this.States.STATE_INIT_INSTRUCTIONS:
             this.stepCountTotal++;
-            this.time = 1000; // duration instruction.
+            this.time = 5000; // duration instruction.
             this.textInBetweenScreen.setText(this.instructionManager.getRandomSentence());
             this.textInBetweenScreen.setIndex(this.stepCountTotal);
             this.state = this.States.STATE_RUN_INSTRUCTIONS;
@@ -38,13 +38,13 @@ StepManager.prototype.update = function() {
             break;
         case this.States.STATE_INIT_ANIMATION:
             $("#backgroundInstruction")[0].style.visibility = "hidden";
-            this.currentState = new StateTakeInBubble(this.instructionManager.getNumbers());
+            this.currentState = this.getNextState();
             this.state = this.States.STATE_RUN_ANIMATION;
             this.time = 20000; // duration instruction.
             break;
         case this.States.STATE_RUN_ANIMATION:
             this.currentState .update(timeElasped);
-            if(this.time <= 0) {
+            if(this.currentState.isDone()) {
                 this.state = this.States.STATE_INIT_INSTRUCTIONS;
             }
             break;
@@ -64,4 +64,15 @@ StepManager.prototype.draw= function(canvas) {
             this.currentState.draw(canvas);
             break;
     }
+};
+
+StepManager.prototype.getNextState = function() {
+    var lRandom = sTools.getRandomInt(2);
+    switch (lRandom) {
+        case 0:
+            return new StateTakeInBubble(this.instructionManager.getNumbers());;
+        case 1:
+            return new StateMoveAround(this.instructionManager.getNumbers());
+    }
+
 };

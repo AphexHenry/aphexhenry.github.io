@@ -12,6 +12,8 @@ function AnimationMoveAround(object){
     this.time = this.randomAmplitude + this.randomFast;
     this.object = object;
     this.speedMoveCoeff = 1;
+    this.ampitudeCoeff = 1;
+    this.sizeCoeff = 1;
 }
 
 AnimationMoveAround.prototype.update = function(delta) {
@@ -29,8 +31,15 @@ AnimationMoveAround.prototype.update = function(delta) {
     this.speedy += (realTargetY - this.y) * delta;
     this.x += this.speedx * delta * this.speedMoveCoeff;
     this.y += this.speedy * delta * this.speedMoveCoeff;
+
 };
 
 AnimationMoveAround.prototype.draw = function(canvas) {
-    this.object.draw(canvas, this.x * canvas.width, this.y * canvas.height, this.angle);
+    var lX = (this.x - 0.5) * this.ampitudeCoeff + 0.5;
+    var lY = (this.y - 0.5) * this.ampitudeCoeff + 0.5;
+    this.object.draw(canvas, lX * canvas.width, lY * canvas.height, this.angle);
 };
+
+AnimationMoveAround.prototype.isDone = function() {
+    return this.time > 15000;
+}

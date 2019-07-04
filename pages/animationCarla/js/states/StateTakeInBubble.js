@@ -25,7 +25,7 @@ StateTakeInBubble.prototype.update = function(delta) {
         this.objects[i].update(delta);
     }
 
-    if(this.timer < 15) {
+    if(this.timer < 10) {
         this.handPos += delta * 0.5;
     }
 
@@ -45,4 +45,8 @@ StateTakeInBubble.prototype.draw = function(canvas) {
     var lHandX = lHandPosCoeff * canvas.width * 0.8 - lHandSize;
     var lHandY = canvas.height - lHandPosCoeff * canvas.height * 0.8;
     ctx.drawImage(this.imageHand, lHandX, lHandY, lHandSize, lHandSize);
+};
+
+StateTakeInBubble.prototype.isDone = function() {
+    return this.timer <= 0;
 };
