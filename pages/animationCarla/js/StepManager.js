@@ -25,7 +25,7 @@ StepManager.prototype.update = function() {
     switch (this.state) {
         case this.States.STATE_INIT_INSTRUCTIONS:
             this.stepCountTotal++;
-            this.time = 5000; // duration instruction.
+            this.time = 3000; // duration instruction.
             this.textInBetweenScreen.setText(this.instructionManager.getRandomSentence());
             this.textInBetweenScreen.setIndex(this.stepCountTotal);
             this.state = this.States.STATE_RUN_INSTRUCTIONS;
@@ -67,12 +67,18 @@ StepManager.prototype.draw= function(canvas) {
 };
 
 StepManager.prototype.getNextState = function() {
-    var lRandom = sTools.getRandomInt(2);
+    var lRandom = 2;//sTools.getRandomInt(2);
     switch (lRandom) {
         case 0:
             return new StateTakeInBubble(this.instructionManager.getNumbers());;
         case 1:
             return new StateMoveAround(this.instructionManager.getNumbers());
+        case 2:
+            return new StateDog(this.instructionManager.getNumbers());
     }
 
+};
+
+StepManager.prototype.switchToNext = function() {
+    this.state = this.States.STATE_INIT_ANIMATION;
 };

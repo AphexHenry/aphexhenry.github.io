@@ -81,8 +81,13 @@
 
 <script src="js/states/StateMoveAround.js"></script>
 <script src="js/states/StateTakeInBubble.js"></script>
+<script src="js/states/StateDog.js"></script>
+
 <script src="js/objects/ObjectWorm.js"></script>
+<script src="js/objects/ObjectDog.js"></script>
+
 <script src="js/animations/AnimationMoveAround.js"></script>
+<script src="js/animations/AnimationDogSaliva.js"></script>
 
 <canvas id="ferns"></canvas>
 <!--<img id="mask" src="textures/mask.png"></img>-->
@@ -164,12 +169,7 @@
 	}
 
 	function onDocumentMouseDown(e) {
-		for(var i = 0; i < sTriangles.length; i++) {
-			sPtTouched = sTriangles[i].getPtTouched(new THREE.Vector2(e.offsetX, e.offsetY));
-			if(sPtTouched) {
-				return;
-			}
-		}
+		sStepManager.switchToNext();
 	}
 
 	function onDocumentMouseUp(e) {
