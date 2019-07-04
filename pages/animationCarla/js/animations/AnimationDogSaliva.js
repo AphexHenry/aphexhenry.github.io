@@ -1,6 +1,6 @@
 function AnimationDogSaliva(){
-    this.x = Math.random();
-    this.y = Math.random();
+    this.x = 0.6 + Math.random() * 0.1;
+    this.y = 0.5 + Math.random() * 0.1;
     this.speedx = Math.random() - 0.5;
     this.speedy = Math.random() - 0.5;
     this.targetx = 0.5;

@@ -1,20 +1,20 @@
-function ObjectDog(indexTexture) {
-    this.image = new Image();
-    this.image.src = "./textures/dog.png";
-    this.imageDrop = new Image();
-    this.imageDrop.src = "./textures/dogSalivaDrop.png";
+function ObjectLightBulb(indexTexture) {
+    this.imageLightBulbOff = new Image();
+    this.imageLightBulbOn = new Image();
+    this.imageLightBulbOff.src = "./textures/lampOff.png";
+    this.imageLightBulbOn.src = "./textures/lampOn.png";
     this.size = 1;
     this.dropPos = 0
 }
 
-ObjectDog.prototype.update = function(delta) {
+ObjectLightBulb.prototype.update = function(delta) {
     this.dropPos += 0.3 * delta * (1 + this.dropPos);
     if(this.dropPos > 1) {
         this.dropPos = 0;
     }
 };
 
-ObjectDog.prototype.draw = function(canvas, x, y, angleInRadians) {
+ObjectLightBulb.prototype.draw = function(canvas, x, y, angleInRadians) {
     var ctx = canvas.getContext("2d");
     var lSize = canvas.width * 0.75 * this.size;
     var lSizeDrop = this.dropPos * canvas.width * 0.2;
