@@ -9,14 +9,15 @@ function StateDog(aArrayObjectsCount) {
     this.waterFront.src = "./textures/waterFront.png";
     this.imageDog.src = "./textures/dog.png";
 
+    this.lightBulb = new ObjectLightBulb();
 
     this.levelSea = -0.3;
 
     this.objects = [];
 
-            var lAnim = new AnimationDogSaliva();
-            lAnim.speedMoveCoeff = 0;
-            this.objects.push(lAnim);
+    var lAnim = new AnimationDogSaliva();
+    lAnim.speedMoveCoeff = 0;
+    this.objects.push(lAnim);
 
     this.timer = 15;
     this.handPos = 0;
@@ -29,10 +30,7 @@ StateDog.prototype.update = function(delta) {
         this.objects[i].update(delta);
     }
 
-    if(this.timer < 10) {
-        this.handPos += delta * 0.5;
-    }
-
+    this.lightBulb.update(delta);
 };
 
 StateDog.prototype.draw = function(canvas) {
@@ -48,6 +46,10 @@ StateDog.prototype.draw = function(canvas) {
     for(var i = 0; i < this.objects.length; i++) {
         this.objects[i].draw(canvas);
     }
+
+    var lSizeLightbulb = 0.1 * canvas.height;
+    this.lightBulb.size = 0.4;
+    this.lightBulb.draw(canvas, canvas.width * 0.5, canvas.height * 0.5);
 
     ctx.drawImage(this.waterFront, 0, lHeightWaterFront, canvas.width, canvas.height);
 };
