@@ -1,6 +1,6 @@
 function AnimationMoveAround(object){
-    this.x = 0;
-    this.y = 0;
+    this.x = Math.random();
+    this.y = Math.random();
     this.speedx = Math.random() - 0.5;
     this.speedy = Math.random() - 0.5;
     this.targetx = 0.5;
@@ -11,6 +11,7 @@ function AnimationMoveAround(object){
     this.angle = this.randomFast;
     this.time = this.randomAmplitude + this.randomFast;
     this.object = object;
+    this.speedMoveCoeff = 1;
 }
 
 AnimationMoveAround.prototype.update = function(delta) {
@@ -26,8 +27,8 @@ AnimationMoveAround.prototype.update = function(delta) {
     var realTargetY = this.targety + this.randomAmplitude * 0.15 * Math.sin(this.time * 1.31 * this.randomFast);
     this.speedx += (realTargetX - this.x) * delta;
     this.speedy += (realTargetY - this.y) * delta;
-    this.x += this.speedx * delta;
-    this.y += this.speedy * delta;
+    this.x += this.speedx * delta * this.speedMoveCoeff;
+    this.y += this.speedy * delta * this.speedMoveCoeff;
 };
 
 AnimationMoveAround.prototype.draw = function(canvas) {

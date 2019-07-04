@@ -38,7 +38,7 @@ StepManager.prototype.update = function() {
             break;
         case this.States.STATE_INIT_ANIMATION:
             $("#backgroundInstruction")[0].style.visibility = "hidden";
-            this.currentState = new StateMoveAround(this.instructionManager.getNumbers());
+            this.currentState = new StateTakeInBubble(this.instructionManager.getNumbers());
             this.state = this.States.STATE_RUN_ANIMATION;
             this.time = 20000; // duration instruction.
             break;
