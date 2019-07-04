@@ -11,6 +11,7 @@ function AnimationDogSaliva(){
     this.angle = this.randomFast;
     this.time = this.randomAmplitude + this.randomFast;
     this.object = new ObjectDog();
+    this.object.image = sTextureManager.getRandomObject();
     this.speedMoveCoeff = 1;
     this.ampitudeCoeff = 1;
     this.sizeCoeff = 1;

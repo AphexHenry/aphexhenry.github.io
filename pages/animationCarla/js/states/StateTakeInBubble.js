@@ -8,8 +8,9 @@ function StateTakeInBubble(aArrayObjectsCount) {
 
     this.objects = [];
     for(var i = 0; i < aArrayObjectsCount.length; i++) {
+        var lImage = sTextureManager.getRandomObject();
         for (var count = 0; count < aArrayObjectsCount[i]; count++) {
-            var lAnim = new AnimationMoveAround(new ObjectWorm(i));
+            var lAnim = new AnimationMoveAround(new ObjectWorm(lImage));
             lAnim.speedMoveCoeff = 0;
             this.objects.push(lAnim);
         }
@@ -40,8 +41,8 @@ StateTakeInBubble.prototype.draw = function(canvas) {
     }
     ctx.drawImage(this.imageFront, (canvas.width  - lSize)/ 2, (canvas.height - lSize) / 2, lSize, lSize);
 
-    var lHandSize = canvas.width;
-    var lHandPosCoeff = Math.sin(this.handPos);
+    var lHandSize = canvas.width * (1 + 0.1 * Math.cos(this.handPos * 3));
+    var lHandPosCoeff = Math.min(this.handPos, 1);
     var lHandX = lHandPosCoeff * canvas.width * 0.8 - lHandSize;
     var lHandY = canvas.height - lHandPosCoeff * canvas.height * 0.8;
     ctx.drawImage(this.imageHand, lHandX, lHandY, lHandSize, lHandSize);

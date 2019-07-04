@@ -11,7 +11,7 @@ function StateDog(aArrayObjectsCount) {
 
     this.lightBulb = new ObjectLightBulb();
 
-    this.levelSea = -0.3;
+    this.levelSea = -0.2;
 
     this.objects = [];
 
@@ -38,7 +38,7 @@ StateDog.prototype.draw = function(canvas) {
 
     ctx.drawImage(this.imageBackground, 0, 0, canvas.width, canvas.height);
     var lHeightWaterFront = canvas.height - Math.min(this.levelSea , 1) * canvas.height;
-    var lDelayBack = 0.3;
+    var lDelayBack = 0.4;
     var lHeightWaterBack = canvas.height - (Math.min(this.levelSea - lDelayBack, 1)) * canvas.height;; // delay
     ctx.drawImage(this.waterBack, 0, lHeightWaterBack, canvas.width, canvas.height);
 

@@ -10,7 +10,7 @@ InstructionManager.prototype.makeName = function(name, isFeminin) {
 };
 
 InstructionManager.prototype.getRandomSentence = function(aDelta) {
-    var lNameCount = 1 + sTools.getRandomInt(3);
+    var lNameCount = 1 + sTools.getRandomInt(2);
     var lIndexVerb = sTools.getRandomInt(this.verbs.length);
     var lPhrase = this.verbs[lIndexVerb] + " ";
     this.numbers = [];

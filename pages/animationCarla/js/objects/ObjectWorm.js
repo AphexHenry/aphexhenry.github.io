@@ -1,13 +1,5 @@
-function ObjectWorm(indexTexture) {
-    this.image = new Image();
-    switch (indexTexture) {
-        case 0:
-            this.image.src = "./textures/worm.png";
-            break;
-        default:
-            this.image.src = "./textures/worm2.png";
-            break;
-    }
+function ObjectWorm(aImage) {
+    this.image = aImage;
 }
 
 ObjectWorm.prototype.update = function(delta) {

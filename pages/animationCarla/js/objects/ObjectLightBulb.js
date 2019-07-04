@@ -14,11 +14,19 @@ ObjectLightBulb.prototype.update = function(delta) {
     if(this.timer >= 1/this.frequency) {
         this.isOn = !this.isOn;
         this.timer = 0;
+
     }
 };
 
 ObjectLightBulb.prototype.draw = function(canvas, x, y, angleInRadians) {
     var ctx = canvas.getContext("2d");
+    if(this.isOn) {
+        ctx.fillStyle = "white";
+    }
+    else {
+        ctx.fillStyle = "black";
+    }
+
     var lSize = canvas.width * 0.75 * this.size;
     var image = this.isOn ? this.imageLightBulbOff : this.imageLightBulbOn;
     ctx.translate(x, y);

@@ -77,6 +77,7 @@
 <script src="js/StepManager.js"></script>
 <script src="js/TextInBetween.js"></script>
 <script src="js/InstructionManager.js"></script>
+<script src="js/TexturesManager.js"></script>
 <script src="js/Tools.js"></script>
 
 <script src="js/states/StateMoveAround.js"></script>
@@ -104,7 +105,6 @@
 
 
 <script>
-	var sTriangles = [];
 	var sFerns = [new Fern(), new Fern()];
 	var sCanvasFerns = $("#ferns")[0];
 	var sCanvasFractals = $("#fractals")[0];
@@ -114,13 +114,12 @@
 	var sPtTouched = false;
 	var startTime = new Date();
 	var sStepManager = new StepManager();
+	var sTextureManager = new TexturesManager();
 
 	var obj = { reset:function(){ reset(); }};
 
 	var params = {
-		numTriangle: 2,
-		numPts: 3,
-		probabilitySwitchTriangle:0.2
+		isRandom: true
 	};
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -142,9 +141,7 @@
 //		sCanvasFerns.getContext('2d').clearRect(0, 0, sCanvasFerns.width, sCanvasFerns.height);
 		sCanvasFractals.width = window.innerWidth;
 		sCanvasFractals.height = window.innerHeight;
-//		sCanvasMask.width = window.innerWidth;
-//		sCanvasMask.height = window.innerHeight;
-		sIndexTriangle = 0;
+
 	}
 
 	function resetDrawing() {
