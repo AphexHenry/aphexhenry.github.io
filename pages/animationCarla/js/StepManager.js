@@ -67,7 +67,7 @@ StepManager.prototype.draw= function(canvas) {
 };
 
 StepManager.prototype.getNextState = function() {
-    var lRandom = 2;//sTools.getRandomInt(2);
+    var lRandom = sTools.getRandomInt(3);
     switch (lRandom) {
         case 0:
             return new StateTakeInBubble(this.instructionManager.getNumbers());;
