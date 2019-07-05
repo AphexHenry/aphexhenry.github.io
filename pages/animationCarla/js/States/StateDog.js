@@ -40,7 +40,9 @@ StateDog.prototype.draw = function(canvas) {
     var lHeightWaterFront = canvas.height - Math.min(this.levelSea , 1) * canvas.height;
     var lDelayBack = 0.4;
     var lHeightWaterBack = canvas.height - (Math.min(this.levelSea - lDelayBack, 1)) * canvas.height;; // delay
-    ctx.drawImage(this.waterBack, 0, lHeightWaterBack, canvas.width, canvas.height);
+    var lPosBackX = Math.cos(this.timer * 2) * canvas.width * 0.03;
+    var lPosBackY = Math.sin(this.timer * 2) * canvas.height * 0.03;
+    ctx.drawImage(this.waterBack, lPosBackX, lHeightWaterBack + lPosBackY, canvas.width, canvas.height);
 
     var lSize = canvas.width;
     for(var i = 0; i < this.objects.length; i++) {
@@ -51,7 +53,10 @@ StateDog.prototype.draw = function(canvas) {
     this.lightBulb.size = 0.4;
     this.lightBulb.draw(canvas, canvas.width * 0.5, canvas.height * 0.5);
 
-    ctx.drawImage(this.waterFront, 0, lHeightWaterFront, canvas.width, canvas.height);
+    var lPosFrontX = Math.cos(this.timer) * canvas.width * 0.05;
+    var lPosFrontY = Math.sin(this.timer) * canvas.height * 0.05;
+    ctx.drawImage(this.waterFront, lPosFrontX, lHeightWaterFront + lPosFrontY, canvas.width, canvas.height);
+    sTextureManager.drawImage(ctx, sTextureManager.frames[0], 0,0, canvas.width, canvas.height);
 };
 
 StateDog.prototype.isDone = function() {

@@ -13,7 +13,8 @@ function AnimationMoveAround(object){
     this.object = object;
     this.speedMoveCoeff = 1;
     this.ampitudeCoeff = 1;
-    this.sizeCoeff = 1;
+    this.centerX = 0.5;
+    this.centerY = 0.5;
 }
 
 AnimationMoveAround.prototype.update = function(delta) {
@@ -35,11 +36,21 @@ AnimationMoveAround.prototype.update = function(delta) {
 };
 
 AnimationMoveAround.prototype.draw = function(canvas) {
-    var lX = (this.x - 0.5) * this.ampitudeCoeff + 0.5;
-    var lY = (this.y - 0.5) * this.ampitudeCoeff + 0.5;
+    var lX = (this.x - 0.5) * this.ampitudeCoeff + this.centerX;
+    var lY = (this.y - 0.5) * this.ampitudeCoeff + this.centerY;
     this.object.draw(canvas, lX * canvas.width, lY * canvas.height, this.angle);
 };
 
 AnimationMoveAround.prototype.isDone = function() {
     return this.time > 15000;
+};
+
+AnimationMoveAround.prototype.setSize = function(scale) {
+    this.object.scale = scale;
+
+};
+
+AnimationMoveAround.prototype.setCenter = function(x,y) {
+    this.centerX = x;
+    this.centerY = y;
 }

@@ -9,6 +9,7 @@ function StepManager()
     this.timeLast = new Date();
     this.States = {STATE_INIT_ANIMATION:0, STATE_RUN_ANIMATION:1, STATE_INIT_INSTRUCTIONS:2, STATE_RUN_INSTRUCTIONS:3};
     this.state = this.States.STATE_INIT_INSTRUCTIONS;
+    this.nextState = -1;
 }
 
 StepManager.prototype.init = function(aNumPt) {
@@ -67,16 +68,30 @@ StepManager.prototype.draw= function(canvas) {
 };
 
 StepManager.prototype.getNextState = function() {
-    var lRandom = sTools.getRandomInt(3);
+    var lRandom = 4;//sTools.getRandomInt(5);
+
+    if(this.nextState >= 0) {
+        lRandom = this.nextState;
+        this.nextState = -1;
+    }
     switch (lRandom) {
         case 0:
-            return new StateTakeInBubble(this.instructionManager.getNumbers());;
+            return new StateTakeInBubble(this.instructionManager.getNumbers());
         case 1:
             return new StateMoveAround(this.instructionManager.getNumbers());
         case 2:
             return new StateDog(this.instructionManager.getNumbers());
+        case 3:
+            return new StatePrettyGuy(this.instructionManager.getNumbers());
+        case 4:
+            return new StateFireworks(this.instructionManager.getNumbers());
     }
 
+};
+
+StepManager.prototype.setNextState = function(aNext) {
+    this.nextState = parseInt(aNext, 0);
+    this.switchToNext();
 };
 
 StepManager.prototype.switchToNext = function() {

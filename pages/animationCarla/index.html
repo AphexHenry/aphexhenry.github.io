@@ -83,6 +83,8 @@
 <script src="js/states/StateMoveAround.js"></script>
 <script src="js/states/StateTakeInBubble.js"></script>
 <script src="js/states/StateDog.js"></script>
+<script src="js/states/StatePrettyGuy.js"></script>
+<script src="js/states/StateFireworks.js"></script>
 
 <script src="js/objects/ObjectWorm.js"></script>
 <script src="js/objects/ObjectDog.js"></script>
@@ -125,6 +127,7 @@
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 	document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+	document.addEventListener( 'keypress', onKeyPress, false );
 
 	function animate() {
 		requestAnimationFrame( animate );
@@ -138,10 +141,8 @@
 		sTriangles = [];
 		sCanvasFerns.width = window.innerWidth;
 		sCanvasFerns.height = window.innerHeight;
-//		sCanvasFerns.getContext('2d').clearRect(0, 0, sCanvasFerns.width, sCanvasFerns.height);
 		sCanvasFractals.width = window.innerWidth;
 		sCanvasFractals.height = window.innerHeight;
-
 	}
 
 	function resetDrawing() {
@@ -167,6 +168,13 @@
 
 	function onDocumentMouseUp(e) {
 		sPtTouched = false;
+	}
+
+	function onKeyPress(e) {
+		// switch(e.key) {
+			// case '1':
+		sStepManager.setNextState(e.key);
+		// }
 	}
 
 	reset();

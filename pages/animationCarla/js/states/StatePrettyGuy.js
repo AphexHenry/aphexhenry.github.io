@@ -5,11 +5,15 @@ function StatePrettyGuy(aArrayObjectsCount) {
         for (var count = 0; count < aArrayObjectsCount[i]; count++) {
             var lAnim = new AnimationMoveAround(new ObjectWorm(lImage));
             lAnim.speedMoveCoeff = 0.2;
-            lAnim.ampitudeCoeff = 3;
+            lAnim.ampitudeCoeff = 0.4;
+            lAnim.setSize(0.2);
+            lAnim.setCenter(0.6, 0.4);
             this.objects.push(lAnim);
         }
     }
     this.time = 0;
+    this.timerCloseEyes = 1;
+    this.closeEyes = false;
 };
 
 StatePrettyGuy.prototype.update = function(delta) {
@@ -17,15 +21,36 @@ StatePrettyGuy.prototype.update = function(delta) {
         this.objects[i].update(delta);
     }
     this.time += delta;
+    this.timerCloseEyes -= delta;
+    if(this.timerCloseEyes <= 0) {
+        this.closeEyes = !this.closeEyes;
+        this.timerCloseEyes = 0.5 + Math.random() * 2;
+        if(!this.closeEyes){
+            this.timerCloseEyes += 2;
+        }
+    }
 };
 
 StatePrettyGuy.prototype.draw = function(canvas) {
     var ctx = canvas.getContext("2d");
-    // ctx.fillStyle = "rgba(0,0,0,0.005)";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-    for(var i = 0; i < this.objects.length; i++) {
+
+    sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[0], 0,0, canvas.width, canvas.height);
+
+    for(var i = 0; i < this.objects.length; i+=2) {
         this.objects[i].draw(canvas);
     }
+
+    sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[1], 0,0, canvas.width, canvas.height);
+if(this.closeEyes) {
+    sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[3], 0,0, canvas.width, canvas.height);
+}
+
+    for(var i = 1; i < this.objects.length; i+=2) {
+        this.objects[i].draw(canvas);
+    }
+
+
+    sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[2], 0,0, canvas.width, canvas.height);
 };
 
 StatePrettyGuy.prototype.isDone = function() {
