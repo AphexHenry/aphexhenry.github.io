@@ -23,7 +23,7 @@ StateFireworks.prototype.update = function(delta) {
     for(var i = 0; i < this.objects.length; i++) {
         this.objects[i].update(delta);
         this.objects[i].setCenter(0.5, Math.min(0.5 * this.time - this.objects[i].randomFast, 0.6));
-        this.objects[i].ampitudeCoeff = this.objects[i].ampitudeCoeff * 0.95;
+        this.objects[i].ampitudeCoeff += (0.05 - this.objects[i].ampitudeCoeff) * delta;
     }
 
     this.time += delta;
@@ -117,6 +117,8 @@ StateFireworks.prototype.draw = function(canvas) {
                 sTextureManager.drawImageRotated(ctx, sTextureManager.fireworksXp[lFirework], x, y, canvas.width, canvas.height, lAngle)
             }
     }
+    sTextureManager.drawImage(ctx, sTextureManager.frames[0], 0,0, canvas.width, canvas.height);
+
 
 };
 

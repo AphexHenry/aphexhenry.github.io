@@ -11,7 +11,6 @@ function StateTakeInBubble(aArrayObjectsCount) {
         var lImage = sTextureManager.getRandomObject();
         for (var count = 0; count < aArrayObjectsCount[i]; count++) {
             var lAnim = new AnimationMoveAround(new ObjectWorm(lImage));
-            lAnim.speedMoveCoeff = 0;
             this.objects.push(lAnim);
         }
     }

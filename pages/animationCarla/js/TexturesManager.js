@@ -62,5 +62,4 @@ TexturesManager.prototype.drawImageRotated = function(ctx, img, x, y, width, hei
     ctx.drawImage(img, -lSizeX / 2, -lSizeY / 2, lSizeX, lSizeY);
     ctx.rotate(-angleInRadians);
     ctx.translate(-x, -y);
-
 };
