@@ -16,6 +16,9 @@ function TexturesManager() {
     this.addTextureBackground("fireworks", ["fireworksBackground.png", "fireworks1.png", "fireworks2.png", "fireworks3.png", "fireworksbigBack.png", "fireworksbigFront.png"]);
     this.addTextureBackground("fireworksXp", ["fireworkXp1.jpg", "fireworkXp2.jpg", "fireworkXp3.jpg", "fireworkXp4.jpg","fireworkXp5.jpg", "fireworkXp6.jpg", "fireworkXp7.jpg", "fireworkXp8.jpg", "fireworkXp9.jpg"]);
     this.addTextureBackground("frames", ["frameL.png"]);
+    this.addTextureBackground("dogBackground", ["backgroundDog.jpg"]);
+    this.addTextureBackground("microscope", ["microscopeBack.png", "microscopeFront.png"]);
+    this.addTextureBackground("microscopeIntro", ["microscopePhase1Back.png", "microscopePhase1Front.png", "microscopePhase1Moon.png", "microscopePhase1Arrow.png"]);
 }
 
 TexturesManager.prototype.addTextureObject = function(name, extension) {

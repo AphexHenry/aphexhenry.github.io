@@ -4,7 +4,7 @@ function StateDog(aArrayObjectsCount) {
     this.waterFront = new Image();
     this.imageDog = new Image();
 
-    this.imageBackground.src = "./textures/backgroundDog.jpg";
+    this.imageBackground.src = "./textures/backgrounds/backgroundDog.jpg";
     this.waterBack.src = "./textures/waterBack.png";
     this.waterFront.src = "./textures/waterFront.png";
     this.imageDog.src = "./textures/dog.png";

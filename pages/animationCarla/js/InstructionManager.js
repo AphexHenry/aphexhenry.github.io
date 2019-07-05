@@ -1,7 +1,15 @@
 function InstructionManager(aScene)
 {
-    this.names = [this.makeName("durinère", true), this.makeName("suticule", true), this.makeName("païson", false), this.makeName("giron", false)];
-    this.verbs = ["mettre dans la boîte", "suturer", "couper", "murmurer doucement aux oreilles de", "court cuicuiter", "nasauter", "caliner"];
+    this.names = [
+        this.makeName("durinère", true),
+        this.makeName("puticule", true),
+        this.makeName("païson", false),
+        this.makeName("gironette", true),
+        this.makeName("bétanette", true),
+        this.makeName("sucruteuse", true),
+        this.makeName("ventrenet", false)
+    ];
+    this.verbs = ["mettre dans la pitouille", "suruter", "gueulater", "murmurer aux oreilles de", "court cuicuiter", "nasauter", "bouldinguer", "emensurer", "canuler"];
     this.numbers = [];
 }
 
@@ -10,7 +18,7 @@ InstructionManager.prototype.makeName = function(name, isFeminin) {
 };
 
 InstructionManager.prototype.getRandomSentence = function(aDelta) {
-    var lNameCount = 1 + sTools.getRandomInt(2);
+    var lNameCount = 1 + sTools.getRandomInt(3);
     var lIndexVerb = sTools.getRandomInt(this.verbs.length);
     var lPhrase = this.verbs[lIndexVerb] + " ";
     this.numbers = [];

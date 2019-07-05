@@ -7,7 +7,7 @@ ObjectWorm.prototype.update = function(delta) {
 
 };
 
-ObjectWorm.prototype.draw = function(canvas, x, y,scale, angleInRadians) {
+ObjectWorm.prototype.draw = function(canvas, x, y, angleInRadians) {
     var ctx = canvas.getContext("2d");
     var lSize = canvas.width * 0.75 * this.scale;
 

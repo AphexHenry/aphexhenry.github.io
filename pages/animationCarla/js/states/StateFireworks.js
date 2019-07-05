@@ -23,7 +23,7 @@ StateFireworks.prototype.update = function(delta) {
     for(var i = 0; i < this.objects.length; i++) {
         this.objects[i].update(delta);
         this.objects[i].setCenter(0.5, Math.min(0.5 * this.time - this.objects[i].randomFast, 0.6));
-        this.objects[i].ampitudeCoeff += (0.05 - this.objects[i].ampitudeCoeff) * delta;
+        this.objects[i].ampitudeCoeff += (0.03 - this.objects[i].ampitudeCoeff) * delta;
     }
 
     this.time += delta;
@@ -34,7 +34,7 @@ StateFireworks.prototype.update = function(delta) {
     if(this.stateTimer <= 0) {
         this.state++;
         var lNumState = 6;
-        this.state = this.state % lNumState;
+        // this.state = this.state % lNumState;
         if(this.state == lNumState - 1) {
             this.stateTimer = 3;
 
@@ -105,7 +105,7 @@ StateFireworks.prototype.draw = function(canvas) {
             break;
         case 5:
             if(this.frameTimer <= 0) {
-                this.frameTimer = (0.2 + Math.random() * 0.3) * (this.stateTimer) / 3;
+                this.frameTimer = (0.3 + Math.random() * 0.3) * (this.stateTimer) / 2;
                 ctx.fillStyle = sTools.getRandomColor();
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 // ctx.globalCompositeOperation = "lighter";
