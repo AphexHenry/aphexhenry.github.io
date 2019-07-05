@@ -10,6 +10,7 @@ function StepManager()
     this.States = {STATE_INIT_ANIMATION:0, STATE_RUN_ANIMATION:1, STATE_INIT_INSTRUCTIONS:2, STATE_RUN_INSTRUCTIONS:3};
     this.state = this.States.STATE_INIT_INSTRUCTIONS;
     this.nextState = -1;
+    this.prevState = -1;
 }
 
 StepManager.prototype.init = function(aNumPt) {
@@ -68,7 +69,11 @@ StepManager.prototype.draw= function(canvas) {
 };
 
 StepManager.prototype.getNextState = function() {
-    var lRandom = 5;//sTools.getRandomInt(5);
+    var lMaxState = 6;
+    var lRandom = sTools.getRandomInt(lMaxState);
+    if(lRandom == this.prevState) {
+        lRandom = (lRandom + 1) % lMaxState;
+    }
 
     if(this.nextState >= 0) {
         lRandom = this.nextState;

@@ -1,15 +1,17 @@
 function StateDanceMove(aArrayObjectsCount) {
     this.objects = [];
     var phase =false;
+    this.idAnimationStart = sTools.getRandomInt(10);
     for(var i = 0; i < aArrayObjectsCount.length; i++) {
         var lImage = sTextureManager.getRandomObject();
         for (var count = 0; count < aArrayObjectsCount[i]; count++) {
-            var lAnim = new AnimationDance2(new ObjectWorm(lImage));
+            var lAnim = this.getAnimationFromId(i, lImage);
             lAnim.speedMoveCoeff = 0.2;
             lAnim.ampitudeCoeff = 3;
-            lAnim.setSize(0.5 / aArrayObjectsCount.length);
+            lAnim.setSize(0.5 / Math.sqrt(aArrayObjectsCount.length));
             phase = !phase;
             lAnim.jumpPhase = phase ? 1 : 0;
+            lAnim.reverseX = ((i % 2) == 0);
             lAnim.setCenter(count / aArrayObjectsCount[i], (i + 1)/(1 + aArrayObjectsCount.length));
             this.objects.push(lAnim);
         }
@@ -17,6 +19,22 @@ function StateDanceMove(aArrayObjectsCount) {
     this.time = 0;
     this.durationIntro = 3;
 
+};
+
+StateDanceMove.prototype.getAnimationFromId = function(id, img) {
+    id = (id + this.idAnimationStart) % 4;
+    switch (id) {
+        case 0:
+        case 3:
+            return new AnimationDance(new ObjectWorm(img))
+            break;
+        case 1:
+            return new AnimationDance2(new ObjectWorm(img))
+            break;
+        case 2:
+            return new AnimationDance3(new ObjectWorm(img))
+            break;
+    }
 };
 
 StateDanceMove.prototype.update = function(delta) {

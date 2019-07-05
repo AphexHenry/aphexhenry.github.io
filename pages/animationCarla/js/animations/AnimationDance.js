@@ -16,6 +16,8 @@ function AnimationDance(object){
     this.centerX = 0.5;
     this.centerY = 0.5;
     this.jumpPhase = 0;
+    this.reverseX = false;
+
 }
 
 AnimationDance.prototype.update = function(delta) {
@@ -52,6 +54,9 @@ AnimationDance.prototype.update = function(delta) {
 AnimationDance.prototype.draw = function(canvas) {
     var lX = this.x + this.centerX;
     var lY = this.y + this.centerY;
+    if(this.reverseX) {
+        lX = 1 - lX;
+    }
     this.object.draw(canvas, lX * canvas.width, lY * canvas.height, this.angle);
 };
 
