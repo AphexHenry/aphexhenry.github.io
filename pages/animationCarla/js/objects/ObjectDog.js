@@ -18,7 +18,7 @@ ObjectDog.prototype.draw = function(canvas, x, y, angleInRadians) {
     var ctx = canvas.getContext("2d");
     var lSize = canvas.width * 0.75 * this.size;
     var lSizeDrop = this.dropPos * canvas.width * 0.2;
-    var lPosY = Math.max(this.dropPos - 0.2, 0) * canvas.height;
+    var lPosY = Math.max(this.dropPos - 0.3, 0) * canvas.height;
     x += lSize * 0.25;
     ctx.translate(x, y);
     ctx.rotate(angleInRadians);

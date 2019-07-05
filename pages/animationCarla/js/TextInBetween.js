@@ -13,7 +13,7 @@ TextInBetween.prototype.setText = function(aText) {
 
 TextInBetween.prototype.setIndex = function(aIndex) {
     this.index = aIndex;
-    document.getElementById("stepText").innerHTML = "etape " + this.index;
+    document.getElementById("stepText").innerHTML = "étape " + this.index;
 };
 
 TextInBetween.prototype.update = function(aDelta) {

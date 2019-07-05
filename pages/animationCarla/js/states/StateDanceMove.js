@@ -60,10 +60,10 @@ StateDanceMove.prototype.draw = function(canvas) {
         var yMoon = this.time * canvas.width / 30;
         var lPhaseArrow = Math.cos(this.time * 2);
         var yArrow = lPhaseArrow * lPhaseArrow * canvas.height / 50;
-        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[0], 0,0, canvas.width, canvas.height);
-        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[2], xMoon,-yMoon, canvas.width, canvas.height);
-        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[1], 0,0, canvas.width, canvas.height);
-        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[3], 0,yArrow, canvas.width, canvas.height);
+        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[0], 0,0, canvas.width, canvas.height, true);
+        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[2], xMoon,-yMoon, canvas.width, canvas.height, true);
+        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[1], 0,0, canvas.width, canvas.height, true);
+        sTextureManager.drawImage(ctx, sTextureManager.microscopeIntro[3], 0,yArrow, canvas.width, canvas.height, true);
     }
     else {
         sTextureManager.drawImage(ctx, sTextureManager.microscope[0], 0,0, canvas.width, canvas.height);

@@ -40,10 +40,17 @@ StatePrettyGuy.prototype.draw = function(canvas) {
         this.objects[i].draw(canvas);
     }
 
+    var lTimeLimHeart = 10;
+    if(this.time > lTimeLimHeart) {
+        var lTimeHeart = Math.max(this.time - lTimeLimHeart, 0);
+        var lX = lTimeHeart * canvas.width * 0.1;
+        var lY = Math.sin(lTimeHeart * 2) * canvas.width * 0.02;
+        sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[4], lX,lY, canvas.width, canvas.height);
+    }
     sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[1], 0,0, canvas.width, canvas.height);
-if(this.closeEyes) {
-    sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[3], 0,0, canvas.width, canvas.height);
-}
+    if(this.closeEyes) {
+        sTextureManager.drawImage(ctx, sTextureManager.prettyGuyBackground[3], 0,0, canvas.width, canvas.height);
+    }
 
     for(var i = 1; i < this.objects.length; i+=2) {
         this.objects[i].draw(canvas);

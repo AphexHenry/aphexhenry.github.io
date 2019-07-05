@@ -4,20 +4,20 @@ function TexturesManager() {
     this.addTextureObject("worm", "png");
     this.addTextureObject("worm2", "png");
     this.addTextureObject("bubble1", "png");
-    this.addTextureObject("bubble2", "png");
-    this.addTextureObject("oreille1", "png");
-    this.addTextureObject("oreille2", "png");
-    this.addTextureObject("huitre1", "png");
-    this.addTextureObject("huitre2", "png");
+    // this.addTextureObject("oreille1", "png");
+    // this.addTextureObject("oreille2", "png");
+    this.addTextureObject("huitre1", "png");0
     this.addTextureObject("huitre3", "png");
     this.addTextureObject("moon", "png");
     this.addTextureObject("potatoe", "png");
-    this.addTextureBackground("prettyGuyBackground", ["blueBackground.jpg", "prettyGuyMiddle.png", "prettyGuyFront.png", "prettyGuyMiddleCloseEyes.png"]);
+    this.addTextureObject("eyeyep", "png");
+    this.addTextureBackground("prettyGuyBackground", ["blueBackground.jpg", "prettyGuyMiddle.png", "prettyGuyFront.png", "prettyGuyMiddleCloseEyes.png", "prettyGuyHeart.png"]);
     this.addTextureBackground("fireworks", ["fireworksBackground.png", "fireworks1.png", "fireworks2.png", "fireworks3.png", "fireworksbigBack.png", "fireworksbigFront.png"]);
     this.addTextureBackground("fireworksXp", ["fireworkXp1.jpg", "fireworkXp2.jpg", "fireworkXp3.jpg", "fireworkXp4.jpg","fireworkXp5.jpg", "fireworkXp6.jpg", "fireworkXp7.jpg", "fireworkXp8.jpg", "fireworkXp9.jpg"]);
     this.addTextureBackground("frames", ["frameL.png"]);
     this.addTextureBackground("dogBackground", ["backgroundDog.jpg"]);
     this.addTextureBackground("microscope", ["microscopeBack.png", "microscopeFront.png"]);
+    this.addTextureBackground("comicBackground", ["comics.jpg"]);
     this.addTextureBackground("microscopeIntro", ["microscopePhase1Back.png", "microscopePhase1Front.png", "microscopePhase1Moon.png", "microscopePhase1Arrow.png"]);
 }
 
