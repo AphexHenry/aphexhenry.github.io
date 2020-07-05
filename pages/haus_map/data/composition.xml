@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<COMPOSITION>
+	<CHERRY>
+		<DISPLAY x="3" y="24" scale="6"></DISPLAY>
+		<INFOS name="Alfredo" year="???" />
+		<DESCRIPTION value="Afredo's fruits are bird's favorite meal."/>
+	</CHERRY>
+	<CHERRY>
+		<DISPLAY x="3" y="22" scale="7"></DISPLAY>
+		<INFOS name="Rodrigo" year="???" />
+		<DESCRIPTION value="Rodrigo uses a very complex device to keep birds away... doesn't work."/>
+	</CHERRY>
+	<CAMPFIRE>
+		<INFOS name="Ms. Hervée the Campfire" year="???"/>
+		<DISPLAY x="28" y="19" scale="8"></DISPLAY>
+		<DESCRIPTION value="Something mysterious and magical attracts people around it."/>
+	</CAMPFIRE>
+	<CARAVAN>
+		<DISPLAY x="80" y="24" scale="18"></DISPLAY>
+		<DESCRIPTION value="Warm and cozy."/>
+	</CARAVAN>
+	<TOILETS>
+		<DISPLAY x="20" y="2" scale="8"></DISPLAY>
+		<DESCRIPTION value="Transforms your beautiful creations into fertilizer."/>
+	</TOILETS>
+	<HAUS>
+		<DISPLAY x="45" y="11" scale="30"></DISPLAY>
+		<DESCRIPTION value="Our House, where everything is possible, but flushing the toilets. It includes a kitchen and two beds."/>
+	</HAUS>
+</COMPOSITION>

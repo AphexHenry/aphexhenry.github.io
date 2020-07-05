@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ITEMS>
+	<CHERRY>
+		<PATH value="cherry"/>
+		<NAME value="Cherry Tree"/>
+		<TYPE value="PLANT"/>
+	</CHERRY>
+	<CAMPFIRE>
+		<PATH value="campfire"/>
+		<NAME value="Camp Fire"/>
+		<TYPE value="CONSTRUCTION"/>
+	</CAMPFIRE>
+	<CARAVAN>
+		<PATH value="caravan"/>
+		<NAME value="Caravan"/>
+		<TYPE value="CONSTRUCTION"/>
+	</CARAVAN>
+	<TOILETS>
+		<PATH value="toilets"/>
+		<NAME value="Compost Toilets"/>
+		<TYPE value="CONSTRUCTION"/>
+	</TOILETS>
+	<HAUS>
+		<PATH value="haus"/>
+		<NAME value="Das Haus"/>
+		<TYPE value="CONSTRUCTION"/>
+	</HAUS>
+</ITEMS>
