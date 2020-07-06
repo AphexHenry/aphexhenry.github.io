@@ -27,6 +27,12 @@
 #backgroundTrees {
     z-index: 40;
     pointer-events:none;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+#backgroundTrees.disappear {
+    opacity: 0.3;
 }
 
 #infoPopup {
