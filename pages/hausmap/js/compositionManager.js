@@ -26,7 +26,6 @@ compositionManager.prototype.loadXml = function () {
             that.items.push(newItem);
         }
 
-        // xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
     }
 
     xmlhttp.open("GET","data/composition.xml",false);

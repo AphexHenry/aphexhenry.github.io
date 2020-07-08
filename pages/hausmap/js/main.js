@@ -24,7 +24,7 @@ window.onload = function() {
                 treesCanvas.addClass(disappearClassName);
             }
         }
-        else if(positionY > lHeight * 0.55) {
+        else{// if(positionY > lHeight * 0.55) {
             if(lIsDisappeared) {
                 treesCanvas.removeClass(disappearClassName);
             }

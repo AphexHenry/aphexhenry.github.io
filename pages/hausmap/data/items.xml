@@ -26,4 +26,11 @@
 		<NAME value="Das Haus"/>
 		<TYPE value="CONSTRUCTION"/>
 	</HAUS>
+    <DELPHINIUM_ELATUM>
+        <PATH value="delphinium elatum"/>
+        <NAME value="Delphinium Elatum"/>
+        <TYPE value="PLANT"/>
+        <DESCRIPTION value="Beautiful and toxic plant, which has its origins from Africa."/>
+    </DELPHINIUM_ELATUM>
+
 </ITEMS>

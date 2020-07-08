@@ -28,4 +28,7 @@
 		<DISPLAY x="45" y="11" scale="30"></DISPLAY>
 		<DESCRIPTION value="Our House, where everything is possible, but flushing the toilets. It includes a kitchen and two beds."/>
 	</HAUS>
+    <DELPHINIUM_ELATUM>
+        <DISPLAY x="33" y="73" height="20" width="18" scale="5" debug="" density="1.5"></DISPLAY>
+    </DELPHINIUM_ELATUM>
 </COMPOSITION>
