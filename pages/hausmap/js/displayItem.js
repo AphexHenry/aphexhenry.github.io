@@ -6,7 +6,7 @@ function displayItem(xmlRoot) {
     this.height = displayElement.getAttribute("height");
     this.scale = displayElement.getAttribute("scale");
     this.debug = displayElement.getAttribute("debug");
-    this.density = displayElement.getAttribute("density");
+    this.quantity = displayElement.getAttribute("quantity");
 
     var typeName = xmlRoot.tagName;
     this.item = sItemManager.getItemWithType(typeName);
@@ -39,9 +39,18 @@ function displayItem(xmlRoot) {
 }
 
 displayItem.prototype.instanciateArea = function() {
-    var numFlowers = this.density * this.width * this.height / 100;
+    var numFlowers = this.quantity;
+    var width = parseFloat(this.width);
+    var height = parseFloat(this.height);
+    var pxCount = 10000 / numFlowers;
     for(var i = 0; i < numFlowers; i++) {
-        this.instanciateCanvas(Math.random() * parseFloat(this.width) + parseFloat(this.x), Math.random() * parseFloat(this.width) + parseFloat(this.y));
+        var thisPx = i * pxCount + pxCount * 0.5 * Math.random();
+        var x = Math.floor(thisPx / 100);
+        var y = (thisPx - x * 100);
+        x = width * x / 100;
+        y = height * y / 100;
+        // var x = Math.random() * parseFloat(this.width) + parseFloat(this.x);
+        this.instanciateCanvas(x + parseFloat(this.x), y + parseFloat(this.y));
     }
 }
 
@@ -66,7 +75,7 @@ displayItem.prototype.instanciateCanvas = function(x, y) {
     var src = document.getElementById("myCanvas");
     this.img.style.position = "absolute";
     this.img.style.width = this.scale + "%";
-    this.img.style.zIndex = y;
+    this.img.style.zIndex = Math.floor(y);
     this.img.style.left = x + "%";
     this.img.style.top = y + "%";
     this.img.className = "item";
