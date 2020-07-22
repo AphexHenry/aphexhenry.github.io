@@ -32,5 +32,11 @@
         <TYPE value="PLANT"/>
         <DESCRIPTION value="Beautiful and toxic plant, which has its origins from Africa."/>
     </DELPHINIUM_ELATUM>
+	<COTA_TINCTORIA>
+		<PATH value="cota tinctoria"/>
+		<NAME value="Cota Tinctoria"/>
+		<TYPE value="PLANT"/>
+		<DESCRIPTION value="Beautiful and toxic plant, which has its origins from Africa."/>
+	</COTA_TINCTORIA>
 
 </ITEMS>
