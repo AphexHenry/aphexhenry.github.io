@@ -8,6 +8,8 @@ window.onload = function() {
         checkTrees(lYMouse);
     }
 
+    $("#container")[0].style.width = window.innerWidth * 0.9 + "px";
+
     window.addEventListener('scroll', function(e) {
         var last_known_scroll_position = window.scrollY + window.innerHeight * 0.5;
         checkTrees(last_known_scroll_position);
