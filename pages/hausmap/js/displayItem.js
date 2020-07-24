@@ -50,7 +50,7 @@ displayItem.prototype.instanciateArea = function() {
         x = width * x / 100;
         y = height * y / 100;
         // var x = Math.random() * parseFloat(this.width) + parseFloat(this.x);
-        this.instanciateCanvas(x + parseFloat(this.x), y + parseFloat(this.y));
+        this.instanciateCanvas(x - this.scale * 0.5 + parseFloat(this.x), y + parseFloat(this.y) - this.scale);
     }
 }
 
@@ -75,7 +75,7 @@ displayItem.prototype.instanciateCanvas = function(x, y) {
     var src = document.getElementById("myCanvas");
     this.img.style.position = "absolute";
     this.img.style.width = this.scale + "%";
-    this.img.style.zIndex = Math.floor(y);
+    this.img.style.zIndex = Math.floor(y + this.scale);
     this.img.style.left = x + "%";
     this.img.style.top = y + "%";
     this.img.className = "item";

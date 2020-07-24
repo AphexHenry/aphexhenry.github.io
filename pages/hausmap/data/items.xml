@@ -29,14 +29,19 @@
     <DELPHINIUM_ELATUM>
         <PATH value="delphinium elatum"/>
         <NAME value="Delphinium Elatum"/>
-        <TYPE value="PLANT"/>
+        <TYPE value="FLOWER"/>
         <DESCRIPTION value="Beautiful and toxic plant, which has its origins from Africa."/>
     </DELPHINIUM_ELATUM>
 	<COTA_TINCTORIA>
 		<PATH value="cota tinctoria"/>
 		<NAME value="Cota Tinctoria"/>
-		<TYPE value="PLANT"/>
+		<TYPE value="FLOWER"/>
 		<DESCRIPTION value="Beautiful and toxic plant, which has its origins from Africa."/>
 	</COTA_TINCTORIA>
-
+    <WEEPING_WILLOW>
+        <PATH value="weeping willow"/>
+        <NAME value="Weeping Willow"/>
+        <TYPE value="TREE"/>
+        <DESCRIPTION value="垂柳 in chinese, and in pinyin: chuí liǔ."/>
+    </WEEPING_WILLOW>
 </ITEMS>
