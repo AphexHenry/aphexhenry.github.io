@@ -18,3 +18,16 @@ infoPopup.prototype.setVisible = function (aVisible) {
         this.div.removeClass("show");
     }
 }
+
+infoPopup.prototype.setPosition = function (x, y, displayLeft) {
+    if(displayLeft) {
+        this.div[0].style.left = "";
+        this.div[0].style.right = (100 - x) + "%";
+    }
+    else {
+        this.div[0].style.left = x + "%";
+        this.div[0].style.right = "";
+    }
+
+    this.div[0].style.top = y + "%";
+}
