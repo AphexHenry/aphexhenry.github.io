@@ -83,9 +83,6 @@ displayItem.prototype.instanciateCanvas = function(x, y) {
 
     var that = this;
     this.img.onmouseover = function (e) {
-
-
-
         sInfoPopup.setHeader(that.item.name);
         var xFloat = parseFloat(that.x);
         var widthSurface = that.width ? parseFloat(that.width) : parseFloat(that.scale);
@@ -97,38 +94,6 @@ displayItem.prototype.instanciateCanvas = function(x, y) {
     }
     this.img.onmouseleave = function () {
         sInfoPopup.setVisible(false);
-    }
-}
-
-const ctx = document.createElement("canvas").getContext("2d");
-let stack = [];
-
-this.transPNG = function(ev, target) {
-    if(!target.offsetParent) return;
-
-    // Get click coordinates
-    const isImage = /img/i.test(target.tagName),
-        x = ev.pageX - target.offsetParent.offsetLeft,
-        y = ev.pageY - target.offsetParent.offsetTop,
-        w = ctx.canvas.width = target.width,
-        h = ctx.canvas.height = target.height;
-    let alpha;
-
-    // Draw image to canvas and read Alpha channel value
-    if (isImage) {
-        ctx.drawImage(target, 0, 0, w, h);
-        alpha = ctx.getImageData(x, y, 1, 1).data[3]; // [0]R [1]G [2]B [3]A
-    }
-
-    if (alpha === 0) {          // If pixel is transparent...
-        target.hidden = 1         // Make image hidden
-        stack.push(target);       // Remember
-        return transPNG(ev, document.elementFromPoint(ev.clientX, ev.clientY)); // REPEAT
-    } else {                    // Not transparent! We found our image!
-        stack.forEach(el => (el.hidden = 0)); // Show all hidden elements
-        stack = [];               // Reset stack
-        console.clear(); console.log(target.getAttribute("alt"));
-        // document.location = target.dataset.href; // if you want to navigate to HREF
     }
 }
 
