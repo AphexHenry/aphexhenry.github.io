@@ -1,6 +1,7 @@
 window.onload = function() {
     sItemManager = new itemsManager();
     sInfoPopup = new infoPopup();
+    sFox = new fox();
     this.compositionManager = new compositionManager();
 
     $("#container")[0].onmousemove = function (event) {

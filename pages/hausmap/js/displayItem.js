@@ -111,12 +111,3 @@ displayItem.prototype.getInfoHtml = function() {
         }
     return lHtml;
 }
-
-
-displayItem.prototype.draw = function(ctx) {
-    let xPx = this.x * ctx.canvas.width / 10;
-    let yPx = this.x * ctx.canvas.height / 10;
-    let widthPx = this.scale * ctx.canvas.width / 20;
-    let heightPx = widthPx;
-    ctx.drawImage(this.item.img, xPx, yPx, widthPx, heightPx);
-}
