@@ -12,6 +12,11 @@
     background: rgba(255, 255, 255, 0.4);
 }
 
+#background {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+}
+
 #container {
     overflow: hidden;
     position: relative;
@@ -25,6 +30,7 @@
     left: 0;
     top: 0;
     width: 100%;
+    z-index: 0;
 }
 
 #backgroundTrees {

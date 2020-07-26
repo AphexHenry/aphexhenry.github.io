@@ -44,4 +44,16 @@
         <TYPE value="TREE"/>
         <DESCRIPTION value="垂柳 in chinese, and in pinyin: chuí liǔ."/>
     </WEEPING_WILLOW>
+    <APPLE_TREE>
+        <PATH value="apple tree"/>
+        <NAME value="Apple Tree"/>
+        <TYPE value="TREE"/>
+        <DESCRIPTION value="a tree that makes apples."/>
+    </APPLE_TREE>
+    <KATERINE_CULTIVE>
+        <PATH value="cultive Katherine"/>
+        <NAME value="Katerine Veggies"/>
+        <TYPE value="CONSTRUCTION"/>
+        <DESCRIPTION value="will it grow? we don't know!"/>
+	</KATERINE_CULTIVE>
 </ITEMS>

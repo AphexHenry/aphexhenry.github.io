@@ -16,9 +16,17 @@
 		<DISPLAY x="28" y="19" scale="8"></DISPLAY>
 		<DESCRIPTION value="Something mysterious and magical attracts people around it."/>
 	</CAMPFIRE>
+	<KATERINE_CULTIVE>
+		<INFOS name="Katherine's veggies"/>
+		<DISPLAY x="65" y="70" scale="30"></DISPLAY>
+		<DESCRIPTION value="Will it grow? We don't know!"/>
+	</KATERINE_CULTIVE>
     <WEEPING_WILLOW>
         <DISPLAY x="36" y="77" scale="27"></DISPLAY>
     </WEEPING_WILLOW>
+    <APPLE_TREE>
+    	<DISPLAY x="10" y="84" scale="14"></DISPLAY>
+    </APPLE_TREE>
 	<CARAVAN>
 		<DISPLAY x="80" y="24" scale="18"></DISPLAY>
 		<DESCRIPTION value="Warm and cozy."/>
